@@ -1,0 +1,42 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'eclipse'
+apply plugin: 'gradle-one-jar'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+         classpath 'com.github.rholder:gradle-one-jar:1.0.4'
+    }
+}
+
+version = "0.0.0"
+group= "com.grm.hitboard"
+
+description = '[Java] HitBoard - HitBox Tool to Hit'
+archivesBaseName = "HitBoard"
+mainClassName = 'com.grm.hitboard.HitBoard'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    compile group: 'org.ini4j', name: 'ini4j', version: '0.5.4'
+    compile 'com.google.guava:guava:18.0'
+    compile 'org.zeroturnaround:zt-zip:1.8'
+    compile 'com.mashape.unirest:unirest-java:1.4.5'
+    testCompile 'junit:junit:4.12'
+}
+
+task execJar(type: OneJar) {
+    mainClass = mainClassName
+    archiveName = archivesBaseName+"-V"+version+".jar"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.4'
+}
