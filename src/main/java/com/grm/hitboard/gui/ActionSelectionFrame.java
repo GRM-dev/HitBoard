@@ -4,11 +4,13 @@
 package com.grm.hitboard.gui;
 
 import java.awt.*;
+import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
+import com.grm.hitboard.HitBoard;
 import com.grm.hitboard.config.Config;
 
 /**
@@ -19,11 +21,16 @@ public class ActionSelectionFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private DownloadVideoFrame downloadVideoFrame;
+	private HitBoard hitBoard;
 
 	/**
 	 * Create the frame.
+	 * 
+	 * @param hitBoard
 	 */
-	public ActionSelectionFrame() {
+	public ActionSelectionFrame(HitBoard hitBoard) {
+		this.hitBoard = hitBoard;
 		setResizable(false);
 		setTitle(Config.APP_NAME);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,7 +67,9 @@ public class ActionSelectionFrame extends JFrame {
 		JButton btnDownloadVideo = new JButton("<html><center>Download Video</center></html>");
 		btnDownloadVideo.addActionListener(e -> {
 			try {
-				DownloadVideoFrame downloadVideoFrame = new DownloadVideoFrame(this);
+				if (downloadVideoFrame == null) {
+					downloadVideoFrame = new DownloadVideoFrame(this);
+				}
 				ActionSelectionFrame.this.setEnabled(false);
 				downloadVideoFrame.setVisible(true);
 			}
@@ -69,6 +78,31 @@ public class ActionSelectionFrame extends JFrame {
 			}
 		});
 		panel_Main.add(btnDownloadVideo);
+		addWindowListener(new WindowListener() {
+
+			@Override
+			public void windowOpened(WindowEvent e) {}
+
+			@Override
+			public void windowIconified(WindowEvent e) {}
+
+			@Override
+			public void windowDeiconified(WindowEvent e) {}
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {}
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				hitBoard.getConfig().save();
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {}
+
+			@Override
+			public void windowActivated(WindowEvent e) {}
+		});
 	}
 
 }

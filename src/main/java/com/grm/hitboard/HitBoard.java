@@ -44,7 +44,7 @@ public class HitBoard {
 	private void startDefault() {
 		EventQueue.invokeLater(() -> {
 			try {
-				actionSelectionFrame = new ActionSelectionFrame();
+				actionSelectionFrame = new ActionSelectionFrame(this);
 				actionSelectionFrame.setVisible(true);
 			}
 			catch (Exception e) {
@@ -73,5 +73,14 @@ public class HitBoard {
 	 */
 	public static Logger getLogger() {
 		return instance().logger;
+	}
+
+	/**
+	 * gets Config
+	 * 
+	 * @return config
+	 */
+	public Config getConfig() {
+		return config;
 	}
 }

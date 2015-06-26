@@ -8,9 +8,10 @@ package com.grm.hitboard.config;
  *
  */
 public enum ConfigId {
-						LAST_SAVE_PATH("");
+						LAST_SAVE_PATH(""),
+						LAST_FILE_NAME("video.mp4");
 
-	private final String defValue;
+	private String defValue;
 
 	private ConfigId(String defValue) {
 		this.defValue = defValue;

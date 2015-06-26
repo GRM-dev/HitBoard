@@ -10,6 +10,9 @@ import java.io.File;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import com.grm.hitboard.HitBoard;
+import com.grm.hitboard.config.*;
+
 /**
  * @author Levvy055
  *
@@ -18,7 +21,7 @@ public class DownloadVideoFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JFrame frame;
+	private JFrame parentFrame;
 	private JTextField tF_videoURL;
 	private JTextField tF_FileName;
 	private JTextField tF_SaveLocation;
@@ -26,15 +29,15 @@ public class DownloadVideoFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 * 
-	 * @param frame
+	 * @param parentFrame
 	 */
-	public DownloadVideoFrame(JFrame frame) {
-		setType(Type.UTILITY);
+	public DownloadVideoFrame(JFrame parentFrame) {
+		setType(Type.POPUP);
 		setResizable(false);
-		this.frame = frame;
+		this.parentFrame = parentFrame;
 		setTitle("Download Video from Hitbox");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 550, 380);
+		setBounds(100, 100, 600, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -48,43 +51,62 @@ public class DownloadVideoFrame extends JFrame {
 
 		JPanel panel_Main = new JPanel();
 		contentPane.add(panel_Main, BorderLayout.CENTER);
-		panel_Main.setLayout(new GridLayout(0, 1, 0, 0));
+		GridBagLayout gbl_panel_Main = new GridBagLayout();
+		gbl_panel_Main.columnWidths = new int[]{530};
+		gbl_panel_Main.rowHeights = new int[]{120, 50, 50, 0};
+		gbl_panel_Main.columnWeights = new double[]{0.0};
+		gbl_panel_Main.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel_Main.setLayout(gbl_panel_Main);
 
-		JPanel panel = new JPanel();
-		FlowLayout flowLayout_2 = (FlowLayout) panel.getLayout();
-		flowLayout_2.setAlignment(FlowLayout.LEFT);
-		panel_Main.add(panel);
+		JPanel panel_Video = new JPanel();
+		FlowLayout fl_panel_Video = (FlowLayout) panel_Video.getLayout();
+		fl_panel_Video.setAlignment(FlowLayout.LEFT);
+		GridBagConstraints gbc_panel_Video = new GridBagConstraints();
+		gbc_panel_Video.fill = GridBagConstraints.BOTH;
+		gbc_panel_Video.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_Video.gridx = 0;
+		gbc_panel_Video.gridy = 0;
+		panel_Main.add(panel_Video, gbc_panel_Video);
 
 		JLabel lblVideoUrlPath = new JLabel("Video URL Path: ");
-		panel.add(lblVideoUrlPath);
+		panel_Video.add(lblVideoUrlPath);
 
 		tF_videoURL = new JTextField();
-		panel.add(tF_videoURL);
-		tF_videoURL.setColumns(50);
+		panel_Video.add(tF_videoURL);
+		tF_videoURL.setColumns(40);
 
-		JPanel panel_1 = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
-		panel_Main.add(panel_1);
+		JPanel panel_FN = new JPanel();
+		FlowLayout fl_panel_FN = (FlowLayout) panel_FN.getLayout();
+		fl_panel_FN.setAlignment(FlowLayout.LEFT);
+		GridBagConstraints gbc_panel_FN = new GridBagConstraints();
+		gbc_panel_FN.fill = GridBagConstraints.BOTH;
+		gbc_panel_FN.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_FN.gridx = 0;
+		gbc_panel_FN.gridy = 1;
+		panel_Main.add(panel_FN, gbc_panel_FN);
 
 		JLabel lblFileName = new JLabel("File Name: ");
-		panel_1.add(lblFileName);
+		panel_FN.add(lblFileName);
 
 		tF_FileName = new JTextField();
-		panel_1.add(tF_FileName);
+		panel_FN.add(tF_FileName);
 		tF_FileName.setColumns(10);
 
-		JPanel panel_2 = new JPanel();
-		FlowLayout flowLayout_1 = (FlowLayout) panel_2.getLayout();
-		flowLayout_1.setAlignment(FlowLayout.LEFT);
-		panel_Main.add(panel_2);
+		JPanel panel_SL = new JPanel();
+		FlowLayout fl_panel_SL = (FlowLayout) panel_SL.getLayout();
+		fl_panel_SL.setAlignment(FlowLayout.LEFT);
+		GridBagConstraints gbc_panel_SL = new GridBagConstraints();
+		gbc_panel_SL.fill = GridBagConstraints.BOTH;
+		gbc_panel_SL.gridx = 0;
+		gbc_panel_SL.gridy = 2;
+		panel_Main.add(panel_SL, gbc_panel_SL);
 
-		JLabel lblSaveLocation = new JLabel("Save Location");
-		panel_2.add(lblSaveLocation);
+		JLabel lblSaveLocation = new JLabel("Save Location: ");
+		panel_SL.add(lblSaveLocation);
 
 		tF_SaveLocation = new JTextField();
-		panel_2.add(tF_SaveLocation);
-		tF_SaveLocation.setColumns(35);
+		panel_SL.add(tF_SaveLocation);
+		tF_SaveLocation.setColumns(30);
 
 		JButton btnChangeDirectory = new JButton("Change directory ...");
 		btnChangeDirectory.addActionListener(e -> {
@@ -100,10 +122,11 @@ public class DownloadVideoFrame extends JFrame {
 			chooser.setMultiSelectionEnabled(false);
 			chooser.setAcceptAllFileFilterUsed(false);
 			if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+
 				tF_SaveLocation.setText(chooser.getSelectedFile().getAbsolutePath());
 			}
 		});
-		panel_2.add(btnChangeDirectory);
+		panel_SL.add(btnChangeDirectory);
 
 		JPanel panel_Bottom = new JPanel();
 		contentPane.add(panel_Bottom, BorderLayout.SOUTH);
@@ -133,7 +156,12 @@ public class DownloadVideoFrame extends JFrame {
 
 			@Override
 			public void windowClosed(WindowEvent e) {
-				frame.setEnabled(true);;
+				DownloadVideoFrame.this.parentFrame.setEnabled(true);
+				Config config = HitBoard.instance().getConfig();
+				String lastFileName = DownloadVideoFrame.this.tF_FileName.getText();
+				String lastSavePath = DownloadVideoFrame.this.tF_SaveLocation.getText();
+				config.setConfigValue(ConfigId.LAST_FILE_NAME, lastFileName);
+				config.setConfigValue(ConfigId.LAST_SAVE_PATH, lastSavePath);
 			}
 
 			@Override
