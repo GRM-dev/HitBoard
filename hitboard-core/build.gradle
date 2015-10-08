@@ -1,0 +1,29 @@
+version = "0.0.1"
+group= "com.grmdev.hitboard"
+description = 'HitBoard Core - HitBox Tool to Hit - Just Core library'
+archivesBaseName = "HitBoard-Core"
+mainClassName = 'com.grm.hitboard.core.HitBoardCore'
+
+dependencies {
+	compile group: 'org.ini4j', name: 'ini4j', version: '0.5.4'
+	compile 'com.google.guava:guava:18.0'
+	compile 'org.zeroturnaround:zt-zip:1.8'
+	compile 'com.mashape.unirest:unirest-java:1.4.5'
+}
+	
+task pmd << {
+println 'Running PMD static code analysis'
+	ant {
+		taskdef(name:'pmd', classname:'net.sourceforge.pmd.ant.PMDTask', classpath: configurations.pmdConf.asPath)
+
+		pmd(shortFilenames:'true', failonruleviolation:'true', rulesetfiles:'conf/pmd-rules.xml') {
+			formatter(type:'csv', tofile:'myreport.csv', toConsole:'true')
+			fileset(dir: "src/main/java") {
+				include(name: '**/*.java')
+			}
+			fileset(dir: "src/test/java") {
+				include(name: '**/*.java')
+			}        
+		}
+	}
+}

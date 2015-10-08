@@ -1,0 +1,105 @@
+version = "0.0.1"
+group= "com.grmdev.hitboard"
+description = 'HitBoard Stream Manager GUI - HitBox Tool to Hit.'
+archivesBaseName = "HitBoard-GUI"
+mainClassName = 'com.grm.hitboard.gui.HitBoardFx'
+
+import org.apache.tools.ant.taskdefs.condition.Os
+apply from: "http://dl.bintray.com/content/shemnon/javafx-gradle/8.1.1/javafx.plugin"
+
+task execJar(type: OneJar) {
+	mainClass = mainClassName
+	archiveName = archivesBaseName+"-V"+version+".jar"
+}
+
+task loadProperties {
+	def home = System.properties['user.home']
+	def fileProp = home + "/keystore/hb.gradle.properties";
+	def fileKey = home + "/keystore/hb_keystore.jks"
+	Properties props = new Properties()
+	
+	if (!file(fileProp).exists()) {
+		if(!file(home + "/keystore").exists()) {
+			file(home + "/keystore").mkdir()
+		}
+		if(file(fileProp).createNewFile()) {
+			println "File " + fileProp + "Created"
+			if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+				println "*** WINDOWS "
+				println "You should write properties on your own (rPass, storePass & hb_key_url)"
+			} else if (Os.isFamily(Os.FAMILY_UNIX)) {
+				println "*** LINUX "
+				props.setProperty("rPass", "$System.env.HB_SIGN_REL_PSWD")
+				props.setProperty("storePass", "$System.env.HB_SIGN_STORE_PSWD")
+				props.setProperty("hb_key_url", "$System.env.HB_KEYSTORE")
+				props.store(new FileOutputStream(fileProp), null)
+			}
+		} else {
+			println "Error creating file!"
+		}
+	}
+	
+	props.load(new FileInputStream(fileProp))
+	project.ext.rPass = props.getProperty('rPass')
+	project.ext.storePass = props.getProperty('storePass')
+	project.ext.key_file_url = props.getProperty('fm_key_url')
+	
+	def f = new File(fileKey)
+	if (!f.exists()) {
+		println key_file_url
+		new URL(key_file_url).withInputStream{ i -> f.withOutputStream{ it << i }}
+	}
+}
+
+build.dependsOn loadProperties
+
+javafx {
+	javaRuntime = System.properties['JAVA_HOME']
+	appID '4Farm-FarmManager'
+	appName '4Farm - FarmManager'
+	mainClass = mainClassName
+	
+	jvmArgs = ['-XX:+AggressiveOpts', '-XX:CompileThreshold=1']
+	systemProperties = ['prism.disableRegionCaching':'true']
+	arguments = ['-l', '--fast']
+
+	// Generate key: keytool -genkey -alias release -keyalg RSA -keystore keystore.jks -keysize 2048
+	releaseKey {
+		alias = 'release'
+		keyPass = getProjectProperty('rPass')
+		keyStore = file("${System.properties['user.home']}/keystore/hb_keystore.jks")
+		storePass = getProjectProperty('storePass')
+	}
+	
+	signingMode 'release'
+}
+
+dependencies {
+	compile group: 'org.controlsfx', name: 'controlsfx', version: '8.40.9'
+	compile group: 'org.jfxtras', name: 'jfxtras-all', version: '8.0-r4'
+}
+
+task pmd << {
+println 'Running PMD static code analysis'
+	ant {
+		taskdef(name:'pmd', classname:'net.sourceforge.pmd.ant.PMDTask', classpath: configurations.pmdConf.asPath)
+
+		pmd(shortFilenames:'true', failonruleviolation:'true', rulesetfiles:'conf/pmd-rules.xml') {
+			formatter(type:'csv', tofile:'myreport.csv', toConsole:'true')
+			fileset(dir: "src/main/java") {
+				include(name: '**/*.java')
+			}
+			fileset(dir: "src/test/java") {
+				include(name: '**/*.java')
+			}        
+		}
+	}
+}
+
+String getProjectProperty(String propertyName) {
+	project.hasProperty(propertyName) ? project.property(propertyName) : null
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.7'
+}
