@@ -9,7 +9,8 @@ import java.util.*;
 
 import javafx.fxml.*;
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.Button;
+import javafx.scene.layout.*;
 
 /**
  * @author Levvy055
@@ -20,6 +21,8 @@ public class MainForm implements Initializable {
 
 	@FXML
 	private Pane mainPane;
+	@FXML
+	private VBox vBoxLeft;
 
 	/*
 	 * (non-Javadoc)
@@ -32,6 +35,7 @@ public class MainForm implements Initializable {
 		sideNodes = new HashMap<>();
 		try {
 			loadNodes();
+			addAllNodesToLeftPanel();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -39,6 +43,8 @@ public class MainForm implements Initializable {
 	}
 
 	/**
+	 * Changes page depending on nodeName parameter
+	 * 
 	 * @param dashboard
 	 */
 	private void changeNodeTo(SideNodeName nodeName) {
@@ -47,12 +53,40 @@ public class MainForm implements Initializable {
 	}
 
 	/**
+	 * Loads Nodes to sideNodes map field
+	 * 
 	 * @throws IOException
 	 * 
 	 */
 	private void loadNodes() throws IOException {
-		sideNodes.put(SideNodeName.DASHBOARD, FXMLLoader
-				.load(getClass().getResource("/views/DashBoard.fxml")));
+		loadNode(SideNodeName.DASHBOARD, "/views/DashBoard.fxml");
+		loadNode(SideNodeName.STATS, "/views/Stats.fxml");
 	}
 
+	private void loadNode(SideNodeName nodeName, String fileName)
+			throws IOException {
+		sideNodes.put(nodeName,
+				FXMLLoader.load(getClass().getResource(fileName)));
+	}
+
+	/**
+	 * Adds button to each of all nodes from sideNodes to left panel
+	 */
+	private void addAllNodesToLeftPanel() {
+		Button[] buttons = new Button[15];
+		for (Iterator<SideNodeName> it = sideNodes.keySet().iterator(); it
+				.hasNext();) {
+			SideNodeName nodeName = it.next();
+			Button btn = new Button(nodeName.getName());
+			btn.setOnAction(event -> {
+				changeNodeTo(nodeName);
+			});
+			buttons[nodeName.ordinal()] = btn;
+		}
+		for (Button button : buttons) {
+			if (button != null) {
+				vBoxLeft.getChildren().add(button);
+			}
+		}
+	}
 }
