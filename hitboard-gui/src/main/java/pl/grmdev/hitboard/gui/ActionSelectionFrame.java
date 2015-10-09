@@ -49,7 +49,7 @@ public class ActionSelectionFrame extends JFrame {
 		JPanel panel_Top = new JPanel();
 		contentPane.add(panel_Top, BorderLayout.NORTH);
 
-		JLabel lblWhatYouWanna = new JLabel("What You wanna do?");
+		JLabel lblWhatYouWanna = new JLabel("What you wanna do?");
 		panel_Top.add(lblWhatYouWanna);
 
 		JLayeredPane panel_Main = new JLayeredPane();
@@ -57,7 +57,7 @@ public class ActionSelectionFrame extends JFrame {
 		panel_Main.setLayout(new GridLayout(1, 0, 0, 0));
 
 		JButton btnEditStreamInfo = new JButton(
-				"<html><center>Manage <br>Your Stream</center></html>");
+				"<html><center>Manage <br>your Stream</center></html>");
 		btnEditStreamInfo.addActionListener(e -> {
 			System.out.println("Manage clicked");
 			openStreamManagerWindow();
@@ -138,13 +138,14 @@ public class ActionSelectionFrame extends JFrame {
 	}
 
 	public void showFrame(boolean show) {
+		this.setEnabled(show);
+		this.setVisible(show);
 		if (show) {
 			this.setState(JFrame.NORMAL);
+			this.toFront();
 		} else {
 			this.setState(JFrame.ICONIFIED);
 		}
-		this.setEnabled(show);
-		this.setVisible(show);
 	}
 
 }

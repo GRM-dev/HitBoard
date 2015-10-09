@@ -28,6 +28,7 @@ public class HitBoardFx extends Application {
 		}
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
+		primaryStage.setTitle("HitBoard - (HitBox hitter)");
 		primaryStage.sizeToScene();
 		primaryStage.show();
 		primaryStage.setOnCloseRequest(event -> {
