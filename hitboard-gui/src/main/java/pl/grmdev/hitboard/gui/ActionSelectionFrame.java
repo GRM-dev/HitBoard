@@ -10,9 +10,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
-import com.grm.hitboard.config.Config;
-
 import javafx.application.Platform;
+import pl.grmdev.hitboard.config.Config;
 
 /**
  * @author Levvy055
@@ -24,6 +23,7 @@ public class ActionSelectionFrame extends JFrame {
 	private JPanel contentPane;
 	private DownloadVideoFrame downloadVideoFrame;
 	private HitBoardGui hitBoard;
+	private JButton btnEditStreamInfo;
 
 	/**
 	 * Create the frame.
@@ -56,7 +56,7 @@ public class ActionSelectionFrame extends JFrame {
 		contentPane.add(panel_Main, BorderLayout.CENTER);
 		panel_Main.setLayout(new GridLayout(1, 0, 0, 0));
 
-		JButton btnEditStreamInfo = new JButton(
+		btnEditStreamInfo = new JButton(
 				"<html><center>Manage <br>your Stream</center></html>");
 		btnEditStreamInfo.addActionListener(e -> {
 			System.out.println("Manage clicked");
@@ -108,6 +108,10 @@ public class ActionSelectionFrame extends JFrame {
 			public void windowActivated(WindowEvent e) {
 			}
 		});
+	}
+
+	public void setDefaultFocusKey() {
+		btnEditStreamInfo.requestFocus();
 	}
 
 	private void openDownlodWindow() {

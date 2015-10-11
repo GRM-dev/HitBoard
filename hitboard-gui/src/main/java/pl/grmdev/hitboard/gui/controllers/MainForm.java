@@ -11,6 +11,7 @@ import javafx.fxml.*;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
 
 /**
  * @author Levvy055
@@ -18,11 +19,13 @@ import javafx.scene.layout.*;
  */
 public class MainForm implements Initializable {
 	private HashMap<SideNodeName, Node> sideNodes;
-
+	public static MainForm instance;
 	@FXML
 	private Pane mainPane;
 	@FXML
 	private VBox vBoxLeft;
+	@FXML
+	private Circle circleState;
 
 	/*
 	 * (non-Javadoc)
@@ -32,6 +35,7 @@ public class MainForm implements Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		instance = this;
 		sideNodes = new HashMap<>();
 		try {
 			loadNodes();
@@ -40,6 +44,10 @@ public class MainForm implements Initializable {
 			e.printStackTrace();
 		}
 		changeNodeTo(SideNodeName.DASHBOARD);
+	}
+
+	public Circle getStateCircle() {
+		return circleState;
 	}
 
 	/**

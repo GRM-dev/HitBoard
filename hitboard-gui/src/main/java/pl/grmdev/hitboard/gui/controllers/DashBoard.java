@@ -20,9 +20,23 @@ public class DashBoard implements Initializable {
 	@FXML
 	private Button btnShowChannel;
 	@FXML
+	private Button btnSave;
+	@FXML
+	private Button btnRefresh;
+	@FXML
 	private TextField tfStreamTitle;
 	@FXML
 	private ComboBox<?> cbGames;
+	@FXML
+	private ComboBox<?> cbPlatforms;
+	@FXML
+	private ComboBox<?> cbLang;
+	@FXML
+	private Label lblChanges;
+	@FXML
+	private RadioButton rbPublic;
+	@FXML
+	private RadioButton rbPrivate;
 
 	/*
 	 * (non-Javadoc)
@@ -32,7 +46,6 @@ public class DashBoard implements Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 
 	}
 

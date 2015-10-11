@@ -1,12 +1,12 @@
 /**
  * 
  */
-package com.grm.hitboard.config;
+package pl.grmdev.hitboard.config;
 
 import java.util.*;
 import java.util.logging.Logger;
 
-import com.grm.hitboard.HitBoardCore;
+import pl.grmdev.hitboard.HitBoardCore;
 
 /**
  * @author Levvy055
@@ -14,7 +14,8 @@ import com.grm.hitboard.HitBoardCore;
  */
 public class Config {
 
-	public static final String EXECUTABLE_PATH = System.getProperty("user.dir") + "\\";
+	public static final String EXECUTABLE_PATH = System.getProperty("user.dir")
+			+ "\\";
 	public static final String CONFIG_FILE_NAME = "config.ini";
 	public static final String LOGGER_FILE_NAME = "hitboard.log";
 	public static final String APP_NAME = "HitBoard";
@@ -35,7 +36,8 @@ public class Config {
 	public void init() {
 		if (FileOperation.configExists()) {
 			HashMap<ConfigId, String> fileConf = FileOperation.readConfig();
-			for (Iterator<ConfigId> it = fileConf.keySet().iterator(); it.hasNext();) {
+			for (Iterator<ConfigId> it = fileConf.keySet().iterator(); it
+					.hasNext();) {
 				ConfigId key = it.next();
 				String newValue = fileConf.get(key);
 				String oldValue = configs.get(key);
@@ -74,6 +76,14 @@ public class Config {
 		if (value != null) {
 			needsSave = true;
 			configs.put(key, value);
+		}
+	}
+
+	public String getConfigValue(ConfigId confId) {
+		if (configs.containsKey(confId)) {
+			return configs.get(confId);
+		} else {
+			return null;
 		}
 	}
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
@@ -14,7 +15,11 @@
             <VBox fx:id="vBoxLeft" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
          </left>
          <top>
-            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="State: " />
+                  <Circle fx:id="circleState" fill="RED" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
+               </children></HBox>
          </top>
          <bottom>
             <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">

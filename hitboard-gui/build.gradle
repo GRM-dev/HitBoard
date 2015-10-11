@@ -1,5 +1,5 @@
 version = "0.0.1"
-group= "com.grmdev.hitboard"
+group= "pl.grmdev.hitboard"
 description = 'HitBoard Stream Manager GUI - HitBox Tool to Hit.'
 archivesBaseName = "HitBoard-GUI"
 mainClassName = 'com.grm.hitboard.gui.HitBoardFx'

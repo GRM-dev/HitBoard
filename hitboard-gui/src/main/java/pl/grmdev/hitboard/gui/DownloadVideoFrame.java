@@ -10,8 +10,8 @@ import java.io.File;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import com.grm.hitboard.HitBoardCore;
-import com.grm.hitboard.config.*;
+import pl.grmdev.hitboard.HitBoardCore;
+import pl.grmdev.hitboard.config.*;
 
 /**
  * @author Levvy055

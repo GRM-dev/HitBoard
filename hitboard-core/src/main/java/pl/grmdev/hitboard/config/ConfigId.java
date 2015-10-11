@@ -1,15 +1,15 @@
 /**
  * 
  */
-package com.grm.hitboard.config;
+package pl.grmdev.hitboard.config;
 
 /**
  * @author Levvy055
  *
  */
 public enum ConfigId {
-						LAST_SAVE_PATH(""),
-						LAST_FILE_NAME("video.mp4");
+	LAST_SAVE_PATH(""), LAST_FILE_NAME("video.mp4"), HITBOX_API_LINK(
+			"http://api.hitbox.tv/");
 
 	private String defValue;
 
@@ -17,7 +17,8 @@ public enum ConfigId {
 		this.defValue = defValue;
 	}
 
-	public static ConfigId getFromString(String name) throws IllegalArgumentException {
+	public static ConfigId getFromString(String name)
+			throws IllegalArgumentException {
 		return Enum.valueOf(ConfigId.class, name);
 	}
 

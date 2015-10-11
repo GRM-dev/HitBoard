@@ -5,9 +5,8 @@ package pl.grmdev.hitboard.gui;
 
 import java.awt.EventQueue;
 
-import com.grm.hitboard.HitBoardCore;
-
 import javafx.application.Platform;
+import pl.grmdev.hitboard.HitBoardCore;
 
 /**
  * @author Levvy055
@@ -35,6 +34,7 @@ public class HitBoardGui {
 			try {
 				actionSelectionFrame = new ActionSelectionFrame(this);
 				actionSelectionFrame.setVisible(true);
+				actionSelectionFrame.setDefaultFocusKey();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

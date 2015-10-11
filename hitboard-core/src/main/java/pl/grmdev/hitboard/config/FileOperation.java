@@ -1,4 +1,4 @@
-package com.grm.hitboard.config;
+package pl.grmdev.hitboard.config;
 
 import java.io.*;
 import java.net.*;

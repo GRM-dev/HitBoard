@@ -6,9 +6,9 @@ mainClassName = 'com.grm.hitboard.core.HitBoardCore'
 
 dependencies {
 	compile group: 'org.ini4j', name: 'ini4j', version: '0.5.4'
-	compile 'com.google.guava:guava:18.0'
+	compile group: 'com.google.guava', name: 'guava', version: '18.0'
 	compile 'org.zeroturnaround:zt-zip:1.8'
-	compile 'com.mashape.unirest:unirest-java:1.4.5'
+	compile 'com.mashape.unirest:unirest-java:1.4.7'
 }
 	
 task pmd << {
