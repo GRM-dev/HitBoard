@@ -5,7 +5,6 @@ package pl.grmdev.hitboard.requests.util;
 
 /**
  * @author Levvy055
- *
  */
 public enum HbPost {
 	MEDIA_CREATE_VOD("media/video/:channel"),
@@ -19,10 +18,10 @@ public enum HbPost {
 	CHAT_SETTINGS_UPDATE("chat/settings/:channel"),
 	TOKEN_GET("auth/token"),
 	TOKEN_AUTH("auth/login");
-
+	
 	private String cmd;
 	private String[] objs;
-
+	
 	private HbPost(String cmd) {
 		this.cmd = cmd;
 		if (cmd.contains(":")) {
@@ -34,16 +33,15 @@ public enum HbPost {
 				eI = i < cmd.length() && cmd.indexOf("/", bI + 1) != -1
 						? cmd.indexOf("/", bI + 1)
 						: cmd.length() - 1;
-
 				objs[i] = cmd.substring(bI, eI);
 			}
 		}
 	}
-
+	
 	public String getCmd() {
 		return cmd;
 	}
-
+	
 	public String get(String... args) throws Exception {
 		if (args == null || args.length == 0) {
 			return getCmd();
@@ -58,7 +56,7 @@ public enum HbPost {
 		}
 		return result;
 	}
-
+	
 	public String[] getObjects() {
 		return objs;
 	}

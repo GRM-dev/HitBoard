@@ -2,6 +2,7 @@
  * 
  */
 package pl.grmdev.hitboard.requests;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
@@ -15,22 +16,22 @@ import com.mashape.unirest.request.GetRequest;
 import pl.grmdev.hitboard.requests.util.HbGet;
 /**
  * @author Levvy055
- *
  */
 public class RequestHandlerTest {
+	
 	private static RequestHandler reqH;
-
+	
 	@BeforeClass
 	public static void init() {
 		reqH = new RequestHandler("http://api.hitbox.tv/");
 	}
-
+	
 	@Test
 	public void initTest() {
 		assertThat(reqH).isNotNull();
 		assertThat(RequestHandler.instance()).isNotNull();
 	}
-
+	
 	@Test
 	public void getRequestTest() {
 		GetRequest getResultRequest = reqH.get(HbGet.CHAT_SERVERS);
@@ -47,7 +48,7 @@ public class RequestHandlerTest {
 			fail("There was exception!", e);
 		}
 	}
-
+	
 	@Test
 	public void hasConnectionTest() {
 		assertThat(reqH.hasConnection()).isTrue();

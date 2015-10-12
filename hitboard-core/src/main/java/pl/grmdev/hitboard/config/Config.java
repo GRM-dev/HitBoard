@@ -7,15 +7,16 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import pl.grmdev.hitboard.HitBoardCore;
-
 /**
+ * Handles all condfigurations things like load/save settings from/to
+ * file/program. Also changes config values.
+ * 
  * @author Levvy055
- *
  */
 public class Config {
-
-	public static final String EXECUTABLE_PATH = System.getProperty("user.dir")
-			+ "\\";
+	
+	public static final String USER_DIR = System.getProperty("user.dir");
+	public static final String EXEC_PATH = USER_DIR + "\\";
 	public static final String CONFIG_FILE_NAME = "config.ini";
 	public static final String LOGGER_FILE_NAME = "hitboard.log";
 	public static final String APP_NAME = "HitBoard";
@@ -23,8 +24,11 @@ public class Config {
 	private HitBoardCore hitBoard;
 	private Logger logger;
 	private boolean needsSave;
-
+	
 	/**
+	 * Config object is created by {@link HitBoardCore}. At creation it also
+	 * loads default values from {@link ConfigId} enum
+	 * 
 	 * @param hitBoard
 	 */
 	public Config(HitBoardCore hitBoard) {
@@ -32,7 +36,11 @@ public class Config {
 		this.logger = HitBoardCore.getLogger();
 		configs = createDefaultConfig();
 	}
-
+	
+	/**
+	 * Initializes config by following: If file exists than load it, but if not
+	 * than create new one at defaul location
+	 */
 	public void init() {
 		if (FileOperation.configExists()) {
 			HashMap<ConfigId, String> fileConf = FileOperation.readConfig();
@@ -52,9 +60,9 @@ public class Config {
 			FileOperation.saveConfig(configs);
 		}
 	}
-
+	
 	/**
-	 * @return default config map
+	 * @return default config map from {@link ConfigId}
 	 */
 	private HashMap<ConfigId, String> createDefaultConfig() {
 		HashMap<ConfigId, String> configD = new HashMap<>();
@@ -63,7 +71,7 @@ public class Config {
 		}
 		return configD;
 	}
-
+	
 	/**
 	 * Updates config value with new one
 	 * 
@@ -78,7 +86,13 @@ public class Config {
 			configs.put(key, value);
 		}
 	}
-
+	
+	/**
+	 * Reads specified value from config
+	 * 
+	 * @param confId
+	 * @return value from config if exists, otherwise null
+	 */
 	public String getConfigValue(ConfigId confId) {
 		if (configs.containsKey(confId)) {
 			return configs.get(confId);
@@ -86,7 +100,7 @@ public class Config {
 			return null;
 		}
 	}
-
+	
 	/**
 	 * Save config and ammends all actions when closing
 	 */
@@ -95,5 +109,4 @@ public class Config {
 			FileOperation.saveConfig(configs);
 		}
 	}
-
 }

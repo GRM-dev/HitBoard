@@ -13,17 +13,16 @@ import javafx.stage.Stage;
 import pl.grmdev.hitboard.HitBoardCore;
 import pl.grmdev.hitboard.config.ConfigId;
 import pl.grmdev.hitboard.gui.controllers.MainForm;
-
 public class HitBoardFx extends Application {
+	
 	private Stage primaryStage;
 	private static boolean launched;
-
+	
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		HitBoardGui.instance().setStreamManager(this);
 		Platform.setImplicitExit(false);
-
 		Parent root;
 		try {
 			URL mFormResUrl = getClass().getResource("/views/MainForm.fxml");
@@ -46,7 +45,7 @@ public class HitBoardFx extends Application {
 		});
 		primaryStage.show();
 	}
-
+	
 	public void showStartAlert() {
 		try {
 			Alert alert = new Alert(AlertType.INFORMATION);
@@ -54,13 +53,15 @@ public class HitBoardFx extends Application {
 			alert.setHeaderText("To change setting you need to be logged in.");
 			alert.setContentText("Please log in");
 			alert.showAndWait();
-			boolean con = HitBoardCore.instance().getRequestHandler().hasConnection();
-			MainForm.instance.getStateCircle().setFill(con?Color.GREEN:Color.RED);
+			boolean con = HitBoardCore.instance().getRequestHandler()
+					.hasConnection();
+			MainForm.instance.getStateCircle()
+					.setFill(con ? Color.GREEN : Color.RED);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
+	
 	/**
 	 * Opens Stream Manager. Called only at first time use.
 	 */
@@ -69,7 +70,7 @@ public class HitBoardFx extends Application {
 			launch();
 		}
 	}
-
+	
 	public void show(boolean show) {
 		if (show) {
 			primaryStage.show();

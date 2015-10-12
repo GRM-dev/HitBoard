@@ -2,18 +2,17 @@
  * 
  */
 package pl.grmdev.hitboard.requests;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
 import pl.grmdev.hitboard.requests.util.*;
-
 /**
  * @author Levvy055
- *
  */
 public class UtilTest {
-
+	
 	@Test
 	public void HbGetTest() {
 		assertThat(HbGet.values()).isNotNull().isNotEmpty();
@@ -35,7 +34,7 @@ public class UtilTest {
 			}
 		}
 	}
-
+	
 	@Test
 	public void HbPostTest() {
 		assertThat(HbPost.values()).isNotNull().isNotEmpty();
@@ -57,7 +56,7 @@ public class UtilTest {
 			}
 		}
 	}
-
+	
 	@Test
 	public void HbPutTest() {
 		assertThat(HbPut.values()).isNotNull().isNotEmpty();
@@ -79,7 +78,7 @@ public class UtilTest {
 			}
 		}
 	}
-
+	
 	@Test
 	public void HbDeleteTest() {
 		assertThat(HbDelete.values()).isNotNull().isNotEmpty();

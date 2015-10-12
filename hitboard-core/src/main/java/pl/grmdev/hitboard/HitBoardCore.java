@@ -7,21 +7,18 @@ import java.util.logging.Logger;
 
 import pl.grmdev.hitboard.config.*;
 import pl.grmdev.hitboard.requests.RequestHandler;
-
 /**
  * @author Levvy055
- *
  */
 public class HitBoardCore {
-
+	
 	private static HitBoardCore instance;
 	private Logger logger;
 	private Config config;
 	private RequestHandler reqHandler;
-
-	private HitBoardCore() {
-	}
-
+	
+	private HitBoardCore() {}
+	
 	/**
 	 * Initializes HitBoard
 	 */
@@ -32,14 +29,14 @@ public class HitBoardCore {
 		String apiLink = config.getConfigValue(ConfigId.HITBOX_API_LINK);
 		reqHandler = new RequestHandler(apiLink);
 	}
-
+	
 	/**
 	 * Closes program
 	 */
 	public void close() {
 		getConfig().save();
 	}
-
+	
 	/**
 	 * Gets instance of main class
 	 * 
@@ -52,7 +49,7 @@ public class HitBoardCore {
 		}
 		return instance;
 	}
-
+	
 	/**
 	 * Gets logger
 	 * 
@@ -61,7 +58,7 @@ public class HitBoardCore {
 	public static Logger getLogger() {
 		return instance().logger;
 	}
-
+	
 	/**
 	 * gets Config
 	 * 
@@ -70,7 +67,7 @@ public class HitBoardCore {
 	public Config getConfig() {
 		return config;
 	}
-
+	
 	/**
 	 * gets {@link RequestHandler} object
 	 * 

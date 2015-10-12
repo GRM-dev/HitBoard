@@ -7,17 +7,16 @@ import java.awt.EventQueue;
 
 import javafx.application.Platform;
 import pl.grmdev.hitboard.HitBoardCore;
-
 /**
  * @author Levvy055
- *
  */
 public class HitBoardGui {
+	
 	private static HitBoardGui instance;
 	private ActionSelectionFrame actionSelectionFrame;
 	private HitBoardCore core;
 	private HitBoardFx hitBoardFx;
-
+	
 	/**
 	 * @param core2
 	 */
@@ -25,7 +24,7 @@ public class HitBoardGui {
 		this.core = core;
 		instance = this;
 	}
-
+	
 	/**
 	 * Opens start action selection window
 	 */
@@ -40,38 +39,38 @@ public class HitBoardGui {
 			}
 		});
 	}
-
+	
 	/**
 	 * 
 	 */
 	public static HitBoardGui instance() {
 		return instance;
 	}
-
+	
 	public ActionSelectionFrame getActionSelectionFrame() {
 		return actionSelectionFrame;
 	}
-
+	
 	/**
 	 * @return core
 	 */
 	public HitBoardCore getCore() {
 		return core;
 	}
-
+	
 	/**
 	 * @param hitBoardFx
 	 */
 	public void setStreamManager(HitBoardFx hitBoardFx) {
 		this.hitBoardFx = hitBoardFx;
 	}
-
+	
 	public static void main(String[] args) {
 		HitBoardCore core = HitBoardCore.instance();
 		HitBoardGui gui = new HitBoardGui(core);
 		gui.openSelectionWindow();
 	}
-
+	
 	/**
 	 * 
 	 */
@@ -81,7 +80,7 @@ public class HitBoardGui {
 			Platform.exit();
 		}
 	}
-
+	
 	public HitBoardFx getHitBoardFx() {
 		return hitBoardFx;
 	}

@@ -5,15 +5,14 @@ package pl.grmdev.hitboard.requests.util;
 
 /**
  * @author Levvy055
- *
  */
 public enum HbDelete {
 	FOLLOWERS_UNFOLLOW("follow"),
 	TEAMS_KICK_LEAVE_TEAM("team/:team/:user");
-
+	
 	private String cmd;
 	private String[] objs;
-
+	
 	private HbDelete(String cmd) {
 		this.cmd = cmd;
 		if (cmd.contains(":")) {
@@ -25,16 +24,15 @@ public enum HbDelete {
 				eI = i < cmd.length() && cmd.indexOf("/", bI + 1) != -1
 						? cmd.indexOf("/", bI + 1)
 						: cmd.length() - 1;
-
 				objs[i] = cmd.substring(bI, eI);
 			}
 		}
 	}
-
+	
 	public String getCmd() {
 		return cmd;
 	}
-
+	
 	public String get(String... args) throws Exception {
 		if (args == null || args.length == 0) {
 			return getCmd();
@@ -49,7 +47,7 @@ public enum HbDelete {
 		}
 		return result;
 	}
-
+	
 	public String[] getObjects() {
 		return objs;
 	}

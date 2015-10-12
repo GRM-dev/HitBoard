@@ -5,7 +5,6 @@ package pl.grmdev.hitboard.requests.util;
 
 /**
  * @author Levvy055
- *
  */
 public enum HbPut {
 	MEDIA_LIVE_UPDATE("media/live/:channel"),
@@ -13,10 +12,10 @@ public enum HbPut {
 	CHANNEL_RESET_KEY("mediakey/:channel"),
 	USER_UPDATE("user/:user"),
 	TEAM_UPDATE("team/:team/:user");
-
+	
 	private String cmd;
 	private String[] objs;
-
+	
 	private HbPut(String cmd) {
 		this.cmd = cmd;
 		if (cmd.contains(":")) {
@@ -28,16 +27,15 @@ public enum HbPut {
 				eI = i < cmd.length() && cmd.indexOf("/", bI + 1) != -1
 						? cmd.indexOf("/", bI + 1)
 						: cmd.length() - 1;
-
 				objs[i] = cmd.substring(bI, eI);
 			}
 		}
 	}
-
+	
 	public String getCmd() {
 		return cmd;
 	}
-
+	
 	public String get(String... args) throws Exception {
 		if (args == null || args.length == 0) {
 			return getCmd();
@@ -52,7 +50,7 @@ public enum HbPut {
 		}
 		return result;
 	}
-
+	
 	public String[] getObjects() {
 		return objs;
 	}

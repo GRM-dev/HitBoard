@@ -16,12 +16,11 @@ import javafx.fxml.*;
 import javafx.scene.control.*;
 import pl.grmdev.hitboard.requests.RequestHandler;
 import pl.grmdev.hitboard.requests.util.HbGet;
-
 /**
  * @author Levvy055
- *
  */
 public class DashBoard implements Initializable {
+	
 	public static DashBoard instance;
 	@FXML
 	private Label LblChannelName;
@@ -45,10 +44,9 @@ public class DashBoard implements Initializable {
 	private RadioButton rbPublic;
 	@FXML
 	private RadioButton rbPrivate;
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see javafx.fxml.Initializable#initialize(java.net.URL,
 	 * java.util.ResourceBundle)
 	 */
@@ -72,7 +70,5 @@ public class DashBoard implements Initializable {
 			}
 			cbGames.setDisable(false);
 		}).start();
-
 	}
-
 }

@@ -10,11 +10,24 @@ import org.json.*;
 
 import com.mashape.unirest.http.*;
 
+import pl.grmdev.hitboard.requests.RequestHandler;
 /**
+ * Chat related Requests handled by {@link RequestHandler}
+ * 
  * @author Levvy055
- *
  */
 public class Chat {
+	
+	/**
+	 * Gets list of games available on hitbox.tv
+	 * 
+	 * @param gamesAsyncTask
+	 *            currently started Future task from which this method will take
+	 *            game list
+	 * @return {@link List}
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 */
 	public List<String> getGamesList(
 			Future<HttpResponse<JsonNode>> gamesAsyncTask)
 					throws InterruptedException, ExecutionException {

@@ -5,7 +5,6 @@ package pl.grmdev.hitboard.requests.util;
 
 /**
  * @author Levvy055
- *
  */
 public enum HbGet {
 	MEDIA_LIVE_OBJECT("media/live/:channel"),
@@ -50,10 +49,10 @@ public enum HbGet {
 	CHAT_BLACKLIST("chat/blacklist/:channel"),
 	TOKEN_VALID("auth/valid/:appID"),
 	INGEST_LIST("ingests/default_list");
-
+	
 	private String cmd;
 	private String[] objs;
-
+	
 	private HbGet(String cmd) {
 		this.cmd = cmd;
 		if (cmd.contains(":")) {
@@ -65,16 +64,15 @@ public enum HbGet {
 				eI = i < cmd.length() && cmd.indexOf("/", bI + 1) != -1
 						? cmd.indexOf("/", bI + 1)
 						: cmd.length() - 1;
-
 				objs[i] = cmd.substring(bI, eI);
 			}
 		}
 	}
-
+	
 	public String getCmd() {
 		return cmd;
 	}
-
+	
 	public String get(String... args) throws Exception {
 		if (args == null || args.length == 0) {
 			return getCmd();
@@ -89,7 +87,7 @@ public enum HbGet {
 		}
 		return result;
 	}
-
+	
 	public String[] getObjects() {
 		return objs;
 	}

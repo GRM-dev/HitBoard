@@ -12,19 +12,17 @@ import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import javafx.application.Platform;
 import pl.grmdev.hitboard.config.Config;
-
 /**
  * @author Levvy055
- *
  */
 public class ActionSelectionFrame extends JFrame {
-
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private DownloadVideoFrame downloadVideoFrame;
 	private HitBoardGui hitBoard;
 	private JButton btnEditStreamInfo;
-
+	
 	/**
 	 * Create the frame.
 	 * 
@@ -45,17 +43,13 @@ public class ActionSelectionFrame extends JFrame {
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
-
 		JPanel panel_Top = new JPanel();
 		contentPane.add(panel_Top, BorderLayout.NORTH);
-
 		JLabel lblWhatYouWanna = new JLabel("What you wanna do?");
 		panel_Top.add(lblWhatYouWanna);
-
 		JLayeredPane panel_Main = new JLayeredPane();
 		contentPane.add(panel_Main, BorderLayout.CENTER);
 		panel_Main.setLayout(new GridLayout(1, 0, 0, 0));
-
 		btnEditStreamInfo = new JButton(
 				"<html><center>Manage <br>your Stream</center></html>");
 		btnEditStreamInfo.addActionListener(e -> {
@@ -63,14 +57,12 @@ public class ActionSelectionFrame extends JFrame {
 			openStreamManagerWindow();
 		});
 		panel_Main.add(btnEditStreamInfo);
-
 		JButton btnWatchStream = new JButton(
 				"<html><center>Watch Stream</center></html>");
 		btnWatchStream.addActionListener(e -> {
 			System.out.println("Watch clicked!");
 		});
 		panel_Main.add(btnWatchStream);
-
 		JButton btnDownloadVideo = new JButton(
 				"<html><center>Download Video</center></html>");
 		btnDownloadVideo.addActionListener(e -> {
@@ -78,42 +70,36 @@ public class ActionSelectionFrame extends JFrame {
 		});
 		panel_Main.add(btnDownloadVideo);
 		addWindowListener(new WindowListener() {
-
+			
 			@Override
-			public void windowOpened(WindowEvent e) {
-			}
-
+			public void windowOpened(WindowEvent e) {}
+			
 			@Override
-			public void windowIconified(WindowEvent e) {
-			}
-
+			public void windowIconified(WindowEvent e) {}
+			
 			@Override
-			public void windowDeiconified(WindowEvent e) {
-			}
-
+			public void windowDeiconified(WindowEvent e) {}
+			
 			@Override
-			public void windowDeactivated(WindowEvent e) {
-			}
-
+			public void windowDeactivated(WindowEvent e) {}
+			
 			@Override
 			public void windowClosing(WindowEvent e) {
 				hitBoard.close();
 			}
-
+			
 			@Override
-			public void windowClosed(WindowEvent e) {
-			}
-
+			public void windowClosed(WindowEvent e) {}
+			
 			@Override
-			public void windowActivated(WindowEvent e) {
-			}
+			public void windowActivated(WindowEvent e) {}
 		});
 	}
-
+	
 	public void setDefaultFocusKey() {
 		btnEditStreamInfo.requestFocus();
 	}
-
+	
 	private void openDownlodWindow() {
 		try {
 			if (downloadVideoFrame == null) {
@@ -125,7 +111,7 @@ public class ActionSelectionFrame extends JFrame {
 			e1.printStackTrace();
 		}
 	}
-
+	
 	/**
 	 * Opens HitBoard Stream Manager window in javaFX
 	 * 
@@ -140,7 +126,7 @@ public class ActionSelectionFrame extends JFrame {
 		}
 		showFrame(false);
 	}
-
+	
 	public void showFrame(boolean show) {
 		this.setEnabled(show);
 		this.setVisible(show);
@@ -151,5 +137,4 @@ public class ActionSelectionFrame extends JFrame {
 			this.setState(JFrame.ICONIFIED);
 		}
 	}
-
 }
