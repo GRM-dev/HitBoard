@@ -47,7 +47,7 @@ public class MainForm implements Initializable {
 	/**
 	 * Gets {@link Circle} objects which shows state of connections
 	 * 
-	 * @return
+	 * @return {@link Circle} object
 	 */
 	public Circle getStateCircle() {
 		return circleState;

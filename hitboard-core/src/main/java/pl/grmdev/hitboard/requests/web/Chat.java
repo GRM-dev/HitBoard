@@ -26,7 +26,9 @@ public class Chat {
 	 *            game list
 	 * @return {@link List}
 	 * @throws InterruptedException
+	 *             occurs when Future task is interrupted
 	 * @throws ExecutionException
+	 *             occurs when Future task encounters some problem
 	 */
 	public List<String> getGamesList(
 			Future<HttpResponse<JsonNode>> gamesAsyncTask)

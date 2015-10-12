@@ -66,7 +66,7 @@ public class RequestHandler {
 	/**
 	 * Checks if you have correct connection and API is working correctly.
 	 * 
-	 * @return
+	 * @return true if connection to hitbox API is available and correct
 	 */
 	public boolean hasConnection() {
 		try {
@@ -85,7 +85,8 @@ public class RequestHandler {
 	/**
 	 * Makes POST RESful API method based on {@link HbPost}
 	 * 
-	 * @param chatServers
+	 * @param cmd
+	 *            API command of type {@link HbPost}
 	 * @return {@link BaseRequest}
 	 */
 	public BaseRequest post(HbPost cmd) {
@@ -95,7 +96,8 @@ public class RequestHandler {
 	/**
 	 * Makes POST RESful API method to specifed url in parameter
 	 * 
-	 * @param string
+	 * @param cmd
+	 *            {@link String} containing url to restful api
 	 * @return {@link BaseRequest}
 	 */
 	private BaseRequest post(String cmd) {
@@ -106,6 +108,7 @@ public class RequestHandler {
 	 * Makes GET RESful API method based on {@link HbPost}
 	 * 
 	 * @param cmd
+	 *            API command of type {@link HbGet}
 	 * @return {@link GetRequest}
 	 */
 	public GetRequest get(HbGet cmd) {
@@ -116,6 +119,7 @@ public class RequestHandler {
 	 * Makes GET RESful API method to specifed url in parameter
 	 * 
 	 * @param cmd
+	 *            {@link String} containing url to restful api
 	 * @return {@link GetRequest}
 	 */
 	private GetRequest get(String cmd) {
@@ -126,6 +130,7 @@ public class RequestHandler {
 	 * Makes PUT RESful API method based on {@link HbPost}
 	 * 
 	 * @param cmd
+	 *            API command of type {@link HbPut}
 	 * @return {@link HttpRequestWithBody}
 	 */
 	public HttpRequestWithBody put(HbPut cmd) {
@@ -136,6 +141,7 @@ public class RequestHandler {
 	 * Makes PUT RESful API method to specifed url in parameter
 	 * 
 	 * @param cmd
+	 *            {@link String} containing url to restful api
 	 * @return {@link HttpRequestWithBody}
 	 */
 	private HttpRequestWithBody put(String cmd) {
@@ -146,8 +152,8 @@ public class RequestHandler {
 	 * Makes DELETE RESful API method based on {@link HbPost}
 	 * 
 	 * @param cmd
-	 *            {@link HttpRequestWithBody}
-	 * @return
+	 *            of type {@link HbDelete}
+	 * @return {@link HttpRequestWithBody}
 	 */
 	public HttpRequestWithBody delete(HbDelete cmd) {
 		return delete(apiLink + cmd.getCmd());
@@ -157,6 +163,7 @@ public class RequestHandler {
 	 * Makes DELETE RESful API method to specifed url in parameter
 	 * 
 	 * @param cmd
+	 *            {@link String} containing url to restful api
 	 * @return {@link HttpRequestWithBody}
 	 */
 	private HttpRequestWithBody delete(String cmd) {

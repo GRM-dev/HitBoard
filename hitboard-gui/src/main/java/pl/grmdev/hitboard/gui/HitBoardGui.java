@@ -18,7 +18,8 @@ public class HitBoardGui {
 	private HitBoardFx hitBoardFx;
 	
 	/**
-	 * @param core2
+	 * @param core
+	 *            {@link HitBoardCore}
 	 */
 	public HitBoardGui(HitBoardCore core) {
 		this.core = core;
@@ -41,7 +42,9 @@ public class HitBoardGui {
 	}
 	
 	/**
+	 * Gets instance of this class last created object
 	 * 
+	 * @return instance of {@link HitBoardGui} class
 	 */
 	public static HitBoardGui instance() {
 		return instance;
@@ -52,7 +55,7 @@ public class HitBoardGui {
 	}
 	
 	/**
-	 * @return core
+	 * @return core of type {@link HitBoardCore}
 	 */
 	public HitBoardCore getCore() {
 		return core;
@@ -60,11 +63,18 @@ public class HitBoardGui {
 	
 	/**
 	 * @param hitBoardFx
+	 *            {@link HitBoardFx}
 	 */
 	public void setStreamManager(HitBoardFx hitBoardFx) {
 		this.hitBoardFx = hitBoardFx;
 	}
 	
+	/**
+	 * Start program method
+	 * 
+	 * @param args
+	 *            run args
+	 */
 	public static void main(String[] args) {
 		HitBoardCore core = HitBoardCore.instance();
 		HitBoardGui gui = new HitBoardGui(core);
@@ -72,7 +82,7 @@ public class HitBoardGui {
 	}
 	
 	/**
-	 * 
+	 * Closes program
 	 */
 	public void close() {
 		core.close();
@@ -81,6 +91,11 @@ public class HitBoardGui {
 		}
 	}
 	
+	/**
+	 * Gets {@link HitBoardFx}
+	 * 
+	 * @return javafx stream manager window app
+	 */
 	public HitBoardFx getHitBoardFx() {
 		return hitBoardFx;
 	}

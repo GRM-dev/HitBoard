@@ -8,6 +8,8 @@ import java.util.logging.Logger;
 import pl.grmdev.hitboard.config.*;
 import pl.grmdev.hitboard.requests.RequestHandler;
 /**
+ * Core class for all HitBox RESTful API features
+ * 
  * @author Levvy055
  */
 public class HitBoardCore {
@@ -38,7 +40,7 @@ public class HitBoardCore {
 	}
 	
 	/**
-	 * Gets instance of main class
+	 * Gets instance of main class. If it doesn't exists than creates one.
 	 * 
 	 * @return HitBoard
 	 */
@@ -51,7 +53,7 @@ public class HitBoardCore {
 	}
 	
 	/**
-	 * Gets logger
+	 * Gets {@link Logger}
 	 * 
 	 * @return Logger
 	 */
@@ -60,7 +62,7 @@ public class HitBoardCore {
 	}
 	
 	/**
-	 * gets Config
+	 * gets {@link Config}
 	 * 
 	 * @return config object
 	 */

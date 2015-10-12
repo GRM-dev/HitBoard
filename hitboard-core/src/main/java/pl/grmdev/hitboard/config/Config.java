@@ -30,6 +30,7 @@ public class Config {
 	 * loads default values from {@link ConfigId} enum
 	 * 
 	 * @param hitBoard
+	 *            core object of {@link HitBoardCore}
 	 */
 	public Config(HitBoardCore hitBoard) {
 		this.hitBoard = hitBoard;
@@ -91,6 +92,7 @@ public class Config {
 	 * Reads specified value from config
 	 * 
 	 * @param confId
+	 *            id of config property which value you want to acquire
 	 * @return value from config if exists, otherwise null
 	 */
 	public String getConfigValue(ConfigId confId) {

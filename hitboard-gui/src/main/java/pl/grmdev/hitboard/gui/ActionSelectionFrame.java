@@ -27,6 +27,8 @@ public class ActionSelectionFrame extends JFrame {
 	 * Create the frame.
 	 * 
 	 * @param hitBoardGui
+	 *            main gui start object
+	 * @see HitBoardGui
 	 */
 	public ActionSelectionFrame(HitBoardGui hitBoardGui) {
 		this.hitBoard = hitBoardGui;
@@ -96,10 +98,16 @@ public class ActionSelectionFrame extends JFrame {
 		});
 	}
 	
+	/**
+	 * Request focus on first button after load
+	 */
 	public void setDefaultFocusKey() {
 		btnEditStreamInfo.requestFocus();
 	}
 	
+	/**
+	 * Opens Video Download window
+	 */
 	private void openDownlodWindow() {
 		try {
 			if (downloadVideoFrame == null) {
@@ -114,8 +122,6 @@ public class ActionSelectionFrame extends JFrame {
 	
 	/**
 	 * Opens HitBoard Stream Manager window in javaFX
-	 * 
-	 * @param b
 	 */
 	private void openStreamManagerWindow() {
 		if (hitBoard.getHitBoardFx() == null) {
@@ -127,6 +133,12 @@ public class ActionSelectionFrame extends JFrame {
 		showFrame(false);
 	}
 	
+	/**
+	 * Shows frame
+	 * 
+	 * @param show
+	 *            if true shows ASF. If false set visible to falses
+	 */
 	public void showFrame(boolean show) {
 		this.setEnabled(show);
 		this.setVisible(show);

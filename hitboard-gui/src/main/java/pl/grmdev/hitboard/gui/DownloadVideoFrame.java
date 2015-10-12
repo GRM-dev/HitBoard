@@ -28,6 +28,7 @@ public class DownloadVideoFrame extends JFrame {
 	 * Create the frame.
 	 * 
 	 * @param hitBoard
+	 *            main gui program object
 	 */
 	public DownloadVideoFrame(HitBoardGui hitBoard) {
 		setType(Type.POPUP);

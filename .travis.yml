@@ -1,0 +1,12 @@
+language: java
+jdk:
+  - oraclejdk8
+
+before_install:
+ - chmod +x gradlew
+ 
+
+install: ./gradlew check -S
+script: 
+ - ./gradlew build -x signArchives check -S
+ - ./gradlew installDist -x signArchives -S
