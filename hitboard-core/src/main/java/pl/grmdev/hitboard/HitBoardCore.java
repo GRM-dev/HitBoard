@@ -19,12 +19,8 @@ public class HitBoardCore {
 	private Config config;
 	private RequestHandler reqHandler;
 	
-	private HitBoardCore() {}
-	
-	/**
-	 * Initializes HitBoard
-	 */
-	private void init() {
+	private HitBoardCore() {
+		instance = this;
 		logger = FileOperation.setupLogger(Config.LOGGER_FILE_NAME);
 		config = new Config(this);
 		config.init();
@@ -46,8 +42,7 @@ public class HitBoardCore {
 	 */
 	public static HitBoardCore instance() {
 		if (instance == null) {
-			instance = new HitBoardCore();
-			instance.init();
+			new HitBoardCore();
 		}
 		return instance;
 	}

@@ -4,6 +4,8 @@
 package pl.grmdev.hitboard.requests.util;
 
 /**
+ * POST RESTful API methods
+ * 
  * @author Levvy055
  */
 public enum HbPost {

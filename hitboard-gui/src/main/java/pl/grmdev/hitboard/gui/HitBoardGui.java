@@ -70,18 +70,6 @@ public class HitBoardGui {
 	}
 	
 	/**
-	 * Start program method
-	 * 
-	 * @param args
-	 *            run args
-	 */
-	public static void main(String[] args) {
-		HitBoardCore core = HitBoardCore.instance();
-		HitBoardGui gui = new HitBoardGui(core);
-		gui.openSelectionWindow();
-	}
-	
-	/**
 	 * Closes program
 	 */
 	public void close() {
@@ -98,5 +86,17 @@ public class HitBoardGui {
 	 */
 	public HitBoardFx getHitBoardFx() {
 		return hitBoardFx;
+	}
+
+	/**
+	 * Start program method
+	 * 
+	 * @param args
+	 *            run args
+	 */
+	public static void main(String[] args) {
+		HitBoardCore core = HitBoardCore.instance();
+		HitBoardGui gui = new HitBoardGui(core);
+		gui.openSelectionWindow();
 	}
 }

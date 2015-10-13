@@ -23,7 +23,7 @@ task loadProperties {
 			file(home + "/keystore").mkdir()
 		}
 		if(file(fileProp).createNewFile()) {
-			println "File " + fileProp + "Created"
+			println "File " + fileProp + " Created"
 			if (Os.isFamily(Os.FAMILY_WINDOWS)) {
 				println "*** WINDOWS "
 				println "You should write properties on your own (rPass, storePass & hb_key_url)"
@@ -42,7 +42,7 @@ task loadProperties {
 	props.load(new FileInputStream(fileProp))
 	project.ext.rPass = props.getProperty('rPass')
 	project.ext.storePass = props.getProperty('storePass')
-	project.ext.key_file_url = props.getProperty('fm_key_url')
+	project.ext.key_file_url = props.getProperty('hb_key_url')
 	
 	def f = new File(fileKey)
 	if (!f.exists()) {

@@ -4,6 +4,8 @@
 package pl.grmdev.hitboard.gui.controllers;
 
 /**
+ * Names of inner screens switched by left panel in {@link MainForm}
+ * 
  * @author Levvy055
  */
 public enum SideNodeName {

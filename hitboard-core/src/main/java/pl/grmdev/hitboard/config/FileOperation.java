@@ -11,6 +11,15 @@ public class FileOperation {
 	
 	private static Logger logger;
 	
+	/**
+	 * Gets current jar execution location
+	 * 
+	 * @param classHandler
+	 *            a class which will be handler to our jar file
+	 * @return path of jar
+	 * @throws UnsupportedEncodingException
+	 *             when decoder catch unsupported encoding
+	 */
 	public static String getCurrentJarPath(Class<?> classHandler)
 			throws UnsupportedEncodingException {
 		String jarFileLoc = "";
@@ -31,8 +40,15 @@ public class FileOperation {
 		return jarFileLoc;
 	}
 	
-	public static Logger setupLogger(String fileName)
-			throws IllegalArgumentException {
+	/**
+	 * Setups Logger and returns it
+	 * 
+	 * @param fileName
+	 *            name of logger log file
+	 * @return created Logger
+	 * @throws IllegalArgumentException
+	 */
+	public static Logger setupLogger(String fileName) {
 		logger = Logger.getLogger(fileName);
 		try {
 			String logFilename = Config.EXEC_PATH + fileName;
@@ -50,6 +66,11 @@ public class FileOperation {
 		return logger;
 	}
 	
+	/**
+	 * Checks if config file exists
+	 * 
+	 * @return true if config file exists
+	 */
 	public static boolean configExists() {
 		File file = new File(Config.CONFIG_FILE_NAME);
 		if (file.exists()) {
@@ -59,6 +80,12 @@ public class FileOperation {
 		}
 	}
 	
+	/**
+	 * Saves config in config file
+	 * 
+	 * @param config
+	 *            map of configs
+	 */
 	public static void saveConfig(HashMap<ConfigId, String> config) {
 		File file = new File(Config.CONFIG_FILE_NAME);
 		try {
@@ -79,6 +106,11 @@ public class FileOperation {
 		}
 	}
 	
+	/**
+	 * Reads config file
+	 * 
+	 * @return map of configs read from file
+	 */
 	public static HashMap<ConfigId, String> readConfig() {
 		HashMap<ConfigId, String> fConfig = new HashMap<>();
 		File file = new File(Config.CONFIG_FILE_NAME);
@@ -105,6 +137,15 @@ public class FileOperation {
 		return fConfig;
 	}
 	
+	/**
+	 * Gets File object of filename param
+	 * 
+	 * @param fileName
+	 *            file name to return file from this method
+	 * @return File of specified filename
+	 * @throws FileNotFoundException
+	 *             thrown when file doesn't exists
+	 */
 	public static File getFile(String fileName) throws FileNotFoundException {
 		ClassLoader classLoader = FileOperation.class.getClassLoader();
 		URL resFile = classLoader.getResource(fileName);

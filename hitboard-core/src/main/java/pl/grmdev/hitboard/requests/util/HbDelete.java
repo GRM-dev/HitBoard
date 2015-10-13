@@ -4,6 +4,8 @@
 package pl.grmdev.hitboard.requests.util;
 
 /**
+ * DELETE RESTful API methods
+ * 
  * @author Levvy055
  */
 public enum HbDelete {

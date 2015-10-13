@@ -8,8 +8,10 @@ import com.fasterxml.jackson.annotation.*;
  * @author Levvy055
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class User {
+public class UserData {
 	
+	@JsonProperty("app")
+	private String app;
 	@JsonProperty("user_id")
 	private String userId;
 	@JsonProperty("user_name")
@@ -20,8 +22,6 @@ public class User {
 	private String userLogoSmall;
 	@JsonProperty("user_banned")
 	private String userBanned;
-	@JsonProperty("user_banned_channel")
-	private String userBannedChannel;
 	@JsonProperty("superadmin")
 	private String superadmin;
 	@JsonProperty("livestream_count")
@@ -32,211 +32,41 @@ public class User {
 	private String authToken;
 	@JsonProperty("login")
 	private String login;
-	@JsonProperty("data")
-	private UserData userData;
-	@JsonProperty("access")
-	private String access;
-	@JsonProperty("app")
-	private String app;
 	
 	/**
-	 * @return The userId
-	 */
-	public String getUserId() {
-		return userId;
-	}
-	
-	/**
-	 * @param userId
-	 *            The user_id
-	 */
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	
-	/**
-	 * @return The userName
-	 */
-	public String getUserName() {
-		return userName;
-	}
-	
-	/**
-	 * @param userName
-	 *            The user_name
-	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	
-	/**
-	 * @return The userLogo
-	 */
-	public String getUserLogo() {
-		return userLogo;
-	}
-	
-	/**
-	 * @param userLogo
-	 *            The user_logo
-	 */
-	public void setUserLogo(String userLogo) {
-		this.userLogo = userLogo;
-	}
-	
-	/**
-	 * @return The userLogoSmall
-	 */
-	public String getUserLogoSmall() {
-		return userLogoSmall;
-	}
-	
-	/**
-	 * @param userLogoSmall
-	 *            The user_logo_small
-	 */
-	public void setUserLogoSmall(String userLogoSmall) {
-		this.userLogoSmall = userLogoSmall;
-	}
-	
-	/**
-	 * @return The userBanned
-	 */
-	public String getUserBanned() {
-		return userBanned;
-	}
-	
-	/**
-	 * @param userBanned
-	 *            The user_banned
-	 */
-	public void setUserBanned(String userBanned) {
-		this.userBanned = userBanned;
-	}
-	
-	/**
-	 * @return The userBannedChannel
-	 */
-	public String getUserBannedChannel() {
-		return userBannedChannel;
-	}
-	
-	/**
-	 * @param userBannedChannel
-	 *            The user_banned_channel
-	 */
-	public void setUserBannedChannel(String userBannedChannel) {
-		this.userBannedChannel = userBannedChannel;
-	}
-	
-	/**
-	 * @return The superadmin
-	 */
-	public String getSuperadmin() {
-		return superadmin;
-	}
-	
-	/**
-	 * @param superadmin
-	 *            The superadmin
-	 */
-	public void setSuperadmin(String superadmin) {
-		this.superadmin = superadmin;
-	}
-	
-	/**
-	 * @return The livestreamCount
-	 */
-	public String getLivestreamCount() {
-		return livestreamCount;
-	}
-	
-	/**
-	 * @param livestreamCount
-	 *            The livestream_count
-	 */
-	public void setLivestreamCount(String livestreamCount) {
-		this.livestreamCount = livestreamCount;
-	}
-	
-	/**
-	 * @return The followers
-	 */
-	public String getFollowers() {
-		return followers;
-	}
-	
-	/**
+	 * @param app
 	 * @param followers
-	 *            The followers
-	 */
-	public void setFollowers(String followers) {
-		this.followers = followers;
-	}
-	
-	/**
-	 * @return The authToken
-	 */
-	public String getAuthToken() {
-		return authToken;
-	}
-	
-	/**
+	 * @param userLogo
+	 * @param superadmin
+	 * @param userId
 	 * @param authToken
-	 *            The authToken
-	 */
-	public void setAuthToken(String authToken) {
-		this.authToken = authToken;
-	}
-	
-	/**
-	 * @return The login
-	 */
-	public String getLogin() {
-		return login;
-	}
-	
-	/**
+	 * @param livestreamCount
+	 * @param userBanned
+	 * @param userName
 	 * @param login
-	 *            The login
+	 * @param userLogoSmall
 	 */
-	public void setLogin(String login) {
+	public UserData(String app, String userId, String userName, String userLogo,
+			String userLogoSmall, String userBanned, String superadmin,
+			String livestreamCount, String followers, String authToken,
+			String login) {
+		this.app = app;
+		this.userId = userId;
+		this.userName = userName;
+		this.userLogo = userLogo;
+		this.userLogoSmall = userLogoSmall;
+		this.userBanned = userBanned;
+		this.superadmin = superadmin;
+		this.livestreamCount = livestreamCount;
+		this.followers = followers;
+		this.authToken = authToken;
 		this.login = login;
-	}
-	
-	/**
-	 * @return The data
-	 */
-	public UserData getUserData() {
-		return userData;
-	}
-	
-	/**
-	 * @param userData
-	 *            The data
-	 */
-	public void setUserData(UserData userData) {
-		this.userData = userData;
-	}
-	
-	/**
-	 * @return The access
-	 */
-	public String getAccess() {
-		return access;
-	}
-	
-	/**
-	 * @param access
-	 *            The access
-	 */
-	public void setAccess(String access) {
-		this.access = access;
 	}
 	
 	/**
 	 * @return The app
 	 */
+	@JsonProperty("app")
 	public String getApp() {
 		return app;
 	}
@@ -245,7 +75,178 @@ public class User {
 	 * @param app
 	 *            The app
 	 */
+	@JsonProperty("app")
 	public void setApp(String app) {
 		this.app = app;
+	}
+	
+	/**
+	 * @return The userId
+	 */
+	@JsonProperty("user_id")
+	public String getUserId() {
+		return userId;
+	}
+	
+	/**
+	 * @param userId
+	 *            The user_id
+	 */
+	@JsonProperty("user_id")
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
+	/**
+	 * @return The userName
+	 */
+	@JsonProperty("user_name")
+	public String getUserName() {
+		return userName;
+	}
+	
+	/**
+	 * @param userName
+	 *            The user_name
+	 */
+	@JsonProperty("user_name")
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
+	/**
+	 * @return The userLogo
+	 */
+	@JsonProperty("user_logo")
+	public String getUserLogo() {
+		return userLogo;
+	}
+	
+	/**
+	 * @param userLogo
+	 *            The user_logo
+	 */
+	@JsonProperty("user_logo")
+	public void setUserLogo(String userLogo) {
+		this.userLogo = userLogo;
+	}
+	
+	/**
+	 * @return The userLogoSmall
+	 */
+	@JsonProperty("user_logo_small")
+	public String getUserLogoSmall() {
+		return userLogoSmall;
+	}
+	
+	/**
+	 * @param userLogoSmall
+	 *            The user_logo_small
+	 */
+	@JsonProperty("user_logo_small")
+	public void setUserLogoSmall(String userLogoSmall) {
+		this.userLogoSmall = userLogoSmall;
+	}
+	
+	/**
+	 * @return The userBanned
+	 */
+	@JsonProperty("user_banned")
+	public String getUserBanned() {
+		return userBanned;
+	}
+	
+	/**
+	 * @param userBanned
+	 *            The user_banned
+	 */
+	@JsonProperty("user_banned")
+	public void setUserBanned(String userBanned) {
+		this.userBanned = userBanned;
+	}
+	
+	/**
+	 * @return The superadmin
+	 */
+	@JsonProperty("superadmin")
+	public String getSuperadmin() {
+		return superadmin;
+	}
+	
+	/**
+	 * @param superadmin
+	 *            The superadmin
+	 */
+	@JsonProperty("superadmin")
+	public void setSuperadmin(String superadmin) {
+		this.superadmin = superadmin;
+	}
+	
+	/**
+	 * @return The livestreamCount
+	 */
+	@JsonProperty("livestream_count")
+	public String getLivestreamCount() {
+		return livestreamCount;
+	}
+	
+	/**
+	 * @param livestreamCount
+	 *            The livestream_count
+	 */
+	@JsonProperty("livestream_count")
+	public void setLivestreamCount(String livestreamCount) {
+		this.livestreamCount = livestreamCount;
+	}
+	
+	/**
+	 * @return The followers
+	 */
+	@JsonProperty("followers")
+	public String getFollowers() {
+		return followers;
+	}
+	
+	/**
+	 * @param followers
+	 *            The followers
+	 */
+	@JsonProperty("followers")
+	public void setFollowers(String followers) {
+		this.followers = followers;
+	}
+	
+	/**
+	 * @return The authToken
+	 */
+	@JsonProperty("authToken")
+	public String getAuthToken() {
+		return authToken;
+	}
+	
+	/**
+	 * @param authToken
+	 *            The authToken
+	 */
+	@JsonProperty("authToken")
+	public void setAuthToken(String authToken) {
+		this.authToken = authToken;
+	}
+	
+	/**
+	 * @return The login
+	 */
+	@JsonProperty("login")
+	public String getLogin() {
+		return login;
+	}
+	
+	/**
+	 * @param login
+	 *            The login
+	 */
+	@JsonProperty("login")
+	public void setLogin(String login) {
+		this.login = login;
 	}
 }

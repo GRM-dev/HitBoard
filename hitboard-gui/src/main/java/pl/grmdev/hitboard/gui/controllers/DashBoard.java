@@ -5,9 +5,9 @@ package pl.grmdev.hitboard.gui.controllers;
 
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutionException;
 
-import com.mashape.unirest.http.*;
+import org.json.JSONException;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -15,7 +15,6 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import pl.grmdev.hitboard.requests.RequestHandler;
-import pl.grmdev.hitboard.requests.util.HbGet;
 /**
  * @author Levvy055
  */
@@ -53,19 +52,20 @@ public class DashBoard implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		instance = this;
-		Future<HttpResponse<JsonNode>> gamesAsyncTask = RequestHandler
-				.instance().get(HbGet.GAMES_LIST).queryString("limit", 29000)
-				.asJsonAsync();
-		cbGames.setDisable(true);
+		setupGamesList();
+	}
+	
+	private void setupGamesList() {
 		new Thread(() -> {
 			try {
 				cbGames.setDisable(true);
-				List<String> games = RequestHandler.instance().getChat()
-						.getGamesList(gamesAsyncTask);
+				List<String> games = RequestHandler.instance().getGames()
+						.getGamesList();
 				SortedList<String> gamesS = FXCollections
 						.observableArrayList(games).sorted();
 				Platform.runLater(() -> cbGames.setItems(gamesS));
-			} catch (InterruptedException | ExecutionException e) {
+			} catch (InterruptedException | ExecutionException
+					| JSONException e) {
 				e.printStackTrace();
 			}
 			cbGames.setDisable(false);

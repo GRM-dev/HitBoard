@@ -2,16 +2,15 @@ package pl.grmdev.hitboard.gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 
 import javafx.application.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import pl.grmdev.hitboard.HitBoardCore;
-import pl.grmdev.hitboard.config.ConfigId;
 import pl.grmdev.hitboard.gui.controllers.MainForm;
 public class HitBoardFx extends Application {
 	
@@ -37,22 +36,26 @@ public class HitBoardFx extends Application {
 		primaryStage.sizeToScene();
 		primaryStage.setOnCloseRequest(event -> {
 			event.consume();
-			show(false);
-			HitBoardGui.instance().getActionSelectionFrame().showFrame(true);
+			closeWindow();
 		});
 		primaryStage.setOnShown(event -> {
-			Platform.runLater(() -> showStartAlert());
+			Platform.runLater(() -> showLoginDialog());
 		});
 		primaryStage.show();
 	}
 	
-	public void showStartAlert() {
+	public void showLoginDialog() {
 		try {
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Welcome");
-			alert.setHeaderText("To change setting you need to be logged in.");
-			alert.setContentText("Please log in");
-			alert.showAndWait();
+			LoginDialog dialog = new LoginDialog();
+			Optional<Pair<String, String>> result = dialog.showAndWait();
+			result.ifPresent(res -> {
+				if (res.getKey().isEmpty()) {
+					closeWindow();
+				} else {
+					System.out.println("username=" + res.getKey() + ", Pass="
+							+ res.getValue());
+				}
+			});
 			boolean con = HitBoardCore.instance().getRequestHandler()
 					.hasConnection();
 			MainForm.instance.getStateCircle()
@@ -69,6 +72,11 @@ public class HitBoardFx extends Application {
 		if (!launched) {
 			launch();
 		}
+	}
+	
+	private void closeWindow() {
+		show(false);
+		HitBoardGui.instance().getActionSelectionFrame().showFrame(true);
 	}
 	
 	public void show(boolean show) {

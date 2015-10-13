@@ -4,6 +4,8 @@
 package pl.grmdev.hitboard.requests.util;
 
 /**
+ * PUT RESTful API methods
+ * 
  * @author Levvy055
  */
 public enum HbPut {

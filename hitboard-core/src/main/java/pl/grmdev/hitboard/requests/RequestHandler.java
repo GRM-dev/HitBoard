@@ -50,7 +50,6 @@ public class RequestHandler {
 		subscription = new Subscription();
 		teams = new Teams();
 		token = new Token();
-		user = new User();
 	}
 	
 	/**
@@ -72,7 +71,6 @@ public class RequestHandler {
 		try {
 			HttpResponse<String> obj = get(HbGet.CHAT_SERVERS).asString();
 			String result = obj.getBody();
-			System.out.println(result);
 			if (result.contains("[{")) {
 				return true;
 			}
@@ -87,9 +85,9 @@ public class RequestHandler {
 	 * 
 	 * @param cmd
 	 *            API command of type {@link HbPost}
-	 * @return {@link BaseRequest}
+	 * @return {@link HttpRequestWithBody}
 	 */
-	public BaseRequest post(HbPost cmd) {
+	public HttpRequestWithBody post(HbPost cmd) {
 		return post(apiLink + cmd.getCmd());
 	}
 	
@@ -98,9 +96,9 @@ public class RequestHandler {
 	 * 
 	 * @param cmd
 	 *            {@link String} containing url to restful api
-	 * @return {@link BaseRequest}
+	 * @return {@link HttpRequestWithBody}
 	 */
-	private BaseRequest post(String cmd) {
+	private HttpRequestWithBody post(String cmd) {
 		return Unirest.post(cmd);
 	}
 	
