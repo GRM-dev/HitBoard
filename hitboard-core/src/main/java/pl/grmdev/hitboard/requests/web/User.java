@@ -3,6 +3,8 @@
  */
 package pl.grmdev.hitboard.requests.web;
 
+import java.util.*;
+
 import com.fasterxml.jackson.annotation.*;
 /**
  * @author Levvy055
@@ -20,6 +22,8 @@ public class User {
 	private String userLogoSmall;
 	@JsonProperty("user_banned")
 	private String userBanned;
+	@JsonProperty("user_partner")
+	private Object userPartner;
 	@JsonProperty("user_banned_channel")
 	private String userBannedChannel;
 	@JsonProperty("superadmin")
@@ -38,6 +42,47 @@ public class User {
 	private String access;
 	@JsonProperty("app")
 	private String app;
+	@JsonIgnore
+	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+	
+	public User() {}
+	
+	/**
+	 * @param app
+	 * @param superadmin
+	 * @param userBanned
+	 * @param livestreamCount
+	 * @param authToken
+	 * @param userData
+	 * @param access
+	 * @param userBannedChannel
+	 * @param followers
+	 * @param userLogo
+	 * @param userId
+	 * @param userName
+	 * @param login
+	 * @param userLogoSmall
+	 */
+	public User(String userId, String userName, String userLogo,
+			String userLogoSmall, String userBanned, String userBannedChannel,
+			String superadmin, String livestreamCount, String followers,
+			String authToken, String login, UserData userData, String access,
+			String app) {
+		this.userId = userId;
+		this.userName = userName;
+		this.userLogo = userLogo;
+		this.userLogoSmall = userLogoSmall;
+		this.userBanned = userBanned;
+		this.userBannedChannel = userBannedChannel;
+		this.superadmin = superadmin;
+		this.livestreamCount = livestreamCount;
+		this.followers = followers;
+		this.authToken = authToken;
+		this.login = login;
+		this.userData = userData;
+		this.access = access;
+		this.app = app;
+	}
 	
 	/**
 	 * @return The userId

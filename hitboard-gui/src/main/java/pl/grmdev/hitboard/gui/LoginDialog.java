@@ -11,19 +11,21 @@ import javafx.scene.control.*;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
+import pl.grmdev.hitboard.HitBoardCore;
+import pl.grmdev.hitboard.config.*;
+import pl.grmdev.hitboard.utils.Hash;
 /**
  * @author Levvy055
  */
 public class LoginDialog extends Dialog<Pair<String, String>> {
 	
-	private boolean authListening;
 	private Node loginBtn;
 	
-	public LoginDialog(String... infoStr) {
+	public LoginDialog() {
+		super();
+		Config config = HitBoardCore.instance().getConfig();
 		setTitle("Login");
-		setHeaderText("Please login to continue" + infoStr != null
-				? "\nBad username/password"
-				: "");
+		// TODO: add graphic
 		// setGraphic(new
 		// ImageView(this.getClass().getResource("login.png").toString()));
 		ButtonType loginButtonType = new ButtonType("Login",
@@ -36,32 +38,50 @@ public class LoginDialog extends Dialog<Pair<String, String>> {
 		grid.setPadding(new Insets(20, 150, 10, 10));
 		TextField usernameTf = new TextField();
 		usernameTf.setPromptText("Username");
+		usernameTf.setText(config.getConfigValue(ConfigId.LOGIN_LOGIN));
 		PasswordField passwordTf = new PasswordField();
 		passwordTf.setPromptText("Password");
+		passwordTf.setText(config.getConfigValue(ConfigId.LOGIN_PSWD));
+		CheckBox cbRemLogin = new CheckBox("Remember login");
+		cbRemLogin.setSelected(Boolean.parseBoolean(
+				config.getConfigValue(ConfigId.LOGIN_SAVE_LOGIN)));
+		CheckBox cbAutoLogin = new CheckBox("Auto Login");
+		cbAutoLogin.setSelected(Boolean.parseBoolean(
+				config.getConfigValue(ConfigId.LOGIN_AUTO_LOGIN)));
 		grid.add(new Label("Username: "), 0, 0);
 		grid.add(usernameTf, 1, 0);
 		grid.add(new Label("Password: "), 0, 1);
 		grid.add(passwordTf, 1, 1);
+		grid.add(cbRemLogin, 0, 2);
+		grid.add(cbAutoLogin, 1, 2);
 		loginBtn = dialogPane.lookupButton(loginButtonType);
 		loginBtn.setDisable(true);
-		ChangeListener<? super String> logBtnListener = (observable, oldValue,
+		ChangeListener<String> logBtnListener = (observable, oldValue,
 				newValue) -> {
-			if (!authListening) {
-				String u = usernameTf.getText();
-				String p = passwordTf.getText();
-				if (!u.isEmpty() && u.length() >= 3 && !p.isEmpty()
-						&& p.length() >= 5 && !p.equals(u)) {
-					auth(u, p);
-				} else {
-					loginBtn.setDisable(true);
-				}
+			String u = usernameTf.getText();
+			String p = passwordTf.getText();
+			if (!u.isEmpty() && u.length() >= 3 && !p.isEmpty()
+					&& p.length() >= 5 && !p.equals(u)) {
+				loginBtn.setDisable(false);
+			} else {
+				loginBtn.setDisable(true);
 			}
 		};
 		usernameTf.textProperty().addListener(logBtnListener);
 		passwordTf.textProperty().addListener(logBtnListener);
 		dialogPane.setContent(grid);
 		setResultConverter(dialogBtn -> {
+			config.setConfigValue(ConfigId.LOGIN_SAVE_LOGIN,
+					cbRemLogin.isSelected() ? "true" : "false");
+			config.setConfigValue(ConfigId.LOGIN_AUTO_LOGIN,
+					cbAutoLogin.isSelected() ? "true" : "false");
 			if (dialogBtn == loginButtonType) {
+				config.setConfigValue(ConfigId.LOGIN_LOGIN,
+						cbRemLogin.isSelected() ? usernameTf.getText() : "");
+				config.setConfigValue(ConfigId.LOGIN_PSWD,
+						cbAutoLogin.isSelected()
+								? Hash.hash(passwordTf.getText())
+								: "");
 				return new Pair<String, String>(usernameTf.getText(),
 						passwordTf.getText());
 			} else {
@@ -71,15 +91,11 @@ public class LoginDialog extends Dialog<Pair<String, String>> {
 		Platform.runLater(() -> usernameTf.requestFocus());
 	}
 	
-	private synchronized void auth(String u, String p) {
-		authListening = true;
-		try {
-			loginBtn.setDisable(u.trim().isEmpty());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		finally {
-			authListening = false;
-		}
+	/**
+	 * @param badPass
+	 */
+	public void badPassword(boolean badPass) {
+		setHeaderText("Please login to continue."
+				+ (badPass ? "\nBad username/password" : ""));
 	}
 }

@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import pl.grmdev.hitboard.HitBoardCore;
+import pl.grmdev.hitboard.utils.FileOperation;
 /**
  * Handles all condfigurations things like load/save settings from/to
  * file/program. Also changes config values.
@@ -82,7 +83,7 @@ public class Config {
 	 *            new value to override previous one
 	 */
 	public void setConfigValue(ConfigId key, String value) {
-		if (value != null) {
+		if (!configs.get(key).equals(value)) {
 			needsSave = true;
 			configs.put(key, value);
 		}

@@ -12,16 +12,21 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import pl.grmdev.hitboard.HitBoardCore;
 import pl.grmdev.hitboard.gui.controllers.MainForm;
+import pl.grmdev.hitboard.requests.RequestHandler;
+import pl.grmdev.hitboard.requests.web.Token;
 public class HitBoardFx extends Application {
 	
 	private Stage primaryStage;
 	private static boolean launched;
+	private boolean cancelledOrLogged;
+	private boolean badPass;
 	
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		HitBoardGui.instance().setStreamManager(this);
 		Platform.setImplicitExit(false);
+		setUserAgentStylesheet(STYLESHEET_MODENA);
 		Parent root;
 		try {
 			URL mFormResUrl = getClass().getResource("/views/MainForm.fxml");
@@ -46,21 +51,42 @@ public class HitBoardFx extends Application {
 		try {
 			LoginDialog dialog = new LoginDialog();
 			show(false);
-			boolean con = HitBoardCore.instance().getRequestHandler()
+			boolean connected = HitBoardCore.instance().getRequestHandler()
 					.hasConnection();
 			MainForm.instance.getStateCircle()
-					.setFill(con ? Color.GREEN : Color.RED);
-			if (con) {
-				Optional<Pair<String, String>> result = dialog.showAndWait();
-				result.ifPresent(res -> {
-					if (res.getKey().isEmpty()) {
-						closeWindow();
-					} else {
-						System.out.println("username=" + res.getKey()
-								+ ", Pass=" + res.getValue());
-						show(true);
-					}
-				});
+					.setFill(connected ? Color.GREEN : Color.RED);
+			if (connected) {
+				cancelledOrLogged = false;
+				badPass = false;
+				Token token = RequestHandler.instance().getToken();
+				while (!cancelledOrLogged) {
+					dialog.badPassword(badPass);
+					Optional<Pair<String, String>> result = dialog
+							.showAndWait();
+					badPass = false;
+					result.ifPresent(res -> {
+						String u = res.getKey();
+						String p = res.getValue();
+						if (u.isEmpty()) {
+							closeWindow();
+							cancelledOrLogged = true;
+						} else {
+							try {
+								System.out.println("username=" + u
+										+ ", Pass_Length=" + p.length());
+								if (token.genAuthToken(u, p)) {
+									token.applyUser();
+									cancelledOrLogged = true;
+									show(true);
+								} else {
+									badPass = true;
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					});
+				}
 			} else {
 				System.out.println("No connection");
 				closeWindow();

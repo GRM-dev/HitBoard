@@ -11,7 +11,11 @@ package pl.grmdev.hitboard.config;
 public enum ConfigId {
 	LAST_SAVE_PATH(""),
 	LAST_FILE_NAME("video.mp4"),
-	HITBOX_API_LINK("http://api.hitbox.tv/");
+	HITBOX_API_LINK("http://api.hitbox.tv/"),
+	LOGIN_SAVE_LOGIN("false"),
+	LOGIN_AUTO_LOGIN("false"),
+	LOGIN_LOGIN("username"),
+	LOGIN_PSWD("pass");
 	
 	private String defValue;
 	

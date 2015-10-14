@@ -8,5 +8,5 @@ before_install:
 
 install: ./gradlew check -S
 script: 
- - ./gradlew build -x signArchives check -S
- - ./gradlew installDist -x signArchives -S
+ - ./gradlew build -x check -S
+ - ./gradlew installDist -S

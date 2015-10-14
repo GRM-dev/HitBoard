@@ -8,6 +8,7 @@ import java.util.List;
 import com.mashape.unirest.http.*;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.*;
+import com.mashape.unirest.request.body.MultipartBody;
 
 import pl.grmdev.hitboard.requests.util.*;
 import pl.grmdev.hitboard.requests.web.*;
@@ -81,13 +82,29 @@ public class RequestHandler {
 	}
 	
 	/**
+	 * @param post
+	 *            REST post type
+	 * @param params
+	 *            to fill request with
+	 * @return Request with prepared parameters values
+	 */
+	public BaseRequest post(HbPost post, Params params) {
+		if (!post.hasParams()) {
+			return post(post);
+		}
+		HttpRequestWithBody postRequest = (HttpRequestWithBody) post(post);
+		MultipartBody multipartBody = postRequest.fields(params.getAll());
+		return multipartBody;
+	}
+	
+	/**
 	 * Makes POST RESful API method based on {@link HbPost}
 	 * 
 	 * @param cmd
 	 *            API command of type {@link HbPost}
 	 * @return {@link HttpRequestWithBody}
 	 */
-	public HttpRequestWithBody post(HbPost cmd) {
+	public BaseRequest post(HbPost cmd) {
 		return post(apiLink + cmd.getCmd());
 	}
 	
@@ -98,7 +115,7 @@ public class RequestHandler {
 	 *            {@link String} containing url to restful api
 	 * @return {@link HttpRequestWithBody}
 	 */
-	private HttpRequestWithBody post(String cmd) {
+	private BaseRequest post(String cmd) {
 		return Unirest.post(cmd);
 	}
 	
@@ -210,5 +227,15 @@ public class RequestHandler {
 	
 	public User getUser() {
 		return user;
+	}
+	
+	/**
+	 * Sets user created by Token object from RESTful API
+	 * 
+	 * @param user
+	 *            user added by {@link Token}
+	 */
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

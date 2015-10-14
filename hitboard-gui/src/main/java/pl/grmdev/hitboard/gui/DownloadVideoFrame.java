@@ -36,6 +36,7 @@ public class DownloadVideoFrame extends JFrame {
 	 *            main gui program object
 	 */
 	public DownloadVideoFrame(HitBoardGui hitBoard) {
+		Config config = HitBoardCore.instance().getConfig();
 		setType(Type.POPUP);
 		setResizable(false);
 		this.parentFrame = hitBoard.getActionSelectionFrame();
@@ -71,8 +72,8 @@ public class DownloadVideoFrame extends JFrame {
 		JLabel lblVideoUrlPath = new JLabel("Video URL Path: ");
 		panel_Video.add(lblVideoUrlPath);
 		tF_videoURL = new JTextField();
-		panel_Video.add(tF_videoURL);
 		tF_videoURL.setColumns(40);
+		panel_Video.add(tF_videoURL);
 		JPanel panel_FN = new JPanel();
 		FlowLayout fl_panel_FN = (FlowLayout) panel_FN.getLayout();
 		fl_panel_FN.setAlignment(FlowLayout.LEFT);
@@ -85,8 +86,10 @@ public class DownloadVideoFrame extends JFrame {
 		JLabel lblFileName = new JLabel("File Name: ");
 		panel_FN.add(lblFileName);
 		tF_FileName = new JTextField();
-		panel_FN.add(tF_FileName);
 		tF_FileName.setColumns(10);
+		String lastFileName = config.getConfigValue(ConfigId.LAST_FILE_NAME);
+		tF_FileName.setText(lastFileName);
+		panel_FN.add(tF_FileName);
 		JPanel panel_SL = new JPanel();
 		FlowLayout fl_panel_SL = (FlowLayout) panel_SL.getLayout();
 		fl_panel_SL.setAlignment(FlowLayout.LEFT);
@@ -98,8 +101,10 @@ public class DownloadVideoFrame extends JFrame {
 		JLabel lblSaveLocation = new JLabel("Save Location: ");
 		panel_SL.add(lblSaveLocation);
 		tF_SaveLocation = new JTextField();
-		panel_SL.add(tF_SaveLocation);
 		tF_SaveLocation.setColumns(30);
+		String lastSavePath = config.getConfigValue(ConfigId.LAST_SAVE_PATH);
+		tF_SaveLocation.setText(lastSavePath);
+		panel_SL.add(tF_SaveLocation);
 		btnChangeDirectory = new JButton("Change directory ...");
 		btnChangeDirectory.addActionListener(e -> {
 			File file = new File(tF_SaveLocation.getText());
@@ -160,13 +165,12 @@ public class DownloadVideoFrame extends JFrame {
 			@Override
 			public void windowClosed(WindowEvent e) {
 				DownloadVideoFrame.this.parentFrame.showFrame(true);
-				Config config = HitBoardCore.instance().getConfig();
-				String lastFileName = DownloadVideoFrame.this.tF_FileName
+				String lastFileNameE = DownloadVideoFrame.this.tF_FileName
 						.getText();
-				String lastSavePath = DownloadVideoFrame.this.tF_SaveLocation
+				String lastSavePathE = DownloadVideoFrame.this.tF_SaveLocation
 						.getText();
-				config.setConfigValue(ConfigId.LAST_FILE_NAME, lastFileName);
-				config.setConfigValue(ConfigId.LAST_SAVE_PATH, lastSavePath);
+				config.setConfigValue(ConfigId.LAST_FILE_NAME, lastFileNameE);
+				config.setConfigValue(ConfigId.LAST_SAVE_PATH, lastSavePathE);
 			}
 			
 			@Override

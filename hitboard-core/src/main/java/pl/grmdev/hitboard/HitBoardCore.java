@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import pl.grmdev.hitboard.config.*;
 import pl.grmdev.hitboard.requests.RequestHandler;
+import pl.grmdev.hitboard.utils.FileOperation;
 /**
  * Core class for all HitBox RESTful API features
  * 

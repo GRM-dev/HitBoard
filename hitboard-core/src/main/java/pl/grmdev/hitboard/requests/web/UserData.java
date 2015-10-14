@@ -3,15 +3,16 @@
  */
 package pl.grmdev.hitboard.requests.web;
 
+import java.util.*;
+
 import com.fasterxml.jackson.annotation.*;
 /**
  * @author Levvy055
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserData {
 	
-	@JsonProperty("app")
-	private String app;
 	@JsonProperty("user_id")
 	private String userId;
 	@JsonProperty("user_name")
@@ -22,6 +23,10 @@ public class UserData {
 	private String userLogoSmall;
 	@JsonProperty("user_banned")
 	private String userBanned;
+	@JsonProperty("user_partner")
+	private Object userPartner;
+	@JsonProperty("user_banned_channel")
+	private String userBannedChannel;
 	@JsonProperty("superadmin")
 	private String superadmin;
 	@JsonProperty("livestream_count")
@@ -32,6 +37,12 @@ public class UserData {
 	private String authToken;
 	@JsonProperty("login")
 	private String login;
+	@JsonProperty("app")
+	private String app;
+	@JsonIgnore
+	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+	
+	public UserData() {}
 	
 	/**
 	 * @param app

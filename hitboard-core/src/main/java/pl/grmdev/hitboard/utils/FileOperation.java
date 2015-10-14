@@ -1,4 +1,4 @@
-package pl.grmdev.hitboard.config;
+package pl.grmdev.hitboard.utils;
 
 import java.io.*;
 import java.net.*;
@@ -7,6 +7,9 @@ import java.util.logging.*;
 
 import org.ini4j.*;
 import org.ini4j.Profile.Section;
+
+import pl.grmdev.hitboard.config.Config;
+import pl.grmdev.hitboard.config.ConfigId;
 public class FileOperation {
 	
 	private static Logger logger;

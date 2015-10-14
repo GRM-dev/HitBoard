@@ -9,7 +9,7 @@ import java.util.*;
 
 import javafx.fxml.*;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 /**
@@ -25,6 +25,10 @@ public class MainForm implements Initializable {
 	private VBox vBoxLeft;
 	@FXML
 	private Circle circleState;
+	@FXML
+	private ProgressIndicator piProgressMain;
+	@FXML
+	private Label lblProgressMain;
 	
 	/*
 	 * (non-Javadoc)

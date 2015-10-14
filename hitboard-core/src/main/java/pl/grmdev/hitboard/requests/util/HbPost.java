@@ -3,6 +3,7 @@
  */
 package pl.grmdev.hitboard.requests.util;
 
+import java.util.*;
 /**
  * POST RESTful API methods
  * 
@@ -18,11 +19,17 @@ public enum HbPost {
 	CHAT_EDIT_MODERATORS("chat/moderators/:channel"),
 	CHAT_BLACKLIST_UPDATE("chat/blacklist/:channel"),
 	CHAT_SETTINGS_UPDATE("chat/settings/:channel"),
-	TOKEN_GET("auth/token"),
-	TOKEN_AUTH("auth/login");
+	TOKEN_GET("auth/token", new Params().p("login", "pass")),
+	TOKEN_AUTH("auth/login", new Params().p("authToken"));
 	
 	private String cmd;
 	private String[] objs;
+	private Params params;
+	
+	private HbPost(String cmd, Params params) {
+		this(cmd);
+		this.params = params;
+	}
 	
 	private HbPost(String cmd) {
 		this.cmd = cmd;
@@ -44,7 +51,7 @@ public enum HbPost {
 		return cmd;
 	}
 	
-	public String get(String... args) throws Exception {
+	public String getCmd(String... args) throws Exception {
 		if (args == null || args.length == 0) {
 			return getCmd();
 		}
@@ -61,5 +68,21 @@ public enum HbPost {
 	
 	public String[] getObjects() {
 		return objs;
+	}
+	
+	public boolean hasParams() {
+		return (params == null || params.getAll().isEmpty()) ? false : true;
+	}
+	
+	public Iterator<String> paramIterator() {
+		return params.iterator();
+	}
+	
+	public Object getParamObject(String key) {
+		return params.get(key);
+	}
+	
+	public Map<String, Object> getParams() {
+		return params.getAll();
 	}
 }
