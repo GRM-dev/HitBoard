@@ -128,7 +128,7 @@ public class ActionSelectionFrame extends JFrame {
 			new Thread(() -> HitBoardFx.openManager()).start();
 		} else {
 			System.out.println("Reopen");
-			Platform.runLater(() -> hitBoard.getHitBoardFx().show(true));
+			Platform.runLater(() -> hitBoard.getHitBoardFx().showLoginDialog());
 		}
 		showFrame(false);
 	}

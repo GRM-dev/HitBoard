@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 
 import pl.grmdev.hitboard.HitBoardCore;
 import pl.grmdev.hitboard.config.*;
+import pl.grmdev.hitboard.video.VideoDownloader;
 /**
  * @author Levvy055
  */
@@ -23,6 +24,10 @@ public class DownloadVideoFrame extends JFrame {
 	private JTextField tF_videoURL;
 	private JTextField tF_FileName;
 	private JTextField tF_SaveLocation;
+	private JButton btnChangeDirectory;
+	private JFileChooser chooser;
+	private JButton btnClose;
+	private JButton btnSave;
 	
 	/**
 	 * Create the frame.
@@ -95,10 +100,9 @@ public class DownloadVideoFrame extends JFrame {
 		tF_SaveLocation = new JTextField();
 		panel_SL.add(tF_SaveLocation);
 		tF_SaveLocation.setColumns(30);
-		JButton btnChangeDirectory = new JButton("Change directory ...");
+		btnChangeDirectory = new JButton("Change directory ...");
 		btnChangeDirectory.addActionListener(e -> {
 			File file = new File(tF_SaveLocation.getText());
-			JFileChooser chooser;
 			if (file.exists()) {
 				chooser = new JFileChooser(file);
 			} else {
@@ -117,7 +121,21 @@ public class DownloadVideoFrame extends JFrame {
 		panel_SL.add(btnChangeDirectory);
 		JPanel panel_Bottom = new JPanel();
 		contentPane.add(panel_Bottom, BorderLayout.SOUTH);
-		JButton btnClose = new JButton("Close");
+		btnSave = new JButton("Save");
+		btnSave.addActionListener(e -> {
+			String url = tF_videoURL.getText();
+			String saveLoc = tF_SaveLocation.getText();
+			String filename = tF_FileName.getText();
+			new Thread(() -> {
+				try {
+					VideoDownloader.saveVideo(url, saveLoc, filename);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}).start();
+		});
+		panel_Bottom.add(btnSave);
+		btnClose = new JButton("Close");
 		btnClose.addActionListener(e -> {
 			this.dispose();
 		});

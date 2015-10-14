@@ -19,9 +19,11 @@ public class LoginDialog extends Dialog<Pair<String, String>> {
 	private boolean authListening;
 	private Node loginBtn;
 	
-	public LoginDialog() {
+	public LoginDialog(String... infoStr) {
 		setTitle("Login");
-		setHeaderText("Please login to continue");
+		setHeaderText("Please login to continue" + infoStr != null
+				? "\nBad username/password"
+				: "");
 		// setGraphic(new
 		// ImageView(this.getClass().getResource("login.png").toString()));
 		ButtonType loginButtonType = new ButtonType("Login",

@@ -2,7 +2,6 @@ version = "0.0.1"
 group= "com.grmdev.hitboard"
 description = 'HitBoard Core - HitBox Tool to Hit - Just Core library'
 archivesBaseName = "HitBoard-Core"
-mainClassName = 'com.grm.hitboard.core.HitBoardCore'
 
 dependencies {
 	compile group: 'org.ini4j', name: 'ini4j', version: '0.5.4'

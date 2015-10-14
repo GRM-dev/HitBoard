@@ -2,7 +2,7 @@ version = "0.0.1"
 group= "pl.grmdev.hitboard"
 description = 'HitBoard Stream Manager GUI - HitBox Tool to Hit.'
 archivesBaseName = "HitBoard-GUI"
-mainClassName = 'com.grm.hitboard.gui.HitBoardFx'
+mainClassName = 'pl.grmdev.hitboard.gui.HitBoardGui'
 
 import org.apache.tools.ant.taskdefs.condition.Os
 apply from: "http://dl.bintray.com/content/shemnon/javafx-gradle/8.1.1/javafx.plugin"

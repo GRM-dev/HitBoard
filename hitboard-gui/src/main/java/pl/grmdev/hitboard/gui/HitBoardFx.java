@@ -38,30 +38,36 @@ public class HitBoardFx extends Application {
 			event.consume();
 			closeWindow();
 		});
-		primaryStage.setOnShown(event -> {
-			Platform.runLater(() -> showLoginDialog());
-		});
-		primaryStage.show();
+		primaryStage.centerOnScreen();
+		Platform.runLater(() -> showLoginDialog());
 	}
 	
 	public void showLoginDialog() {
 		try {
 			LoginDialog dialog = new LoginDialog();
-			Optional<Pair<String, String>> result = dialog.showAndWait();
-			result.ifPresent(res -> {
-				if (res.getKey().isEmpty()) {
-					closeWindow();
-				} else {
-					System.out.println("username=" + res.getKey() + ", Pass="
-							+ res.getValue());
-				}
-			});
+			show(false);
 			boolean con = HitBoardCore.instance().getRequestHandler()
 					.hasConnection();
 			MainForm.instance.getStateCircle()
 					.setFill(con ? Color.GREEN : Color.RED);
+			if (con) {
+				Optional<Pair<String, String>> result = dialog.showAndWait();
+				result.ifPresent(res -> {
+					if (res.getKey().isEmpty()) {
+						closeWindow();
+					} else {
+						System.out.println("username=" + res.getKey()
+								+ ", Pass=" + res.getValue());
+						show(true);
+					}
+				});
+			} else {
+				System.out.println("No connection");
+				closeWindow();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			closeWindow();
 		}
 	}
 	

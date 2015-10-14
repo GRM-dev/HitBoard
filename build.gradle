@@ -47,7 +47,6 @@ project('hitboard-gui') {
 }
 
 project('hitboard-core'){
-	apply plugin: 'application'
 }
 
 task wrapper(type: Wrapper) {
