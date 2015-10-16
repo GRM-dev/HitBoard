@@ -7,7 +7,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import pl.grmdev.hitboard.gui.controllers.utils.HbNode;
 /**
  * @author Levvy055
@@ -33,16 +32,5 @@ public class Stats implements Initializable, HbNode {
 	@Override
 	public void updateAll() {
 		// TODO Auto-generated method stub
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see pl.grmdev.hitboard.gui.controllers.HbNode#getNode()
-	 */
-	@Override
-	public Node getNode() {
-		Object o = this;
-		Node n = (Node) o;
-		return n;
 	}
 }

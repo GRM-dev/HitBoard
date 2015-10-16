@@ -6,9 +6,9 @@ archivesBaseName = "HitBoard-Core"
 dependencies {
 	compile group: 'org.ini4j', name: 'ini4j', version: '0.5.4'
 	compile group: 'com.google.guava', name: 'guava', version: '18.0'
-	compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-json-org', version: '2.4.0'
-	compile 'org.zeroturnaround:zt-zip:1.8'
-	compile 'com.mashape.unirest:unirest-java:1.4.7'
+	compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-json-org', version: '2.6.3'
+	compile group: 'org.zeroturnaround', name: 'zt-zip', version: '1.8'
+	compile group: 'com.mashape.unirest', name: 'unirest-java', version: '1.4.7'
 	compile group: 'org.apache.commons',name: 'commons-lang3', version: '3.4'
 }
 	

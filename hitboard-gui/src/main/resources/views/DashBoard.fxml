@@ -19,7 +19,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="LblChannelName" text="channel_name">
+                  <Label fx:id="lblChannelName" text="channel_name">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -57,7 +57,7 @@
                   <ComboBox fx:id="cbGames" prefWidth="150.0" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" disable="true" prefWidth="200.0">
+            <HBox alignment="CENTER" disable="true" prefWidth="200.0" visible="false">
                <children>
                   <Label text="on platform ">
                      <font>

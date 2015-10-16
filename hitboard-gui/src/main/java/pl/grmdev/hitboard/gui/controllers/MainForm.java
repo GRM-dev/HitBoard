@@ -21,7 +21,7 @@ import pl.grmdev.hitboard.gui.controllers.utils.*;
 public class MainForm implements Initializable {
 	
 	public static MainForm instance;
-	private HashMap<SideNodeId, NodeHandler> sideNodes;
+	private HashMap<SideNodeId, NodeHandler> mainNodes;
 	@FXML
 	private Pane mainPane;
 	@FXML
@@ -44,7 +44,7 @@ public class MainForm implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		instance = this;
 		logger = HitBoardCore.getLogger();
-		sideNodes = new HashMap<>();
+		mainNodes = new HashMap<>();
 		try {
 			loadNodes();
 			addAllNodesToLeftPanel();
@@ -91,7 +91,7 @@ public class MainForm implements Initializable {
 			Node node = FXMLLoader.load(getClass().getResource(fileName));
 			if (node != null) {
 				nodeHandler = new NodeHandler(clazz, node);
-				sideNodes.put(nodeId, nodeHandler);
+				mainNodes.put(nodeId, nodeHandler);
 			} else {
 				logger.severe("Node is null: " + nodeId.getName());
 			}
@@ -107,7 +107,7 @@ public class MainForm implements Initializable {
 	 */
 	private void addAllNodesToLeftPanel() {
 		Button[] buttons = new Button[15];
-		for (Iterator<SideNodeId> it = sideNodes.keySet().iterator(); it
+		for (Iterator<SideNodeId> it = mainNodes.keySet().iterator(); it
 				.hasNext();) {
 			SideNodeId nodeName = it.next();
 			Button btn = new Button(nodeName.getName());
@@ -130,8 +130,13 @@ public class MainForm implements Initializable {
 	 */
 	private void changeNodeTo(SideNodeId nodeId) {
 		mainPane.getChildren().clear();
-		mainPane.getChildren().add(sideNodes.get(nodeId).getNode());
+		mainPane.getChildren().add(mainNodes.get(nodeId).getNode());
 		currentNodeId = nodeId;
+		try {
+			mainNodes.get(nodeId).getHbNode().updateAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public SideNodeId getCurrentNodeId() {
@@ -139,6 +144,6 @@ public class MainForm implements Initializable {
 	}
 	
 	public HbNode getCurrentNode() throws Exception {
-		return sideNodes.get(currentNodeId).getHbNode();
+		return mainNodes.get(currentNodeId).getHbNode();
 	}
 }

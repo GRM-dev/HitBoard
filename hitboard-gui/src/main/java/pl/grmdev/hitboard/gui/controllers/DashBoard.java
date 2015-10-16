@@ -13,10 +13,11 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.*;
-import javafx.scene.Node;
 import javafx.scene.control.*;
+import pl.grmdev.hitboard.gui.HitBoardGui;
 import pl.grmdev.hitboard.gui.controllers.utils.HbNode;
 import pl.grmdev.hitboard.requests.RequestHandler;
+import pl.grmdev.hitboard.requests.web.User;
 /**
  * @author Levvy055
  */
@@ -24,7 +25,7 @@ public class DashBoard implements Initializable, HbNode {
 	
 	private static DashBoard instance;
 	@FXML
-	private Label LblChannelName;
+	private Label lblChannelName;
 	@FXML
 	private Button btnShowChannel;
 	@FXML
@@ -55,6 +56,11 @@ public class DashBoard implements Initializable, HbNode {
 	public void initialize(URL location, ResourceBundle resources) {
 		instance = this;
 		setupGamesList();
+		btnShowChannel.setOnAction(event -> {
+			HitBoardGui.instance().getHitBoardFx().getHostServices()
+					.showDocument(
+							"http://hitbox.tv/" + lblChannelName.getText());
+		});
 	}
 	
 	private void setupGamesList() {
@@ -79,16 +85,10 @@ public class DashBoard implements Initializable, HbNode {
 	 * @see pl.grmdev.hitboard.gui.HbNode#updateAll()
 	 */
 	@Override
-	public void updateAll() {}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see pl.grmdev.hitboard.gui.controllers.HbNode#getNode()
-	 */
-	@Override
-	public Node getNode() {
-		Object o = this;
-		Node n = (Node) o;
-		return n;
+	public void updateAll() {
+		User user = RequestHandler.instance().getUser();
+		String userName = user.getUserName();
+		String followers = user.getFollowers();
+		lblChannelName.setText(userName);
 	}
 }
