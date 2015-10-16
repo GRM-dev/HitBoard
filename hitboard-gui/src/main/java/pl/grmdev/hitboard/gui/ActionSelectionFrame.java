@@ -55,15 +55,12 @@ public class ActionSelectionFrame extends JFrame {
 		btnEditStreamInfo = new JButton(
 				"<html><center>Manage <br>your Stream</center></html>");
 		btnEditStreamInfo.addActionListener(e -> {
-			System.out.println("Manage clicked");
 			openStreamManagerWindow();
 		});
 		panel_Main.add(btnEditStreamInfo);
 		JButton btnWatchStream = new JButton(
 				"<html><center>Watch Stream</center></html>");
-		btnWatchStream.addActionListener(e -> {
-			System.out.println("Watch clicked!");
-		});
+		btnWatchStream.addActionListener(e -> {});
 		panel_Main.add(btnWatchStream);
 		JButton btnDownloadVideo = new JButton(
 				"<html><center>Download Video</center></html>");
@@ -127,7 +124,6 @@ public class ActionSelectionFrame extends JFrame {
 		if (hitBoard.getHitBoardFx() == null) {
 			new Thread(() -> HitBoardFx.openManager()).start();
 		} else {
-			System.out.println("Reopening stream manager");
 			Platform.runLater(() -> hitBoard.getHitBoardFx().showLoginDialog());
 		}
 		showFrame(false);

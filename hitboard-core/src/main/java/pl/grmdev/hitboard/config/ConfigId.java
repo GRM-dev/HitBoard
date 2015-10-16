@@ -15,7 +15,8 @@ public enum ConfigId {
 	LOGIN_SAVE_LOGIN("false"),
 	LOGIN_AUTO_LOGIN("false"),
 	LOGIN_LOGIN("username"),
-	LOGIN_PSWD("pass");
+	LOGIN_PSWD("pass"),
+	LOGIN_IV("");
 	
 	private String defValue;
 	

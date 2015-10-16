@@ -25,7 +25,8 @@ public class HitBoardCore {
 		logger = FileOperation.setupLogger(Config.LOGGER_FILE_NAME);
 		config = new Config(this);
 		config.init();
-		String apiLink = config.getConfigValue(ConfigId.HITBOX_API_LINK);
+		String apiLink = (String) config
+				.get(ConfigId.HITBOX_API_LINK);
 		reqHandler = new RequestHandler(apiLink);
 	}
 	

@@ -21,7 +21,7 @@ public class Config {
 	public static final String CONFIG_FILE_NAME = "config.ini";
 	public static final String LOGGER_FILE_NAME = "hitboard.log";
 	public static final String APP_NAME = "HitBoard";
-	private HashMap<ConfigId, String> configs;
+	private Map<ConfigId, Object> configs;
 	private HitBoardCore hitBoard;
 	private Logger logger;
 	private boolean needsSave;
@@ -45,16 +45,16 @@ public class Config {
 	 */
 	public void init() {
 		if (FileOperation.configExists()) {
-			HashMap<ConfigId, String> fileConf = FileOperation.readConfig();
+			HashMap<ConfigId, Object> fileConf = FileOperation.readConfig();
 			for (Iterator<ConfigId> it = fileConf.keySet().iterator(); it
 					.hasNext();) {
 				ConfigId key = it.next();
-				String newValue = fileConf.get(key);
-				String oldValue = configs.get(key);
+				Object newValue = fileConf.get(key);
+				Object oldValue = configs.get(key);
 				if (!newValue.equals(oldValue)) {
 					logger.info("Read " + key + ": " + newValue + " (default: "
-							+ (oldValue.isEmpty() ? "\"\"" : oldValue) + ")");
-					setConfigValue(key, newValue);
+							+ (oldValue == null ? "<>" : oldValue) + ")");
+					set(key, newValue);
 					needsSave = false;
 				}
 			}
@@ -66,8 +66,8 @@ public class Config {
 	/**
 	 * @return default config map from {@link ConfigId}
 	 */
-	private HashMap<ConfigId, String> createDefaultConfig() {
-		HashMap<ConfigId, String> configD = new HashMap<>();
+	private Map<ConfigId, Object> createDefaultConfig() {
+		Map<ConfigId, Object> configD = new HashMap<>();
 		for (ConfigId conf : ConfigId.values()) {
 			configD.put(conf, conf.getDefValue());
 		}
@@ -82,7 +82,7 @@ public class Config {
 	 * @param value
 	 *            new value to override previous one
 	 */
-	public void setConfigValue(ConfigId key, String value) {
+	public void set(ConfigId key, Object value) {
 		if (!configs.get(key).equals(value)) {
 			needsSave = true;
 			configs.put(key, value);
@@ -94,11 +94,12 @@ public class Config {
 	 * 
 	 * @param confId
 	 *            id of config property which value you want to acquire
+	 * @return
 	 * @return value from config if exists, otherwise null
 	 */
-	public String getConfigValue(ConfigId confId) {
+	public <E> E get(ConfigId confId) {
 		if (configs.containsKey(confId)) {
-			return configs.get(confId);
+			return (E) configs.get(confId);
 		} else {
 			return null;
 		}

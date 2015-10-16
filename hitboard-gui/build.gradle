@@ -55,8 +55,8 @@ build.dependsOn loadProperties
 
 javafx {
 	javaRuntime = System.properties['JAVA_HOME']
-	appID '4Farm-FarmManager'
-	appName '4Farm - FarmManager'
+	appID 'HitBoard'
+	appName 'HitBoard'
 	mainClass = mainClassName
 	
 	jvmArgs = ['-XX:+AggressiveOpts', '-XX:CompileThreshold=1']

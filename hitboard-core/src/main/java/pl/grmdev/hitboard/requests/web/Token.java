@@ -30,12 +30,12 @@ public class Token {
 		HttpResponse<JsonNode> httpResponse = postReq.asJson();
 		JsonNode jsonNode = httpResponse.getBody();
 		JSONObject jsonObject = jsonNode.getObject();
-		String tokenS = jsonObject.getString("authToken");
-		// JsonFactory factory = new JsonFactory();
-		// JsonParser parser = factory.createParser(jsonObject.toString());
-		if (tokenS != null && tokenS.length() > 12) {
-			this.token = tokenS.toCharArray();
-			return true;
+		if (jsonObject.has("authToken")) {
+			String tokenS = jsonObject.getString("authToken");
+			if (tokenS != null && tokenS.length() > 12) {
+				this.token = tokenS.toCharArray();
+				return true;
+			}
 		}
 		return false;
 	}
@@ -45,7 +45,6 @@ public class Token {
 		if (token == null) {
 			return false;
 		}
-		System.out.println(new String(token).substring(1, 8));
 		BaseRequest postM = RequestHandler.instance().post(HbPost.TOKEN_AUTH,
 				new Params().p("authToken", new String(token)));
 		HttpResponse<JsonNode> httpResponse = postM.asJson();

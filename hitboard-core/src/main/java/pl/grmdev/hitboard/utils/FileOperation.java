@@ -86,25 +86,37 @@ public class FileOperation {
 	/**
 	 * Saves config in config file
 	 * 
-	 * @param config
+	 * @param configs
 	 *            map of configs
 	 */
-	public static void saveConfig(HashMap<ConfigId, String> config) {
+	public static void saveConfig(Map<ConfigId, Object> configs) {
 		File file = new File(Config.CONFIG_FILE_NAME);
 		try {
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-			Ini ini = new Wini(file);
-			for (Iterator<ConfigId> it = config.keySet().iterator(); it
+			Ini ini = getIni(file);
+			int arraysCount = 0;
+			for (Iterator<ConfigId> it = configs.keySet().iterator(); it
 					.hasNext();) {
 				ConfigId key = it.next();
-				String value = config.get(key);
-				ini.add("configuration", key.toString(), value);
+				Object obj = configs.get(key);
+				if (obj.getClass().isArray()) {
+					List list = ArrayUtil.disperseToList(obj);
+					ini.add("configuration", key.toString(),
+							"array_" + (++arraysCount));
+					for (int i = 0; i < list.size(); i++) {
+						ini.add("array_" + arraysCount, "a_" + i, list.get(i));
+					}
+				} else if (obj.getClass().getMethod("toString")
+						.getDeclaringClass() != Object.class) {
+					ini.add("configuration", key.toString(), obj);
+				}
 			}
 			ini.store();
 		} catch (IOException e) {
 			logger.log(Level.CONFIG, "cannot save config file", e);
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
 			e.printStackTrace();
 		}
 	}
@@ -114,22 +126,26 @@ public class FileOperation {
 	 * 
 	 * @return map of configs read from file
 	 */
-	public static HashMap<ConfigId, String> readConfig() {
-		HashMap<ConfigId, String> fConfig = new HashMap<>();
+	public static HashMap<ConfigId, Object> readConfig() {
+		HashMap<ConfigId, Object> fConfig = new HashMap<>();
 		File file = new File(Config.CONFIG_FILE_NAME);
 		try {
-			Ini ini = new Wini(file);
+			Ini ini = getIni(file);
 			Section section = ini.get("configuration");
 			if (section == null) {
-				throw new IOException("Cannot find configuration section");
+				logger.log(Level.CONFIG, "Cannot find configuration section");
+				return fConfig;
 			}
 			for (String key : section.keySet()) {
 				try {
 					ConfigId keyE = ConfigId.getFromString(key);
-					fConfig.put(keyE, section.get(key));
+					Object readedKey = readKey(ini, section, key);
+					if (readedKey != null) {
+						fConfig.put(keyE, readedKey);
+					}
 				} catch (IllegalArgumentException e) {
-					logger.log(Level.CONFIG,
-							"Config with name " + key + " not exists", e);
+					logger.log(Level.CONFIG, "Config with name " + key
+							+ " not exists or is corrupted", e);
 				}
 			}
 		} catch (IOException e) {
@@ -138,6 +154,29 @@ public class FileOperation {
 			e.printStackTrace();
 		}
 		return fConfig;
+	}
+	
+	private static Object readKey(Ini ini, Section section, String key)
+			throws UnsupportedEncodingException {
+		String value = section.get(key);
+		if (value.startsWith("array_")) {
+			Section arrSection = ini.get(value);
+			if (!arrSection.isEmpty()) {
+				int arrSectionSize = arrSection.size();
+				byte[] arr = new byte[arrSectionSize];
+				Iterator<String> it = arrSection.keySet().iterator();
+				while (it.hasNext()) {
+					String v = it.next();
+					int arrElemInd = Integer
+							.parseInt(v.substring(2, v.length()));
+					arr[arrElemInd] = Byte.parseByte(arrSection.get(v));
+				}
+				return arr;
+			}
+			return null;
+		} else {
+			return value;
+		}
 	}
 	
 	/**
@@ -163,5 +202,28 @@ public class FileOperation {
 					"Nie znaleziono pliku o nazwie " + fileName);
 		}
 		return file;
+	}
+	
+	private static Ini getIni(File file) throws IOException,
+			FileNotFoundException, InvalidFileFormatException {
+		if (!file.exists()) {
+			file.createNewFile();
+		}
+		Ini ini;
+		try {
+			ini = new Wini(file);
+		} catch (IOException e) {
+			file.setWritable(true);
+			if (!file.delete()) {
+				PrintWriter writer = new PrintWriter(file);
+				writer.println("");
+				writer.flush();
+				writer.close();
+			} else {
+				file.createNewFile();
+			}
+			ini = new Wini(file);
+		}
+		return ini;
 	}
 }

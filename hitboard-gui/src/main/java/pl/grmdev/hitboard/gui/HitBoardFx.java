@@ -72,8 +72,6 @@ public class HitBoardFx extends Application {
 							cancelledOrLogged = true;
 						} else {
 							try {
-								System.out.println("username=" + u
-										+ ", Pass_Length=" + p.length());
 								if (token.genAuthToken(u, p)) {
 									token.applyUser();
 									cancelledOrLogged = true;

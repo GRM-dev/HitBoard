@@ -87,7 +87,7 @@ public class DownloadVideoFrame extends JFrame {
 		panel_FN.add(lblFileName);
 		tF_FileName = new JTextField();
 		tF_FileName.setColumns(10);
-		String lastFileName = config.getConfigValue(ConfigId.LAST_FILE_NAME);
+		String lastFileName = config.get(ConfigId.LAST_FILE_NAME);
 		tF_FileName.setText(lastFileName);
 		panel_FN.add(tF_FileName);
 		JPanel panel_SL = new JPanel();
@@ -102,7 +102,7 @@ public class DownloadVideoFrame extends JFrame {
 		panel_SL.add(lblSaveLocation);
 		tF_SaveLocation = new JTextField();
 		tF_SaveLocation.setColumns(30);
-		String lastSavePath = config.getConfigValue(ConfigId.LAST_SAVE_PATH);
+		String lastSavePath = config.get(ConfigId.LAST_SAVE_PATH);
 		tF_SaveLocation.setText(lastSavePath);
 		panel_SL.add(tF_SaveLocation);
 		btnChangeDirectory = new JButton("Change directory ...");
@@ -169,8 +169,8 @@ public class DownloadVideoFrame extends JFrame {
 						.getText();
 				String lastSavePathE = DownloadVideoFrame.this.tF_SaveLocation
 						.getText();
-				config.setConfigValue(ConfigId.LAST_FILE_NAME, lastFileNameE);
-				config.setConfigValue(ConfigId.LAST_SAVE_PATH, lastSavePathE);
+				config.set(ConfigId.LAST_FILE_NAME, lastFileNameE);
+				config.set(ConfigId.LAST_SAVE_PATH, lastSavePathE);
 			}
 			
 			@Override

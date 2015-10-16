@@ -57,7 +57,7 @@
                   <ComboBox fx:id="cbGames" prefWidth="150.0" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefWidth="200.0">
+            <HBox alignment="CENTER" disable="true" prefWidth="200.0">
                <children>
                   <Label text="on platform ">
                      <font>

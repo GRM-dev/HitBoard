@@ -20,9 +20,6 @@ public class Games {
 	/**
 	 * Gets list of games available on hitbox.tv
 	 * 
-	 * @param gamesAsyncTask
-	 *            currently started Future task from which this method will take
-	 *            game list
 	 * @return {@link List}
 	 * @throws InterruptedException
 	 *             occurs when Future task is interrupted
