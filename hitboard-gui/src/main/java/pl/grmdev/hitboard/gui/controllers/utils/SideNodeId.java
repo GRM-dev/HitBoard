@@ -1,14 +1,16 @@
 /**
  * 
  */
-package pl.grmdev.hitboard.gui.controllers;
+package pl.grmdev.hitboard.gui.controllers.utils;
+
+import pl.grmdev.hitboard.gui.controllers.MainForm;
 
 /**
  * Names of inner screens switched by left panel in {@link MainForm}
  * 
  * @author Levvy055
  */
-public enum SideNodeName {
+public enum SideNodeId {
 	DASHBOARD("DashBoard"),
 	STATS("Stats"),
 	WIDGETS("Widgets"),
@@ -19,7 +21,7 @@ public enum SideNodeName {
 	
 	private String name;
 	
-	private SideNodeName(String name) {
+	private SideNodeId(String name) {
 		this.name = name;
 	}
 	
@@ -27,7 +29,7 @@ public enum SideNodeName {
 		return this.name;
 	}
 	
-	public SideNodeName getById(int id) {
-		return SideNodeName.values()[id];
+	public SideNodeId getById(int id) {
+		return SideNodeId.values()[id];
 	}
 }

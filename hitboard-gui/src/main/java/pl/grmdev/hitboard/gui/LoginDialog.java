@@ -4,6 +4,7 @@
 package pl.grmdev.hitboard.gui;
 
 import java.util.Arrays;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -27,12 +28,14 @@ public class LoginDialog extends Dialog<Pair<String, String>> {
 	private Node loginBtn;
 	private TextField usernameTf;
 	private PasswordField passwordTf;
+	private Logger logger;
 	
 	public LoginDialog() {
 		super();
 		Config config = HitBoardCore.instance().getConfig();
 		Preferences root = Preferences.userNodeForPackage(HitBoardCore.class);
 		setTitle("Login");
+		logger = HitBoardCore.getLogger();
 		// TODO: add graphic
 		// setGraphic(new
 		// ImageView(this.getClass().getResource("login.png").toString()));
@@ -62,14 +65,12 @@ public class LoginDialog extends Dialog<Pair<String, String>> {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.warning("Possible config corrupted.\n" + e.getMessage());
 		}
 		CheckBox cbRemLogin = new CheckBox("Remember login");
-		cbRemLogin.setSelected(
-				Boolean.parseBoolean(config.get(ConfigId.LOGIN_SAVE_LOGIN)));
+		cbRemLogin.setSelected(config.get(ConfigId.LOGIN_SAVE_LOGIN));
 		CheckBox cbAutoLogin = new CheckBox("Auto Login");
-		cbAutoLogin.setSelected(
-				Boolean.parseBoolean(config.get(ConfigId.LOGIN_AUTO_LOGIN)));
+		cbAutoLogin.setSelected(config.get(ConfigId.LOGIN_AUTO_LOGIN));
 		GridPane grid = new GridPane();
 		grid.setHgap(10);
 		grid.setVgap(10);
@@ -121,8 +122,7 @@ public class LoginDialog extends Dialog<Pair<String, String>> {
 		setResultConverter(loginConverter);
 		setOnShown(event -> {
 			Platform.runLater(() -> {
-				if (Boolean
-						.parseBoolean(config.get(ConfigId.LOGIN_AUTO_LOGIN))) {
+				if ((boolean) config.get(ConfigId.LOGIN_AUTO_LOGIN)) {
 					unlockBtn();
 					loginConverter.call(loginButtonType);
 					System.out.println("click///");

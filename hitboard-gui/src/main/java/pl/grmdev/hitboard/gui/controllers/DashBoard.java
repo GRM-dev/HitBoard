@@ -13,14 +13,16 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.*;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import pl.grmdev.hitboard.gui.controllers.utils.HbNode;
 import pl.grmdev.hitboard.requests.RequestHandler;
 /**
  * @author Levvy055
  */
-public class DashBoard implements Initializable {
+public class DashBoard implements Initializable, HbNode {
 	
-	public static DashBoard instance;
+	private static DashBoard instance;
 	@FXML
 	private Label LblChannelName;
 	@FXML
@@ -70,5 +72,23 @@ public class DashBoard implements Initializable {
 			}
 			cbGames.setDisable(false);
 		}).start();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see pl.grmdev.hitboard.gui.HbNode#updateAll()
+	 */
+	@Override
+	public void updateAll() {}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see pl.grmdev.hitboard.gui.controllers.HbNode#getNode()
+	 */
+	@Override
+	public Node getNode() {
+		Object o = this;
+		Node n = (Node) o;
+		return n;
 	}
 }

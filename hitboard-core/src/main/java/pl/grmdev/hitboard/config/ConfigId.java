@@ -9,18 +9,18 @@ package pl.grmdev.hitboard.config;
  * @author Levvy055
  */
 public enum ConfigId {
-	LAST_SAVE_PATH(""),
+	LAST_SAVE_PATH("none"),
 	LAST_FILE_NAME("video.mp4"),
 	HITBOX_API_LINK("http://api.hitbox.tv/"),
-	LOGIN_SAVE_LOGIN("false"),
-	LOGIN_AUTO_LOGIN("false"),
+	LOGIN_SAVE_LOGIN(false),
+	LOGIN_AUTO_LOGIN(false),
 	LOGIN_LOGIN("username"),
-	LOGIN_PSWD("pass"),
-	LOGIN_IV("");
+	LOGIN_PSWD(new byte[]{}),
+	LOGIN_IV(new byte[]{});
 	
-	private String defValue;
+	private Object defValue;
 	
-	private ConfigId(String defValue) {
+	private ConfigId(Object defValue) {
 		this.defValue = defValue;
 	}
 	
@@ -29,7 +29,7 @@ public enum ConfigId {
 		return Enum.valueOf(ConfigId.class, name);
 	}
 	
-	public String getDefValue() {
+	public Object getDefValue() {
 		return defValue;
 	}
 }

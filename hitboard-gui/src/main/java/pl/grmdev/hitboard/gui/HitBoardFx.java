@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import pl.grmdev.hitboard.HitBoardCore;
 import pl.grmdev.hitboard.gui.controllers.MainForm;
+import pl.grmdev.hitboard.gui.controllers.utils.HbNode;
 import pl.grmdev.hitboard.requests.RequestHandler;
 import pl.grmdev.hitboard.requests.web.Token;
 public class HitBoardFx extends Application {
@@ -50,7 +51,7 @@ public class HitBoardFx extends Application {
 	public void showLoginDialog() {
 		try {
 			LoginDialog dialog = new LoginDialog();
-			show(false);
+			showWindow(false);
 			boolean connected = HitBoardCore.instance().getRequestHandler()
 					.hasConnection();
 			MainForm.instance.getStateCircle()
@@ -75,7 +76,22 @@ public class HitBoardFx extends Application {
 								if (token.genAuthToken(u, p)) {
 									token.applyUser();
 									cancelledOrLogged = true;
-									show(true);
+									showWindow(true);
+									Platform.runLater(() -> {
+										HbNode currentNode;
+										try {
+											currentNode = MainForm.instance
+													.getCurrentNode();
+											if (currentNode == null) {
+												System.out.println(
+														"current node null!");
+											} else {
+												currentNode.updateAll();
+											}
+										} catch (Exception e) {
+											e.printStackTrace();
+										}
+									});
 								} else {
 									badPass = true;
 								}
@@ -105,11 +121,11 @@ public class HitBoardFx extends Application {
 	}
 	
 	private void closeWindow() {
-		show(false);
+		showWindow(false);
 		HitBoardGui.instance().getActionSelectionFrame().showFrame(true);
 	}
 	
-	public void show(boolean show) {
+	public void showWindow(boolean show) {
 		if (show) {
 			primaryStage.show();
 		} else {

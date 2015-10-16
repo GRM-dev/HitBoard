@@ -93,22 +93,12 @@ public class FileOperation {
 		File file = new File(Config.CONFIG_FILE_NAME);
 		try {
 			Ini ini = getIni(file);
-			int arraysCount = 0;
+			int arraysId = 0;
 			for (Iterator<ConfigId> it = configs.keySet().iterator(); it
 					.hasNext();) {
 				ConfigId key = it.next();
 				Object obj = configs.get(key);
-				if (obj.getClass().isArray()) {
-					List list = ArrayUtil.disperseToList(obj);
-					ini.add("configuration", key.toString(),
-							"array_" + (++arraysCount));
-					for (int i = 0; i < list.size(); i++) {
-						ini.add("array_" + arraysCount, "a_" + i, list.get(i));
-					}
-				} else if (obj.getClass().getMethod("toString")
-						.getDeclaringClass() != Object.class) {
-					ini.add("configuration", key.toString(), obj);
-				}
+				arraysId = saveKey(ini, arraysId, key, obj);
 			}
 			ini.store();
 		} catch (IOException e) {
@@ -119,6 +109,23 @@ public class FileOperation {
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private static int saveKey(Ini ini, int arrayId, ConfigId key,
+			Object obj) throws NoSuchMethodException {
+		if (obj.getClass().isArray()) {
+			@SuppressWarnings("rawtypes")
+			List list = ArrayUtil.disperseToList(obj);
+			ini.add("configuration", key.toString(),
+					"array_" + (++arrayId));
+			for (int i = 0; i < list.size(); i++) {
+				ini.add("array_" + arrayId, "a_" + i, list.get(i));
+			}
+		} else if (obj.getClass().getMethod("toString")
+				.getDeclaringClass() != Object.class) {
+			ini.add("configuration", key.toString(), obj);
+		}
+		return arrayId;
 	}
 	
 	/**
@@ -139,7 +146,8 @@ public class FileOperation {
 			for (String key : section.keySet()) {
 				try {
 					ConfigId keyE = ConfigId.getFromString(key);
-					Object readedKey = readKey(ini, section, key);
+					String value = section.get(key);
+					Object readedKey = parseKey(ini, value);
 					if (readedKey != null) {
 						fConfig.put(keyE, readedKey);
 					}
@@ -156,27 +164,31 @@ public class FileOperation {
 		return fConfig;
 	}
 	
-	private static Object readKey(Ini ini, Section section, String key)
+	private static Object parseKey(Ini ini, Object value)
 			throws UnsupportedEncodingException {
-		String value = section.get(key);
-		if (value.startsWith("array_")) {
-			Section arrSection = ini.get(value);
-			if (!arrSection.isEmpty()) {
-				int arrSectionSize = arrSection.size();
-				byte[] arr = new byte[arrSectionSize];
-				Iterator<String> it = arrSection.keySet().iterator();
-				while (it.hasNext()) {
-					String v = it.next();
-					int arrElemInd = Integer
-							.parseInt(v.substring(2, v.length()));
-					arr[arrElemInd] = Byte.parseByte(arrSection.get(v));
+		if (value.getClass() == String.class) {
+			if (((String) value).startsWith("array_")) {
+				Section arrSection = ini.get(value);
+				if (!arrSection.isEmpty()) {
+					int arrSectionSize = arrSection.size();
+					byte[] arr = new byte[arrSectionSize];
+					Iterator<String> it = arrSection.keySet().iterator();
+					while (it.hasNext()) {
+						String v = it.next();
+						String elIdS = v.substring(2, v.length());
+						int arrElemInd = Integer.parseInt(elIdS);
+						arr[arrElemInd] = Byte.parseByte(arrSection.get(v));
+					}
+					return arr;
 				}
-				return arr;
+				return null;
+			} else if (Boolean.parseBoolean((String) value)) {
+				return Boolean.parseBoolean((String) value);
+			} else {
+				return value;
 			}
-			return null;
-		} else {
-			return value;
 		}
+		return value;
 	}
 	
 	/**

@@ -6,19 +6,22 @@ package pl.grmdev.hitboard.gui.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.logging.Logger;
 
 import javafx.fxml.*;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
+import pl.grmdev.hitboard.HitBoardCore;
+import pl.grmdev.hitboard.gui.controllers.utils.*;
 /**
  * @author Levvy055
  */
 public class MainForm implements Initializable {
 	
 	public static MainForm instance;
-	private HashMap<SideNodeName, Node> sideNodes;
+	private HashMap<SideNodeId, NodeHandler> sideNodes;
 	@FXML
 	private Pane mainPane;
 	@FXML
@@ -29,6 +32,8 @@ public class MainForm implements Initializable {
 	private ProgressIndicator piProgressMain;
 	@FXML
 	private Label lblProgressMain;
+	private SideNodeId currentNodeId;
+	private Logger logger;
 	
 	/*
 	 * (non-Javadoc)
@@ -38,6 +43,7 @@ public class MainForm implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		instance = this;
+		logger = HitBoardCore.getLogger();
 		sideNodes = new HashMap<>();
 		try {
 			loadNodes();
@@ -45,7 +51,7 @@ public class MainForm implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		changeNodeTo(SideNodeName.DASHBOARD);
+		changeNodeTo(SideNodeId.DASHBOARD);
 	}
 	
 	/**
@@ -58,39 +64,42 @@ public class MainForm implements Initializable {
 	}
 	
 	/**
-	 * Changes page depending on nodeName parameter
-	 * 
-	 * @param dashboard
-	 */
-	private void changeNodeTo(SideNodeName nodeName) {
-		mainPane.getChildren().clear();
-		mainPane.getChildren().add(sideNodes.get(nodeName));
-	}
-	
-	/**
 	 * Loads Nodes to sideNodes map field
 	 * 
 	 * @throws IOException
 	 */
 	private void loadNodes() throws IOException {
-		loadNode(SideNodeName.DASHBOARD, "/views/DashBoard.fxml");
-		loadNode(SideNodeName.STATS, "/views/Stats.fxml");
+		loadNode(SideNodeId.DASHBOARD, "/views/DashBoard.fxml",
+				DashBoard.class);
+		loadNode(SideNodeId.STATS, "/views/Stats.fxml", Stats.class);
 	}
 	
 	/**
 	 * Just load specified in parameters node. Called by {@link #loadNodes()}
 	 * 
-	 * @param nodeName
-	 *            type of {@link SideNodeName}
+	 * @param nodeId
+	 *            type of {@link SideNodeId}
 	 * @param fileName
 	 *            name of FXML file to load
 	 * @throws IOException
 	 *             thrown when specified file is corrupted or doesn't exists
 	 */
-	private void loadNode(SideNodeName nodeName, String fileName)
-			throws IOException {
-		sideNodes.put(nodeName,
-				FXMLLoader.load(getClass().getResource(fileName)));
+	private void loadNode(SideNodeId nodeId, String fileName,
+			Class<? extends HbNode> clazz) throws IOException {
+		NodeHandler nodeHandler;
+		try {
+			Node node = FXMLLoader.load(getClass().getResource(fileName));
+			if (node != null) {
+				nodeHandler = new NodeHandler(clazz, node);
+				sideNodes.put(nodeId, nodeHandler);
+			} else {
+				logger.severe("Node is null: " + nodeId.getName());
+			}
+		} catch (IllegalArgumentException | SecurityException e) {
+			logger.severe("Error during loading Node " + nodeId.getName()
+					+ " \n" + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -98,9 +107,9 @@ public class MainForm implements Initializable {
 	 */
 	private void addAllNodesToLeftPanel() {
 		Button[] buttons = new Button[15];
-		for (Iterator<SideNodeName> it = sideNodes.keySet().iterator(); it
+		for (Iterator<SideNodeId> it = sideNodes.keySet().iterator(); it
 				.hasNext();) {
-			SideNodeName nodeName = it.next();
+			SideNodeId nodeName = it.next();
 			Button btn = new Button(nodeName.getName());
 			btn.setOnAction(event -> {
 				changeNodeTo(nodeName);
@@ -112,5 +121,24 @@ public class MainForm implements Initializable {
 				vBoxLeft.getChildren().add(button);
 			}
 		}
+	}
+	
+	/**
+	 * Changes page depending on nodeName parameter
+	 * 
+	 * @param nodeId
+	 */
+	private void changeNodeTo(SideNodeId nodeId) {
+		mainPane.getChildren().clear();
+		mainPane.getChildren().add(sideNodes.get(nodeId).getNode());
+		currentNodeId = nodeId;
+	}
+	
+	public SideNodeId getCurrentNodeId() {
+		return currentNodeId;
+	}
+	
+	public HbNode getCurrentNode() throws Exception {
+		return sideNodes.get(currentNodeId).getHbNode();
 	}
 }

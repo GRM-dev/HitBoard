@@ -97,6 +97,7 @@ public class Config {
 	 * @return
 	 * @return value from config if exists, otherwise null
 	 */
+	@SuppressWarnings("unchecked")
 	public <E> E get(ConfigId confId) {
 		if (configs.containsKey(confId)) {
 			return (E) configs.get(confId);
