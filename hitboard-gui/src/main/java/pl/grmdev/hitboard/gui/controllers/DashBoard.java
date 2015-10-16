@@ -83,8 +83,10 @@ public class DashBoard implements Initializable, HbNode {
 	@Override
 	public void updateAll() {
 		User user = RequestHandler.instance().getUser();
-		String userName = user.getUserName();
-		String followers = user.getFollowers();
-		lblChannelName.setText(userName);
+		if (user != null) {
+			String userName = user.getUserName();
+			String followers = user.getFollowers();
+			lblChannelName.setText(userName);
+		}
 	}
 }

@@ -48,6 +48,8 @@ public class LoginDialog extends Dialog<Pair<String, String>> {
 		usernameTf.setText(config.get(ConfigId.LOGIN_LOGIN));
 		passwordTf = new PasswordField();
 		passwordTf.setPromptText("Password");
+		CheckBox cbRemLogin = new CheckBox("Remember login");
+		CheckBox cbAutoLogin = new CheckBox("Auto Login");
 		try {
 			byte[] pass1 = config.get(ConfigId.LOGIN_PSWD);
 			byte[] iv = config.get(ConfigId.LOGIN_IV);
@@ -64,13 +66,11 @@ public class LoginDialog extends Dialog<Pair<String, String>> {
 					}
 				}
 			}
+			cbRemLogin.setSelected(config.get(ConfigId.LOGIN_SAVE_LOGIN));
+			cbAutoLogin.setSelected(config.get(ConfigId.LOGIN_AUTO_LOGIN));
 		} catch (Exception e) {
 			logger.warning("Possible config corrupted.\n" + e.getMessage());
 		}
-		CheckBox cbRemLogin = new CheckBox("Remember login");
-		cbRemLogin.setSelected(config.get(ConfigId.LOGIN_SAVE_LOGIN));
-		CheckBox cbAutoLogin = new CheckBox("Auto Login");
-		cbAutoLogin.setSelected(config.get(ConfigId.LOGIN_AUTO_LOGIN));
 		GridPane grid = new GridPane();
 		grid.setHgap(10);
 		grid.setVgap(10);

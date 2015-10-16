@@ -50,7 +50,7 @@ public class MediaTest {
 	@Test
 	public void getObjectChannelTest() {
 		try {
-			MediaLive mediaLive = reqH.getMedia().getLiveObject();
+			MediaLive mediaLive = reqH.getMedia().getLive();
 			assertThat(mediaLive).isNotNull();
 			ChannelData channel = mediaLive.getChannel();
 			assertThat(channel).isNotNull();

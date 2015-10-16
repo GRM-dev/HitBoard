@@ -100,7 +100,14 @@ public class Config {
 	@SuppressWarnings("unchecked")
 	public <E> E get(ConfigId confId) {
 		if (configs.containsKey(confId)) {
-			return (E) configs.get(confId);
+			Object object = configs.get(confId);
+			if (object instanceof String) {
+				String c = (String) object;
+				if (c.equals("true") || c.equals("false")) {
+					object = Boolean.parseBoolean(c);
+				}
+			}
+			return (E) object;
 		} else {
 			return null;
 		}

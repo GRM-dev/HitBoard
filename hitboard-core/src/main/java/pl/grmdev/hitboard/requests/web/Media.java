@@ -19,7 +19,7 @@ public class Media {
 	/**
 	 * Returns a live media object.
 	 */
-	public MediaLive getLiveObject() throws Exception {
+	public MediaLive getLive() throws Exception {
 		RequestHandler req = RequestHandler.instance();
 		HbGet getM = HbGet.MEDIA_LIVE_OBJECT;
 		String channel = req.getUser().getUserName();

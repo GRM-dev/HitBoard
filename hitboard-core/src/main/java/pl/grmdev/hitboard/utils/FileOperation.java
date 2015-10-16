@@ -145,7 +145,11 @@ public class FileOperation {
 			for (String key : section.keySet()) {
 				try {
 					ConfigId keyE = ConfigId.getFromString(key);
-					String value = section.get(key);
+					Object value = section.get(key);
+					if (((String) value).equals("true")
+							|| ((String) value).equals("false")) {
+						value = Boolean.parseBoolean((String) value);
+					}
 					Object readedKey = parseKey(ini, value);
 					if (readedKey != null) {
 						fConfig.put(keyE, readedKey);
