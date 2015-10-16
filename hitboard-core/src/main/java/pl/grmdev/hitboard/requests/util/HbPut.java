@@ -3,6 +3,7 @@
  */
 package pl.grmdev.hitboard.requests.util;
 
+import java.util.*;
 /**
  * PUT RESTful API methods
  * 
@@ -17,6 +18,12 @@ public enum HbPut {
 	
 	private String cmd;
 	private String[] objs;
+	private Params params;
+	
+	private HbPut(String cmd, Params params) {
+		this(cmd);
+		this.params = params;
+	}
 	
 	private HbPut(String cmd) {
 		this.cmd = cmd;
@@ -55,5 +62,21 @@ public enum HbPut {
 	
 	public String[] getObjects() {
 		return objs;
+	}
+	
+	public boolean hasParams() {
+		return (params == null || params.isEmpty()) ? false : true;
+	}
+	
+	public Iterator<String> paramIterator() {
+		return params.iterator();
+	}
+	
+	public Object getParamObject(String key) {
+		return params.get(key);
+	}
+	
+	public Map<String, Object> getParams() {
+		return params.getAll();
 	}
 }

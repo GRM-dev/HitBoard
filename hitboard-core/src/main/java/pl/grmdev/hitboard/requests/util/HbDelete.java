@@ -3,6 +3,7 @@
  */
 package pl.grmdev.hitboard.requests.util;
 
+import java.util.*;
 /**
  * DELETE RESTful API methods
  * 
@@ -14,6 +15,12 @@ public enum HbDelete {
 	
 	private String cmd;
 	private String[] objs;
+	private Params params;
+	
+	private HbDelete(String cmd, Params params) {
+		this(cmd);
+		this.params = params;
+	}
 	
 	private HbDelete(String cmd) {
 		this.cmd = cmd;
@@ -52,5 +59,21 @@ public enum HbDelete {
 	
 	public String[] getObjects() {
 		return objs;
+	}
+	
+	public boolean hasParams() {
+		return (params == null || params.isEmpty()) ? false : true;
+	}
+	
+	public Iterator<String> paramIterator() {
+		return params.iterator();
+	}
+	
+	public Object getParamObject(String key) {
+		return params.get(key);
+	}
+	
+	public Map<String, Object> getParams() {
+		return params.getAll();
 	}
 }

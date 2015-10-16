@@ -23,7 +23,7 @@ public class Params implements Iterable<String> {
 	public Params p(String key) {
 		return p(key, null);
 	}
-
+	
 	/**
 	 * Adds new param to existing {@link Params} object and returns supplemented
 	 * object
@@ -98,5 +98,12 @@ public class Params implements Iterable<String> {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * @return true if there is no params
+	 */
+	public boolean isEmpty() {
+		return getAll().isEmpty();
 	}
 }

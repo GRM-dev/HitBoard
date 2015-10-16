@@ -3,13 +3,15 @@
  */
 package pl.grmdev.hitboard.requests.util;
 
+import java.util.*;
 /**
  * GET RESTful API methods
  * 
  * @author Levvy055
  */
 public enum HbGet {
-	MEDIA_LIVE_OBJECT("media/live/:channel"),
+	MEDIA_LIVE_OBJECT("media/live/:channel", new Params().p("authToken")
+			.p("showHidden")),
 	MEDIA_LIVE_LIST("media/live/list"),
 	MEDIA_VIDEO_OBJECT("media/video/:media_id"),
 	MEDIA_VIDEO_LIST("media/video/:channel/list"),
@@ -54,6 +56,12 @@ public enum HbGet {
 	
 	private String cmd;
 	private String[] objs;
+	private Params params;
+	
+	private HbGet(String cmd, Params params) {
+		this(cmd);
+		this.params = params;
+	}
 	
 	private HbGet(String cmd) {
 		this.cmd = cmd;
@@ -63,19 +71,19 @@ public enum HbGet {
 			int bI = 0, eI = 0;
 			for (int i = 0; i < objCount; i++) {
 				bI = cmd.indexOf(":", eI);
-				eI = i < cmd.length() && cmd.indexOf("/", bI + 1) != -1
+				eI = (i < cmd.length() && cmd.indexOf("/", bI + 1) != -1)
 						? cmd.indexOf("/", bI + 1)
-						: cmd.length() - 1;
+						: cmd.length();
 				objs[i] = cmd.substring(bI, eI);
 			}
 		}
 	}
 	
-	public String getCmd() {
+	private String getCmd() {
 		return cmd;
 	}
 	
-	public String get(String... args) throws Exception {
+	public String getCmd(String... args) throws Exception {
 		if (args == null || args.length == 0) {
 			return getCmd();
 		}
@@ -90,7 +98,27 @@ public enum HbGet {
 		return result;
 	}
 	
+	public boolean hasObjs() {
+		return objs != null && objs.length > 0;
+	}
+	
 	public String[] getObjects() {
 		return objs;
+	}
+	
+	public boolean hasParams() {
+		return (params == null || params.isEmpty()) ? false : true;
+	}
+	
+	public Iterator<String> paramIterator() {
+		return params.iterator();
+	}
+	
+	public Object getParamObject(String key) {
+		return params.get(key);
+	}
+	
+	public Map<String, Object> getParams() {
+		return params.getAll();
 	}
 }

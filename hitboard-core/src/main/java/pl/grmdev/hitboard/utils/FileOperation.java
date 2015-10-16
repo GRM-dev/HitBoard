@@ -110,14 +110,13 @@ public class FileOperation {
 			e.printStackTrace();
 		}
 	}
-
-	private static int saveKey(Ini ini, int arrayId, ConfigId key,
-			Object obj) throws NoSuchMethodException {
+	
+	private static int saveKey(Ini ini, int arrayId, ConfigId key, Object obj)
+			throws NoSuchMethodException {
 		if (obj.getClass().isArray()) {
 			@SuppressWarnings("rawtypes")
 			List list = ArrayUtil.disperseToList(obj);
-			ini.add("configuration", key.toString(),
-					"array_" + (++arrayId));
+			ini.add("configuration", key.toString(), "array_" + (++arrayId));
 			for (int i = 0; i < list.size(); i++) {
 				ini.add("array_" + arrayId, "a_" + i, list.get(i));
 			}
@@ -169,7 +168,7 @@ public class FileOperation {
 		if (value.getClass() == String.class) {
 			if (((String) value).startsWith("array_")) {
 				Section arrSection = ini.get(value);
-				if (!arrSection.isEmpty()) {
+				if (arrSection != null && !arrSection.isEmpty()) {
 					int arrSectionSize = arrSection.size();
 					byte[] arr = new byte[arrSectionSize];
 					Iterator<String> it = arrSection.keySet().iterator();
@@ -189,6 +188,14 @@ public class FileOperation {
 			}
 		}
 		return value;
+	}
+	
+	public static void closeQuietly(FileInputStream in) {
+		if (in != null) {
+			try {
+				in.close();
+			} catch (IOException e) {}
+		}
 	}
 	
 	/**

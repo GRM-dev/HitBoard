@@ -58,4 +58,12 @@ public class Token {
 		}
 		return false;
 	}
+	
+	public boolean hasToken() {
+		return token != null;
+	}
+	
+	public String getToken() {
+		return new String(token);
+	}
 }

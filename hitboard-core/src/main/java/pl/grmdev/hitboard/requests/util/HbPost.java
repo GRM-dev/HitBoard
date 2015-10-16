@@ -19,7 +19,7 @@ public enum HbPost {
 	CHAT_EDIT_MODERATORS("chat/moderators/:channel"),
 	CHAT_BLACKLIST_UPDATE("chat/blacklist/:channel"),
 	CHAT_SETTINGS_UPDATE("chat/settings/:channel"),
-	TOKEN_GET("auth/token", new Params().p("login", "pass")),
+	TOKEN_GET("auth/token", new Params().p("login").p("pass")),
 	TOKEN_AUTH("auth/login", new Params().p("authToken"));
 	
 	private String cmd;
@@ -71,7 +71,7 @@ public enum HbPost {
 	}
 	
 	public boolean hasParams() {
-		return (params == null || params.getAll().isEmpty()) ? false : true;
+		return (params == null || params.isEmpty()) ? false : true;
 	}
 	
 	public Iterator<String> paramIterator() {

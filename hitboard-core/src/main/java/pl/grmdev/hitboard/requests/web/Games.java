@@ -4,7 +4,7 @@
 package pl.grmdev.hitboard.requests.web;
 
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.Future;
 
 import org.json.*;
 
@@ -21,15 +21,9 @@ public class Games {
 	 * Gets list of games available on hitbox.tv
 	 * 
 	 * @return {@link List}
-	 * @throws InterruptedException
-	 *             occurs when Future task is interrupted
-	 * @throws ExecutionException
-	 *             occurs when Future task encounters some problem
-	 * @throws JSONException
-	 *             thrown when invalid json object acquired
+	 * @throws Exception
 	 */
-	public List<String> getGamesList()
-			throws InterruptedException, ExecutionException, JSONException {
+	public List<String> getGamesList() throws Exception {
 		Future<HttpResponse<JsonNode>> gamesAsyncTask = RequestHandler
 				.instance().get(HbGet.GAMES_LIST).queryString("limit", 29000)
 				.asJsonAsync();

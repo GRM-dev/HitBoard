@@ -5,9 +5,6 @@ package pl.grmdev.hitboard.gui.controllers;
 
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
-
-import org.json.JSONException;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -72,8 +69,7 @@ public class DashBoard implements Initializable, HbNode {
 				SortedList<String> gamesS = FXCollections
 						.observableArrayList(games).sorted();
 				Platform.runLater(() -> cbGames.setItems(gamesS));
-			} catch (InterruptedException | ExecutionException
-					| JSONException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			cbGames.setDisable(false);

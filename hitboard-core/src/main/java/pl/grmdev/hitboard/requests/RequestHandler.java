@@ -3,10 +3,9 @@
  */
 package pl.grmdev.hitboard.requests;
 
-import java.util.List;
+import java.util.*;
 
 import com.mashape.unirest.http.*;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.*;
 import com.mashape.unirest.request.body.MultipartBody;
 
@@ -75,7 +74,7 @@ public class RequestHandler {
 			if (result.contains("[{")) {
 				return true;
 			}
-		} catch (UnirestException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
@@ -120,14 +119,39 @@ public class RequestHandler {
 	}
 	
 	/**
+	 * @param get
+	 *            REST get type
+	 * @param params
+	 *            to fill request with
+	 * @return Request with prepared parameters values
+	 * @throws Exception
+	 */
+	public GetRequest get(HbGet get, Params params, String... objs)
+			throws Exception {
+		if (!get.hasParams()) {
+			return get(get, objs);
+		}
+		GetRequest getRequest = get(get, objs);
+		Map<String, Object> ps = params.getAll();
+		for (Iterator<String> it = ps.keySet().iterator(); it.hasNext();) {
+			String key = it.next();
+			Object o = ps.get(key);
+			getRequest = (GetRequest) getRequest.queryString(key, o);
+		}
+		return getRequest;
+	}
+	
+	/**
 	 * Makes GET RESful API method based on {@link HbPost}
 	 * 
 	 * @param cmd
 	 *            API command of type {@link HbGet}
+	 * @param objs
 	 * @return {@link GetRequest}
+	 * @throws Exception
 	 */
-	public GetRequest get(HbGet cmd) {
-		return get(apiLink + cmd.getCmd());
+	public GetRequest get(HbGet cmd, String... objs) throws Exception {
+		return get(apiLink + cmd.getCmd(objs));
 	}
 	
 	/**
