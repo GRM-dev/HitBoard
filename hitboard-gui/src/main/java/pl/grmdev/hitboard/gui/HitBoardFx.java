@@ -25,10 +25,14 @@ public class HitBoardFx extends Application {
 	private boolean cancelledOrLogged;
 	private boolean badPass;
 	private Scene rootScene;
+	private Scene splashScreenScene;
+	private Stage rootStage;
+	private Stage splashStage;
 	
 	@Override
 	public void start(Stage primaryStage) {
 		this.stage = primaryStage;
+		this.splashStage = primaryStage;
 		HitBoardGui.instance().setStreamManager(this);
 		Platform.setImplicitExit(false);
 		setUserAgentStylesheet(STYLESHEET_MODENA);
@@ -36,7 +40,8 @@ public class HitBoardFx extends Application {
 			URL splashScreenUrl = getClass()
 					.getResource("/views/SplashScreen.fxml");
 			Parent splashRoot = FXMLLoader.load(splashScreenUrl);
-			Scene splashScreenScene = new Scene(splashRoot);
+			splashScreenScene = new Scene(splashRoot);
+			splashScreenScene.setFill(Color.TRANSPARENT);
 			stage.initStyle(StageStyle.TRANSPARENT);
 			stage.setScene(splashScreenScene);
 			URL mFormResUrl = getClass().getResource("/views/MainForm.fxml");
@@ -68,6 +73,9 @@ public class HitBoardFx extends Application {
 				cancelledOrLogged = false;
 				badPass = false;
 				Token token = RequestHandler.instance().getToken();
+				showWindow(false);
+				stage = splashStage;
+				showWindow(true);
 				while (!cancelledOrLogged) {
 					getAndCheckLogin(dialog, token);
 				}
@@ -82,7 +90,7 @@ public class HitBoardFx extends Application {
 	}
 	
 	private void getAndCheckLogin(LoginDialog dialog, Token token) {
-		dialog.badPassword(badPass);
+		dialog.setBadPasswordInfo(badPass);
 		Optional<Pair<String, String>> result = dialog.showAndWait();
 		badPass = false;
 		result.ifPresent(res -> {
@@ -109,18 +117,17 @@ public class HitBoardFx extends Application {
 			throws UnirestException, JsonParseException, IOException {
 		token.applyUser();
 		cancelledOrLogged = true;
-		Platform.setImplicitExit(false);
-		Stage rStage = new Stage();
-		rStage.setScene(rootScene);
-		rStage.initStyle(StageStyle.DECORATED);
-		rStage.setTitle("HitBoard - <HitBox hitter>");
-		rStage.sizeToScene();
-		rStage.setOnCloseRequest(event -> {
+		rootStage = new Stage();
+		rootStage.setScene(rootScene);
+		rootStage.initStyle(StageStyle.DECORATED);
+		rootStage.setTitle("HitBoard - <HitBox hitter>");
+		rootStage.sizeToScene();
+		rootStage.setOnCloseRequest(event -> {
 			event.consume();
 			closeWindow();
 		});
 		showWindow(false);
-		stage = rStage;
+		stage = rootStage;
 		showWindow(true);
 		Platform.runLater(() -> {
 			HbNode currentNode;

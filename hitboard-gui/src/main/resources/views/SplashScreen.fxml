@@ -1,8 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" />
+<AnchorPane id="splash" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/dark_style.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.grmdev.hitboard.gui.controllers.SplashScreen">
+   <children>
+      <BorderPane id="splash">
+         <center>
+            <ImageView id="splash" accessibleHelp="HitBoard Loading" fitHeight="360.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@../images/splash_screen.jpg" />
+               </image>
+            </ImageView>
+         </center>
+         <bottom>
+            <VBox BorderPane.alignment="CENTER">
+               <children>
+                  <ProgressBar fx:id="pbProgress" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mouseTransparent="true" progress="0.39">
+                     <effect>
+                        <Blend />
+                     </effect>
+                  </ProgressBar>
+                  <FlowPane id="progresPane" alignment="CENTER">
+                     <children>
+                        <ProgressIndicator fx:id="piProgress" prefWidth="36.0" />
+                        <Label fx:id="lblProgress" text="Loading" />
+                     </children>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </FlowPane>
+               </children>
+            </VBox>
+         </bottom>
+      </BorderPane>
+   </children>
+   <effect>
+      <DropShadow />
+   </effect>
+</AnchorPane>

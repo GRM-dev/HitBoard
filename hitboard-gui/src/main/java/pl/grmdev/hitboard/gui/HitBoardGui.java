@@ -87,7 +87,7 @@ public class HitBoardGui {
 	public HitBoardFx getHitBoardFx() {
 		return hitBoardFx;
 	}
-
+	
 	/**
 	 * Start program method
 	 * 

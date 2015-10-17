@@ -3,10 +3,13 @@
  */
 package pl.grmdev.hitboard.utils;
 
+import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
+
+import org.apache.commons.lang3.ArrayUtils;
 /**
  * @author Levvy055
  */
@@ -66,5 +69,28 @@ public class Hash {
 	
 	public void setIV(byte[] ivB) {
 		iv = ivB;
+	}
+	
+	/**
+	 * @param pass1
+	 * @param pass2
+	 * @param iv2
+	 * @return
+	 */
+	public static String getPass(byte[] pass1, byte[] pass2, byte[] iv) {
+		if (pass1 != null & pass2 != null) {
+			byte[] pswd = ArrayUtils.addAll(pass1, pass2);
+			if (pswd.length % 8 == 0) {
+				Hash hash = new Hash(iv);
+				byte[] decrypted = hash.decrypt(pswd);
+				try {
+					String pswdD = new String(decrypted, "Cp1252");
+					return pswdD;
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return "";
 	}
 }
