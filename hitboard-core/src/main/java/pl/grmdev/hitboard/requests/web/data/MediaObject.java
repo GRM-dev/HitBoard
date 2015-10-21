@@ -1,7 +1,7 @@
 /**
  * 
  */
-package pl.grmdev.hitboard.requests.web;
+package pl.grmdev.hitboard.requests.web.data;
 
 import java.util.*;
 
@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.*;
 		"media_start_in_sec", "media_description", "category_updated",
 		"media_transcoding", "media_views_monthly", "media_user_name",
 		"media_thumbnail"})
-public class MediaLive {
+public class MediaObject {
 	
 	@JsonProperty("media_chat_enabled")
 	private String mediaChatEnabled;
@@ -71,9 +71,9 @@ public class MediaLive {
 	@JsonProperty("category_media_count")
 	private String categoryMediaCount;
 	@JsonProperty("media_id")
-	private String mediaId;
+	private int mediaId;
 	@JsonProperty("media_countries")
-	private String mediaCountries;
+	private ArrayList<?> mediaCountries;
 	@JsonProperty("media_daily_views")
 	private String mediaDailyViews;
 	@JsonProperty("media_password_protected")
@@ -198,7 +198,7 @@ public class MediaLive {
 	/**
 	 * No args constructor for use in serialization
 	 */
-	public MediaLive() {}
+	public MediaObject() {}
 	
 	/**
 	 * @param teamName
@@ -279,14 +279,14 @@ public class MediaLive {
 	 * @param mediaProfiles
 	 * @param mediaPasswordProtected
 	 */
-	public MediaLive(String mediaChatEnabled, String mediaTotalViews,
+	public MediaObject(String mediaChatEnabled, String mediaTotalViews,
 			String mediaStatus, String mediaDeleted, String categoryName,
 			String mediaFeaturedCountries, String mediaDateUpdated,
 			ChannelData channelData, String categoryChannels, String mediaTags,
 			String categoryNameShort, String mediaRepairSource,
 			String mediaFeaturedWeight, String mediaFeatured,
-			String mediaHostedId, String categoryMediaCount, String mediaId,
-			String mediaCountries, String mediaDailyViews,
+			String mediaHostedId, String categoryMediaCount, int mediaId,
+			ArrayList<?> mediaCountries, String mediaDailyViews,
 			String mediaPasswordProtected, String mediaName, String mediaTypeId,
 			String mediaKey, String mediaLiveDelay, String mediaUploaded,
 			String mediaMonthlyViews, String mediaViewsDaily,
@@ -666,7 +666,7 @@ public class MediaLive {
 	 * @return The mediaId
 	 */
 	@JsonProperty("media_id")
-	public String getMediaId() {
+	public int getMediaId() {
 		return mediaId;
 	}
 	
@@ -675,7 +675,7 @@ public class MediaLive {
 	 *            The media_id
 	 */
 	@JsonProperty("media_id")
-	public void setMediaId(String mediaId) {
+	public void setMediaId(int mediaId) {
 		this.mediaId = mediaId;
 	}
 	
@@ -683,7 +683,7 @@ public class MediaLive {
 	 * @return The mediaCountries
 	 */
 	@JsonProperty("media_countries")
-	public String getMediaCountries() {
+	public ArrayList<?> getMediaCountries() {
 		return mediaCountries;
 	}
 	
@@ -692,7 +692,7 @@ public class MediaLive {
 	 *            The media_countries
 	 */
 	@JsonProperty("media_countries")
-	public void setMediaCountries(String mediaCountries) {
+	public void setMediaCountries(ArrayList<?> mediaCountries) {
 		this.mediaCountries = mediaCountries;
 	}
 	

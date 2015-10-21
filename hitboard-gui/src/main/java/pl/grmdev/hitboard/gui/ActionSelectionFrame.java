@@ -10,7 +10,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
-import javafx.application.Platform;
 import pl.grmdev.hitboard.config.Config;
 /**
  * @author Levvy055
@@ -19,9 +18,8 @@ public class ActionSelectionFrame extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private DownloadVideoFrame downloadVideoFrame;
 	private HitBoardGui hitBoard;
-	private JButton btnEditStreamInfo;
+	private JButton btnMsnageStream;
 	
 	/**
 	 * Create the frame.
@@ -52,26 +50,32 @@ public class ActionSelectionFrame extends JFrame {
 		JLayeredPane panel_Main = new JLayeredPane();
 		contentPane.add(panel_Main, BorderLayout.CENTER);
 		panel_Main.setLayout(new GridLayout(1, 0, 0, 0));
-		btnEditStreamInfo = new JButton(
+		btnMsnageStream = new JButton(
 				"<html><center>Manage <br>your Stream</center></html>");
-		btnEditStreamInfo.addActionListener(e -> {
-			openStreamManagerWindow();
+		btnMsnageStream.setMnemonic('S');
+		btnMsnageStream.addActionListener(e -> {
+			hitBoard.showStreamManagerWindow();
 		});
-		panel_Main.add(btnEditStreamInfo);
+		panel_Main.add(btnMsnageStream);
+		this.getRootPane().setDefaultButton(btnMsnageStream);
 		JButton btnWatchStream = new JButton(
 				"<html><center>Watch Stream</center></html>");
+		btnWatchStream.setMnemonic('W');
 		btnWatchStream.addActionListener(e -> {});
 		panel_Main.add(btnWatchStream);
 		JButton btnDownloadVideo = new JButton(
 				"<html><center>Download Video</center></html>");
+		btnDownloadVideo.setMnemonic('D');
 		btnDownloadVideo.addActionListener(e -> {
-			openDownlodWindow();
+			hitBoard.openDownlodWindow();
 		});
 		panel_Main.add(btnDownloadVideo);
 		addWindowListener(new WindowListener() {
 			
 			@Override
-			public void windowOpened(WindowEvent e) {}
+			public void windowOpened(WindowEvent e) {
+				btnMsnageStream.requestFocusInWindow();
+			}
 			
 			@Override
 			public void windowIconified(WindowEvent e) {}
@@ -93,40 +97,6 @@ public class ActionSelectionFrame extends JFrame {
 			@Override
 			public void windowActivated(WindowEvent e) {}
 		});
-	}
-	
-	/**
-	 * Request focus on first button after load
-	 */
-	public void setDefaultFocusKey() {
-		btnEditStreamInfo.requestFocus();
-	}
-	
-	/**
-	 * Opens Video Download window
-	 */
-	private void openDownlodWindow() {
-		try {
-			if (downloadVideoFrame == null) {
-				downloadVideoFrame = new DownloadVideoFrame(hitBoard);
-			}
-			downloadVideoFrame.setVisible(true);
-			showFrame(false);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-	}
-	
-	/**
-	 * Opens HitBoard Stream Manager window in javaFX
-	 */
-	private void openStreamManagerWindow() {
-		if (hitBoard.getHitBoardFx() == null) {
-			new Thread(() -> HitBoardFx.openManager()).start();
-		} else {
-			Platform.runLater(() -> hitBoard.getHitBoardFx().showLoginDialog());
-		}
-		showFrame(false);
 	}
 	
 	/**

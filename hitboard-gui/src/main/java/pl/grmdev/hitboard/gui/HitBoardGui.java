@@ -16,6 +16,7 @@ public class HitBoardGui {
 	private ActionSelectionFrame actionSelectionFrame;
 	private HitBoardCore core;
 	private HitBoardFx hitBoardFx;
+	private DownloadVideoFrame downloadVideoFrame;
 	
 	/**
 	 * @param core
@@ -34,11 +35,37 @@ public class HitBoardGui {
 			try {
 				actionSelectionFrame = new ActionSelectionFrame(this);
 				actionSelectionFrame.setVisible(true);
-				actionSelectionFrame.setDefaultFocusKey();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		});
+	}
+	
+	/**
+	 * Opens HitBoard Stream Manager window in javaFX
+	 */
+	public void showStreamManagerWindow() {
+		if (getHitBoardFx() == null) {
+			HitBoardFx.launchStreamManager();
+		} else {
+			Platform.runLater(() -> getHitBoardFx().showLoginDialog());
+		}
+		actionSelectionFrame.showFrame(false);
+	}
+	
+	/**
+	 * Opens Video Download window
+	 */
+	public void openDownlodWindow() {
+		try {
+			if (downloadVideoFrame == null) {
+				downloadVideoFrame = new DownloadVideoFrame(this);
+			}
+			downloadVideoFrame.setVisible(true);
+			actionSelectionFrame.showFrame(false);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 	}
 	
 	/**

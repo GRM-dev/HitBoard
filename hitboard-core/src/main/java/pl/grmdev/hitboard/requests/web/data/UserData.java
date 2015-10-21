@@ -1,7 +1,7 @@
 /**
  * 
  */
-package pl.grmdev.hitboard.requests.web;
+package pl.grmdev.hitboard.requests.web.data;
 
 import java.util.*;
 

@@ -16,6 +16,26 @@ public class Params implements Iterable<String> {
 	}
 	
 	/**
+	 * @param allKeys
+	 *            true when keys parameter contains only keys
+	 * @param keys
+	 *            keys to add
+	 * @return {@link Params} with provided keys
+	 */
+	public Params p(boolean allKeys, String... keys) {
+		if (allKeys) {
+			for (String key : keys) {
+				p(key, null);
+			}
+		} else {
+			for (int i = 0; i < keys.length - 1; i += 2) {
+				p(keys[i], keys[i + 1]);
+			}
+		}
+		return this;
+	}
+	
+	/**
 	 * @param key
 	 *            without value (so null)
 	 * @return new filled up param object

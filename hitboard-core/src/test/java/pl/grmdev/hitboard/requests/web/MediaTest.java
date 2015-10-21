@@ -7,11 +7,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
 import java.io.*;
-import java.util.Properties;
+import java.util.*;
 
 import org.junit.*;
 
 import pl.grmdev.hitboard.requests.RequestHandler;
+import pl.grmdev.hitboard.requests.web.data.*;
 import pl.grmdev.hitboard.utils.FileOperation;
 /**
  * @author Levvy055
@@ -41,6 +42,7 @@ public class MediaTest {
 			assertThat(token.applyUser()).isTrue();
 		} catch (Exception e) {
 			e.printStackTrace();
+			fail("Error: " + e.getMessage());
 		}
 		finally {
 			FileOperation.closeQuietly(in);
@@ -48,14 +50,121 @@ public class MediaTest {
 	}
 	
 	@Test
-	public void getObjectChannelTest() {
+	public void getLiveObjectTest() {
 		try {
-			MediaLive mediaLive = reqH.getMedia().getLive();
+			MediaObject mediaLive = reqH.getMedia()
+					.getLiveObject(reqH.getUser().getUserName());
 			assertThat(mediaLive).isNotNull();
 			ChannelData channel = mediaLive.getChannel();
 			assertThat(channel).isNotNull();
 		} catch (Exception e) {
 			e.printStackTrace();
+			fail("Error: " + e.getMessage());
+		}
+	}
+	
+	@Test
+	public void getLiveObjectListTest() {
+		try {
+			List<MediaObject> mediaLives = reqH.getMedia()
+					.getLiveObjectsList(false, false, false, true);
+			assertThat(mediaLives).isNotNull().isNotEmpty();
+			for (MediaObject mediaLive : mediaLives) {
+				assertThat(mediaLive.getMediaId()).isNotNull().isGreaterThan(0);
+				if (mediaLive.getMediaCountries() != null) {
+					for (Object country : mediaLive.getMediaCountries()) {
+						assertThat((String) country).isNotNull().isNotEmpty();
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Error: " + e.getMessage());
+		}
+	}
+	
+	@Test
+	public void getStatusTest() {
+		try {
+			MediaStatus mediaStatus = reqH.getMedia()
+					.getMediaStatus(reqH.getUser().getUserName());
+			assertThat(mediaStatus).isNotNull();
+			assertThat(mediaStatus.getVievs()).isNotNull().isGreaterThan(0);
+			assertThat(mediaStatus.isLive()).isNotNull();
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Error: " + e.getMessage());
+		}
+	}
+	
+	@Test
+	public void getVideoObjectList() {
+		List<MediaObject> list = null;
+		try {
+			list = reqH.getMedia().getMediaVideoObjectList(false, false, false,
+					false, false, 20, reqH.getUser().getUserName());
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Error: " + e.getMessage());
+		}
+		assertThat(list).isNotNull().isNotEmpty();
+		for (MediaObject mediaLive : list) {
+			assertThat(mediaLive).isNotNull();
+			assertThat(mediaLive.getMediaName()).isNotNull().isNotEmpty();
+		}
+	}
+	
+	@Test
+	public void getVideoObjectTest() {
+		try {
+			MediaObject mediaLive = reqH.getMedia().getVideoObject("730797");
+			assertThat(mediaLive).isNotNull();
+			ChannelData channel = mediaLive.getChannel();
+			assertThat(channel).isNotNull();
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Error: " + e.getMessage());
+		}
+	}
+	
+	@Test
+	public void getViewsTest() {
+		try {
+			int views = reqH.getMedia()
+					.getMediaVievs(reqH.getUser().getUserName());
+			assertThat(views).isNotNull().isNotNegative();
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Error: " + e.getMessage());
+		}
+	}
+	
+	@Test
+	public void getStreamInfo() {
+		try {
+			MediaInfo streamInfo = reqH.getMedia().getStreamInfo("730797");
+			assertThat(streamInfo).isNotNull();
+			assertThat(streamInfo.getProfile()).isNotNull().isNotEmpty();
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Error: " + e.getMessage()); // There will be exception if
+												// channel is not streaming
+		}
+	}
+	
+	@Test
+	public void getRecordingObjectTest() {
+		try {
+			List<Recording> list = reqH.getMedia().getRecordingObjects(30,
+					reqH.getUser().getUserName());
+			assertThat(list).isNotNull().isNotEmpty();
+			for (Recording recording : list) {
+				assertThat(recording).isNotNull();
+				assertThat(recording.getRecId()).isNotNull().isNotEmpty();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Error: " + e.getMessage());
 		}
 	}
 }

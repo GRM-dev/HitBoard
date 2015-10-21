@@ -12,10 +12,14 @@ import java.util.*;
 public enum HbGet {
 	MEDIA_LIVE_OBJECT("media/live/:channel", new Params().p("authToken")
 			.p("showHidden")),
-	MEDIA_LIVE_LIST("media/live/list"),
+	MEDIA_LIVE_LIST("media/live/list", new Params().p(true, "authToken",
+			"publicOnly", "showHidden", "hiddenOnly", "liveonly", "filter",
+			"game", "limit", "start", "follow_id", "search")),
 	MEDIA_VIDEO_OBJECT("media/video/:media_id"),
-	MEDIA_VIDEO_LIST("media/video/:channel/list"),
-	MEDIA_RECORDING_OBJECT("recordings/:channel"),
+	MEDIA_VIDEO_LIST("media/video/:channel/list", new Params().p(true,
+			"authToken", "publicOnly", "showHidden", "hiddenOnly", "filter",
+			"limit", "search", "yt")),
+	MEDIA_RECORDING_OBJECT("recordings/:channel", new Params().p("limit")),
 	MEDIA_STATUS("media/status/:channel"),
 	MEDIA_VIEWS("media/views/:channel"),
 	MEDIA_INFO("mediainfo/live/:media_id"),

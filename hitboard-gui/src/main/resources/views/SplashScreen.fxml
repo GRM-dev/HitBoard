@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane id="splash" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/dark_style.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.grmdev.hitboard.gui.controllers.SplashScreen">
    <children>
       <BorderPane id="splash">
@@ -21,7 +20,7 @@
          <bottom>
             <VBox BorderPane.alignment="CENTER">
                <children>
-                  <ProgressBar fx:id="pbProgress" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mouseTransparent="true" progress="0.39">
+                  <ProgressBar fx:id="pbProgress" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mouseTransparent="true" progress="0.0">
                      <effect>
                         <Blend />
                      </effect>

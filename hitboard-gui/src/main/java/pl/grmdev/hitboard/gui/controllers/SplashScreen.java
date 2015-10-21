@@ -6,6 +6,8 @@ package pl.grmdev.hitboard.gui.controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.concurrent.Task;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 /**
@@ -29,9 +31,27 @@ public class SplashScreen implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		instance = this;
+		restartProgress(getNewTask());
 	}
 	
-	public SplashScreen instance() {
+	public void restartProgress(Task<Boolean> task) {
+		pbProgress.progressProperty().unbind();
+		pbProgress.progressProperty().bind(task.progressProperty());
+		task.messageProperty().addListener((ChangeListener<String>) (observable,
+				oldValue, newValue) -> System.out.println(newValue));
+	}
+	
+	private Task<Boolean> getNewTask() {
+		return new Task<Boolean>() {
+			
+			@Override
+			protected Boolean call() throws Exception {
+				return false;
+			}
+		};
+	}
+	
+	public static SplashScreen instance() {
 		return instance;
 	}
 }

@@ -23,7 +23,7 @@ public class Games {
 	 * @return {@link List}
 	 * @throws Exception
 	 */
-	public List<String> getGamesList() throws Exception {
+	public List<String> getGamesListNames() throws Exception {
 		Future<HttpResponse<JsonNode>> gamesAsyncTask = RequestHandler
 				.instance().get(HbGet.GAMES_LIST).queryString("limit", 29000)
 				.asJsonAsync();

@@ -8,13 +8,14 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 import javafx.application.*;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.paint.Color;
 import javafx.stage.*;
 import javafx.util.Pair;
 import pl.grmdev.hitboard.HitBoardCore;
-import pl.grmdev.hitboard.gui.controllers.MainForm;
+import pl.grmdev.hitboard.gui.controllers.*;
 import pl.grmdev.hitboard.gui.controllers.utils.HbNode;
 import pl.grmdev.hitboard.requests.RequestHandler;
 import pl.grmdev.hitboard.requests.web.Token;
@@ -28,6 +29,9 @@ public class HitBoardFx extends Application {
 	private Scene splashScreenScene;
 	private Stage rootStage;
 	private Stage splashStage;
+	private Task<Boolean> task;
+	private int progress;
+	protected boolean loading;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -59,7 +63,19 @@ public class HitBoardFx extends Application {
 		});
 		primaryStage.centerOnScreen();
 		showWindow(true);
-		Platform.runLater(() -> showLoginDialog());
+		task = new Task<Boolean>() {
+			
+			@Override
+			protected Boolean call() throws Exception {
+				while (loading) {
+					updateProgress(20, 100);
+				}
+				return false;
+			}
+		};
+		loading = true;
+		SplashScreen.instance().restartProgress(task);
+		showLoginDialog();
 	}
 	
 	public void showLoginDialog() {
@@ -70,12 +86,15 @@ public class HitBoardFx extends Application {
 			MainForm.instance.getStateCircle()
 					.setFill(connected ? Color.GREEN : Color.RED);
 			if (connected) {
-				cancelledOrLogged = false;
 				badPass = false;
 				Token token = RequestHandler.instance().getToken();
-				showWindow(false);
-				stage = splashStage;
+				if (stage != splashStage) {
+					showWindow(false);
+					stage = splashStage;
+				}
 				showWindow(true);
+				cancelledOrLogged = false;
+				SplashScreen.instance().restartProgress(task);
 				while (!cancelledOrLogged) {
 					getAndCheckLogin(dialog, token);
 				}
@@ -147,9 +166,9 @@ public class HitBoardFx extends Application {
 	/**
 	 * Opens Stream Manager. Called only at first time use.
 	 */
-	public static void openManager() {
+	public static void launchStreamManager() {
 		if (!launched) {
-			launch();
+			new Thread(() -> launch()).start();;
 		}
 	}
 	

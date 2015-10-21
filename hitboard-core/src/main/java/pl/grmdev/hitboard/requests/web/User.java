@@ -6,6 +6,8 @@ package pl.grmdev.hitboard.requests.web;
 import java.util.*;
 
 import com.fasterxml.jackson.annotation.*;
+
+import pl.grmdev.hitboard.requests.web.data.UserData;
 /**
  * @author Levvy055
  */

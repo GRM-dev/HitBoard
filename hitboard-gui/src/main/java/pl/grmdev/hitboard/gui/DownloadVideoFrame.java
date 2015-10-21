@@ -106,6 +106,7 @@ public class DownloadVideoFrame extends JFrame {
 		tF_SaveLocation.setText(lastSavePath);
 		panel_SL.add(tF_SaveLocation);
 		btnChangeDirectory = new JButton("Change directory ...");
+		btnChangeDirectory.setMnemonic('d');
 		btnChangeDirectory.addActionListener(e -> {
 			File file = new File(tF_SaveLocation.getText());
 			if (file.exists()) {
@@ -127,6 +128,7 @@ public class DownloadVideoFrame extends JFrame {
 		JPanel panel_Bottom = new JPanel();
 		contentPane.add(panel_Bottom, BorderLayout.SOUTH);
 		btnSave = new JButton("Save");
+		btnSave.setMnemonic('S');
 		btnSave.addActionListener(e -> {
 			String url = tF_videoURL.getText();
 			String saveLoc = tF_SaveLocation.getText();
@@ -141,6 +143,8 @@ public class DownloadVideoFrame extends JFrame {
 		});
 		panel_Bottom.add(btnSave);
 		btnClose = new JButton("Close");
+		btnClose.setMnemonic('C');
+		this.getRootPane().setDefaultButton(btnClose);
 		btnClose.addActionListener(e -> {
 			this.dispose();
 		});

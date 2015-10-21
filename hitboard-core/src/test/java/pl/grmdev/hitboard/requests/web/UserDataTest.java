@@ -10,6 +10,8 @@ import java.lang.reflect.Method;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import pl.grmdev.hitboard.requests.web.data.UserData;
 /**
  * @author Levvy055
  */
