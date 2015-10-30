@@ -30,7 +30,6 @@ public class HitBoardFx extends Application {
 	private Stage rootStage;
 	private Stage splashStage;
 	private Task<Boolean> task;
-	private int progress;
 	protected boolean loading;
 	
 	@Override

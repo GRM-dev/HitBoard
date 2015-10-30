@@ -75,7 +75,7 @@ javafx {
 }
 
 dependencies {
-	compile group: 'org.controlsfx', name: 'controlsfx', version: '8.40.9'
+	compile group: 'org.controlsfx', name: 'controlsfx', version: '8.40.10'
 	compile group: 'org.jfxtras', name: 'jfxtras-all', version: '8.0-r4'
 }
 
