@@ -8,6 +8,7 @@ import java.util.*;
 import javax.annotation.Generated;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.json.JSONException;
 
 import com.fasterxml.jackson.annotation.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -1712,5 +1713,24 @@ public class MediaObject {
 	@JsonAnySetter
 	public void setAdditionalProperty(String name, String value) {
 		this.additionalProperties.put(name, value);
+	}
+	
+	/**
+	 * @return
+	 * @throws JSONException
+	 */
+	public Map<String, Object> toUpdateFormat() throws JSONException {
+		Map<String, Object> jObj = new HashMap<>();
+		jObj.put("media_user_name", getMediaUserName());
+		jObj.put("media_id", getMediaId());
+		jObj.put("media_category_id", getMediaCategoryId());
+		jObj.put("media_live_delay", getMediaLiveDelay());
+		jObj.put("media_hidden", getMediaHidden());
+		jObj.put("media_recording", getMediaRecording());
+		jObj.put("media_mature", getMediaMature());
+		jObj.put("media_countries", getMediaCountries());
+		jObj.put("media_status", getMediaStatus());
+		jObj.put("media_description", getMediaDescription());
+		return jObj;
 	}
 }

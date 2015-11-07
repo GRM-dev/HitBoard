@@ -10,7 +10,10 @@ import java.util.*;
  * @author Levvy055
  */
 public enum HbPost {
-	MEDIA_CREATE_VOD("media/video/:channel"),
+	MEDIA_CREATE_VOD("media/video/:channel", new Params().p(true, "user_name",
+			"authToken", "media_type", "media_title", "media_status",
+			"media_name", "media_hidden", "media_category_id", "clip_duration",
+			"clip_start", "rec_session", "original")),
 	CHANNEL_RUN_COMMERCIAL("ws/combreak/:channel/:adCount"),
 	CHANNEL_EDIT_EDITORS("editors/:channel"),
 	USER_DEFAULT_TEAM("user/:user/team/default"),
@@ -19,7 +22,7 @@ public enum HbPost {
 	CHAT_EDIT_MODERATORS("chat/moderators/:channel"),
 	CHAT_BLACKLIST_UPDATE("chat/blacklist/:channel"),
 	CHAT_SETTINGS_UPDATE("chat/settings/:channel"),
-	TOKEN_GET("auth/token", new Params().p("login").p("pass")),
+	TOKEN_GET("auth/token", new Params().p(true, "login", "pass")),
 	TOKEN_AUTH("auth/login", new Params().p("authToken"));
 	
 	private String cmd;

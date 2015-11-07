@@ -41,13 +41,9 @@ public enum HbPut {
 		}
 	}
 	
-	public String getCmd() {
-		return cmd;
-	}
-	
-	public String get(String... args) throws Exception {
+	public String getCmd(String... args) throws Exception {
 		if (args == null || args.length == 0) {
-			return getCmd();
+			return cmd;
 		}
 		if (args.length != getObjects().length) {
 			throw new Exception("Wrong amount of input parameters!\nShould be "

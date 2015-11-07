@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.mashape.unirest.http.exceptions.UnirestException;
-
 import javafx.application.*;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
@@ -132,7 +129,7 @@ public class HitBoardFx extends Application {
 	}
 	
 	private void loadAndShowWindow(Token token)
-			throws UnirestException, JsonParseException, IOException {
+ throws Exception {
 		token.applyUser();
 		cancelledOrLogged = true;
 		rootStage = new Stage();

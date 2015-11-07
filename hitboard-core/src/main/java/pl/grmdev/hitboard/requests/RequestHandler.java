@@ -7,7 +7,7 @@ import java.util.*;
 
 import com.mashape.unirest.http.*;
 import com.mashape.unirest.request.*;
-import com.mashape.unirest.request.body.MultipartBody;
+import com.mashape.unirest.request.body.*;
 
 import pl.grmdev.hitboard.requests.util.*;
 import pl.grmdev.hitboard.requests.web.*;
@@ -86,10 +86,12 @@ public class RequestHandler {
 	 * @param params
 	 *            to fill request with
 	 * @return Request with prepared parameters values
+	 * @throws Exception
 	 */
-	public BaseRequest post(HbPost post, Params params) {
+	public BaseRequest post(HbPost post, Params params, String... objs)
+			throws Exception {
 		if (!post.hasParams()) {
-			return post(post);
+			return post(post, objs);
 		}
 		HttpRequestWithBody postRequest = (HttpRequestWithBody) post(post);
 		MultipartBody multipartBody = postRequest.fields(params.getAll());
@@ -102,9 +104,10 @@ public class RequestHandler {
 	 * @param cmd
 	 *            API command of type {@link HbPost}
 	 * @return {@link HttpRequestWithBody}
+	 * @throws Exception
 	 */
-	public BaseRequest post(HbPost cmd) {
-		return post(apiLink + cmd.getCmd());
+	public BaseRequest post(HbPost cmd, String... objs) throws Exception {
+		return post(apiLink + cmd.getCmd(objs));
 	}
 	
 	/**
@@ -170,10 +173,40 @@ public class RequestHandler {
 	 * 
 	 * @param cmd
 	 *            API command of type {@link HbPut}
-	 * @return {@link HttpRequestWithBody}
+	 * @return {@link RequestBodyEntity}
+	 * @throws Exception
 	 */
-	public HttpRequestWithBody put(HbPut cmd) {
-		return put(apiLink + cmd.getCmd());
+	public BaseRequest put(HbPut cmd, Object body, Params params,
+			String... objs)
+			throws Exception {
+		HttpRequestWithBody putReq = put(apiLink + cmd.getCmd(objs));
+		putReq = putReq.queryString(params.getAll());
+		if (body != null) {
+			RequestBodyEntity entity;
+			if (body instanceof JsonNode) {
+				entity = putReq.body((JsonNode) body);
+			} else {
+				entity = putReq.body(body);
+			}
+			return entity;
+		}
+		return put(cmd, params, objs);
+	}
+	
+	/**
+	 * Makes PUT RESful API method based on {@link HbPost}
+	 * 
+	 * @param cmd
+	 *            API command of type {@link HbPut}
+	 * @return {@link HttpRequestWithBody}
+	 * @throws Exception
+	 */
+	public BaseRequest put(HbPut cmd, Params params,
+			String... objs)
+			throws Exception {
+		HttpRequestWithBody putReq = put(apiLink + cmd.getCmd(objs));
+		MultipartBody multipartBody = putReq.fields(params.getAll());
+		return multipartBody;
 	}
 	
 	/**

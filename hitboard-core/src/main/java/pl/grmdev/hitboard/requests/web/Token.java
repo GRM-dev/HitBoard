@@ -3,13 +3,9 @@
  */
 package pl.grmdev.hitboard.requests.web;
 
-import java.io.IOException;
+import org.json.JSONObject;
 
-import org.json.*;
-
-import com.fasterxml.jackson.core.JsonParseException;
 import com.mashape.unirest.http.*;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.BaseRequest;
 
 import pl.grmdev.hitboard.requests.RequestHandler;
@@ -22,8 +18,7 @@ public class Token {
 	private char[] token;
 	
 	public boolean genAuthToken(String username, String password)
-			throws UnirestException, JsonParseException, IOException,
-			JSONException {
+			throws Exception {
 		Params params = new Params().p("login", username).p("pass", password);
 		BaseRequest postReq = RequestHandler.instance().post(HbPost.TOKEN_GET,
 				params);
@@ -40,8 +35,7 @@ public class Token {
 		return false;
 	}
 	
-	public boolean applyUser()
-			throws UnirestException, JsonParseException, IOException {
+	public boolean applyUser() throws Exception {
 		if (token == null) {
 			return false;
 		}

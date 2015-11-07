@@ -4,6 +4,7 @@
 package pl.grmdev.hitboard.requests;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -68,7 +69,13 @@ public class UtilTest {
 		assertThat(HbPut.values()).isNotNull().isNotEmpty();
 		for (HbPut getE : HbPut.values()) {
 			assertThat(getE).isNotNull();
-			String getS = getE.getCmd();
+			String getS = null;
+			try {
+				getS = getE.getCmd();
+			} catch (Exception e) {
+				e.printStackTrace();
+				fail("Error: " + e.getMessage());
+			}
 			assertThat(getS).isNotNull().isNotEmpty();
 			if (getE.getObjects() != null) {
 				String[] objects = getE.getObjects();

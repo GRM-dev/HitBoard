@@ -13,30 +13,11 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.request.GetRequest;
+import com.mashape.unirest.request.*;
 
 import pl.grmdev.hitboard.requests.RequestHandler;
 import pl.grmdev.hitboard.requests.util.*;
 import pl.grmdev.hitboard.requests.web.data.*;
-class MediaStatus {
-	
-	private boolean isLive;
-	private int vievs;
-	
-	public MediaStatus(boolean isLive, int vievs) {
-		this.isLive = isLive;
-		this.vievs = vievs;
-	}
-	
-	public boolean isLive() {
-		return isLive;
-	}
-	
-	public int getVievs() {
-		return vievs;
-	}
-}
-
 /**
  * @author Levvy055
  */
@@ -220,5 +201,69 @@ public class Media {
 			list.add(recording);
 		}
 		return list;
+	}
+	
+	public int createVODFromRecording(String channel, String videoTitle,
+			String videoStatus, int hidden, MediaCategory cat, double duration,
+			double startTime, String recSession, boolean original) {
+		HbPost method = HbPost.MEDIA_CREATE_VOD;
+		RequestHandler req = RequestHandler.instance();
+		Params catIdParams = cat.getParams();
+		Params params = new Params().p("user_name", channel)
+				.p("authToken", req.getToken().getToken())
+				.p("media_type", "video").p("media_title", videoTitle)
+				.p("media_status", videoStatus).p("media_name", channel)
+				.p("media_hidden", hidden).p("media_category_id", catIdParams)
+				.p("clip_duration", duration).p("clip_start", startTime)
+				.p("rec_session", recSession).p("original", original);
+		try {
+			BaseRequest postReq = req.post(method, params, channel);
+			HttpResponse<JsonNode> httpResponse = postReq.asJson();
+			JsonNode jsonNode = httpResponse.getBody();
+			JSONObject jsonObject = jsonNode.getObject();
+			if (jsonObject.has("media_id")) {
+				return jsonObject.getInt("media_id");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	/**
+	 * @param channel
+	 * @return {@link MediaObject}
+	 */
+	public MediaObject updateLiveChannel(String channel,
+			MediaObject liveChannel) {
+		HbPut method = HbPut.MEDIA_LIVE_UPDATE;
+		RequestHandler req = RequestHandler.instance();
+		try {
+			Map<String, Object> liveStreamObject = liveChannel.toUpdateFormat();
+			JSONObject arr = new JSONObject();
+			for (Iterator<String> it = liveStreamObject.keySet().iterator(); it
+					.hasNext();) {
+				String key = it.next();
+				Object value = liveStreamObject.get(key);
+				arr.put(key, value);
+			}
+			Map[] map = new Map[1];
+			map[0] = liveStreamObject;
+			JSONObject body = new JSONObject();
+			body.put("livestream", map);
+			JsonNode node = new JsonNode(body.toString());
+			Params p = new Params().p("authToken", req.getToken().getToken());
+			BaseRequest putReq = req.put(method, node, p, channel);
+			HttpRequest httpRequest = putReq.getHttpRequest();
+			HttpResponse<JsonNode> httpResponse = putReq.asJson();
+			JsonNode jsonNode = httpResponse.getBody();
+			JSONArray jsonArray = jsonNode.getObject()
+					.getJSONArray("livestream");
+			MediaObject mediaObjectUpdated = getAsMediaLive(jsonArray).get(0);
+			return mediaObjectUpdated;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
