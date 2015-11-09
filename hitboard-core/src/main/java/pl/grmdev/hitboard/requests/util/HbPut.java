@@ -10,8 +10,8 @@ import java.util.*;
  * @author Levvy055
  */
 public enum HbPut {
-	MEDIA_LIVE_UPDATE("media/live/:channel"),
-	MEDIA_VIDEO_UPDATE("media/video/:video_id"),
+	MEDIA_LIVE_UPDATE("media/live/:channel", new Params().p("authToken")),
+	MEDIA_VIDEO_UPDATE("media/video/:video_id", new Params().p("authToken")),
 	CHANNEL_RESET_KEY("mediakey/:channel"),
 	USER_UPDATE("user/:user"),
 	TEAM_UPDATE("team/:team/:user");

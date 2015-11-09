@@ -185,4 +185,22 @@ public class MediaTest {
 			fail("Error: " + e.getMessage());
 		}
 	}
+	
+	@Test
+	public void updateVideoTest() {
+		String testTitle1 = "testInProgessOfUpdatVideo";
+		try {
+			MediaObject mObj = reqH.getMedia().getVideoObject("730797");
+			mObj.setMediaStatus(testTitle1);
+			MediaObject mObj2 = reqH.getMedia().updateVideo("hitboard", mObj);
+			assertThat(mObj2).isNotNull();
+			String mediaStatus = mObj2.getMediaStatus();
+			assertThat(mediaStatus).isNotNull().isNotEmpty()
+					.isEqualTo(testTitle1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Error: " + e.getMessage());
+		}
+		
+	}
 }

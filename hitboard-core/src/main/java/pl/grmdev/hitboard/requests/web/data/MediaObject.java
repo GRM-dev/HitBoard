@@ -1719,7 +1719,7 @@ public class MediaObject {
 	 * @return
 	 * @throws JSONException
 	 */
-	public Map<String, Object> toUpdateFormat() throws JSONException {
+	public Map<String, Object> toUpdateLiveFormat() throws JSONException {
 		Map<String, Object> jObj = new HashMap<>();
 		jObj.put("media_user_name", getMediaUserName());
 		jObj.put("media_id", getMediaId());
@@ -1729,6 +1729,20 @@ public class MediaObject {
 		jObj.put("media_recording", getMediaRecording());
 		jObj.put("media_mature", getMediaMature());
 		jObj.put("media_countries", getMediaCountries());
+		jObj.put("media_status", getMediaStatus());
+		jObj.put("media_description", getMediaDescription());
+		return jObj;
+	}
+	
+	/**
+	 * @return
+	 */
+	public Map<String, Object> toUpdateVideoFormat() {
+		Map<String, Object> jObj = new HashMap<>();
+		jObj.put("media_user_name", getMediaUserName());
+		jObj.put("media_id", getMediaId());
+		jObj.put("media_category_id", getMediaCategoryId());
+		jObj.put("media_hidden", getMediaHidden());
 		jObj.put("media_status", getMediaStatus());
 		jObj.put("media_description", getMediaDescription());
 		return jObj;

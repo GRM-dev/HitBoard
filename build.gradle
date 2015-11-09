@@ -38,6 +38,26 @@ subprojects {
     }
 }
 
+project.gradle.taskGraph.whenReady { taskGraph ->
+    if ( taskGraph.allTasks.find { it.name == "cobertura" } != null) {
+        project.tasks.withType(Test).each { Test test ->
+            test.ignoreFailures=true
+            test.afterSuite { td, tr ->
+                if ( td.getParent() == null ) {
+                    project.ext.testFailures=tr.getFailedTestCount()
+                }
+            }
+        }
+        project.tasks.getByName("cobertura") {
+            doLast {
+                if ( testFailures ) {
+                   throw new Exception("There were ${testFailures} test failures")
+                  }
+            }
+        }
+	}
+}
+
 project('hitboard-gui') {
 	apply plugin: 'application'
 

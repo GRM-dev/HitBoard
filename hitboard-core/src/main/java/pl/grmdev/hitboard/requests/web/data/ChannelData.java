@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.*;
 		"user_logo_small", "user_cover", "media_is_live", "channel_link",
 		"followers", "user_id", "user_partner", "user_media_id",
 		"twitter_account"})
-public class ChannelData {
+public class ChannelData implements Editor {
 	
 	@JsonProperty("user_status")
 	private String userStatus;
@@ -152,9 +152,10 @@ public class ChannelData {
 		this.userBetaProfile = userBetaProfile;
 	}
 	
-	/**
-	 * @return The userName
+	/* (non-Javadoc)
+	 * @see pl.grmdev.hitboard.requests.web.data.Editor#getUserName()
 	 */
+	@Override
 	@JsonProperty("user_name")
 	public String getUserName() {
 		return userName;
@@ -169,9 +170,10 @@ public class ChannelData {
 		this.userName = userName;
 	}
 	
-	/**
-	 * @return The userLogo
+	/* (non-Javadoc)
+	 * @see pl.grmdev.hitboard.requests.web.data.Editor#getUserLogo()
 	 */
+	@Override
 	@JsonProperty("user_logo")
 	public String getUserLogo() {
 		return userLogo;
@@ -220,9 +222,10 @@ public class ChannelData {
 		this.livestreamCount = livestreamCount;
 	}
 	
-	/**
-	 * @return The userLogoSmall
+	/* (non-Javadoc)
+	 * @see pl.grmdev.hitboard.requests.web.data.Editor#getUserLogoSmall()
 	 */
+	@Override
 	@JsonProperty("user_logo_small")
 	public String getUserLogoSmall() {
 		return userLogoSmall;

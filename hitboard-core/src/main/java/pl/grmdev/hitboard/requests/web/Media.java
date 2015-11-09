@@ -239,7 +239,8 @@ public class Media {
 		HbPut method = HbPut.MEDIA_LIVE_UPDATE;
 		RequestHandler req = RequestHandler.instance();
 		try {
-			Map<String, Object> liveStreamObject = liveChannel.toUpdateFormat();
+			Map<String, Object> liveStreamObject = liveChannel
+					.toUpdateLiveFormat();
 			JSONObject arr = new JSONObject();
 			for (Iterator<String> it = liveStreamObject.keySet().iterator(); it
 					.hasNext();) {
@@ -254,7 +255,6 @@ public class Media {
 			JsonNode node = new JsonNode(body.toString());
 			Params p = new Params().p("authToken", req.getToken().getToken());
 			BaseRequest putReq = req.put(method, node, p, channel);
-			HttpRequest httpRequest = putReq.getHttpRequest();
 			HttpResponse<JsonNode> httpResponse = putReq.asJson();
 			JsonNode jsonNode = httpResponse.getBody();
 			JSONArray jsonArray = jsonNode.getObject()
@@ -265,5 +265,39 @@ public class Media {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	/**
+	 * @return
+	 */
+	public MediaObject updateVideo(String videoID, MediaObject video) {
+		HbPut method = HbPut.MEDIA_VIDEO_UPDATE;
+		RequestHandler req = RequestHandler.instance();
+		try {
+			Map<String, Object> liveStreamObject = video.toUpdateVideoFormat();
+			JSONObject arr = new JSONObject();
+			for (Iterator<String> it = liveStreamObject.keySet().iterator(); it
+					.hasNext();) {
+				String key = it.next();
+				Object value = liveStreamObject.get(key);
+				arr.put(key, value);
+			}
+			Map[] map = new Map[1];
+			map[0] = liveStreamObject;
+			JSONObject body = new JSONObject();
+			body.put("video", map);
+			JsonNode node = new JsonNode(body.toString());
+			Params p = new Params().p("authToken", req.getToken().getToken());
+			BaseRequest putReq = req.put(method, node, p, videoID);
+			HttpResponse<JsonNode> httpResponse = putReq.asJson();
+			JsonNode jsonNode = httpResponse.getBody();
+			JSONArray jsonArray = jsonNode.getObject().getJSONArray("video");
+			MediaObject mediaObjectUpdated = getAsMediaLive(jsonArray).get(0);
+			return mediaObjectUpdated;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 }
