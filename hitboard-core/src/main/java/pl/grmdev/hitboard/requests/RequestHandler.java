@@ -88,14 +88,22 @@ public class RequestHandler {
 	 * @return Request with prepared parameters values
 	 * @throws Exception
 	 */
-	public BaseRequest post(HbPost post, Params params, String... objs)
+	public BaseRequest post(HbPost cmd, Object body, Params params,
+			String... objs)
 			throws Exception {
-		if (!post.hasParams()) {
-			return post(post, objs);
+		if (body == null) {
+			return post(cmd, params, objs);
+		} else {
+			HttpRequestWithBody postReq = post(apiLink + cmd.getCmd(objs));
+			postReq = postReq.queryString(params.getAll());
+			RequestBodyEntity entity;
+			if (body instanceof JsonNode) {
+				entity = postReq.body((JsonNode) body);
+			} else {
+				entity = postReq.body(body);
+			}
+			return entity;
 		}
-		HttpRequestWithBody postRequest = (HttpRequestWithBody) post(post);
-		MultipartBody multipartBody = postRequest.fields(params.getAll());
-		return multipartBody;
 	}
 	
 	/**
@@ -106,8 +114,11 @@ public class RequestHandler {
 	 * @return {@link HttpRequestWithBody}
 	 * @throws Exception
 	 */
-	public BaseRequest post(HbPost cmd, String... objs) throws Exception {
-		return post(apiLink + cmd.getCmd(objs));
+	public BaseRequest post(HbPost cmd, Params params, String... objs)
+			throws Exception {
+		HttpRequestWithBody postReq = post(apiLink + cmd.getCmd(objs));
+		MultipartBody multipartBody = postReq.fields(params.getAll());
+		return multipartBody;
 	}
 	
 	/**
@@ -117,7 +128,7 @@ public class RequestHandler {
 	 *            {@link String} containing url to restful api
 	 * @return {@link HttpRequestWithBody}
 	 */
-	private BaseRequest post(String cmd) {
+	private HttpRequestWithBody post(String cmd) {
 		return Unirest.post(cmd);
 	}
 	

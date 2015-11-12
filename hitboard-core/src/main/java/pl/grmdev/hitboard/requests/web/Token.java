@@ -21,6 +21,7 @@ public class Token {
 			throws Exception {
 		Params params = new Params().p("login", username).p("pass", password);
 		BaseRequest postReq = RequestHandler.instance().post(HbPost.TOKEN_GET,
+				null,
 				params);
 		HttpResponse<JsonNode> httpResponse = postReq.asJson();
 		JsonNode jsonNode = httpResponse.getBody();
@@ -40,6 +41,7 @@ public class Token {
 			return false;
 		}
 		BaseRequest postM = RequestHandler.instance().post(HbPost.TOKEN_AUTH,
+				null,
 				new Params().p("authToken", new String(token)));
 		HttpResponse<JsonNode> httpResponse = postM.asJson();
 		JsonNode jsonNode = httpResponse.getBody();

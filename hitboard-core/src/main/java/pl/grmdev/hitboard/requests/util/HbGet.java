@@ -23,7 +23,7 @@ public enum HbGet {
 	MEDIA_STATUS("media/status/:channel"),
 	MEDIA_VIEWS("media/views/:channel"),
 	MEDIA_INFO("mediainfo/live/:media_id"),
-	CHANNEL_KEY("mediakey/:channel"),
+	CHANNEL_KEY("mediakey/:channel", new Params().p("authToken")),
 	CHANNEL_COMMERCIAL_OBJECT("ws/combreak/:channel"),
 	CHANNEL_HOSTERS("hosters/:channel", new Params().p("authToken")),
 	CHANNEL_EDITORS("editors/:channel", new Params().p("authToken")),

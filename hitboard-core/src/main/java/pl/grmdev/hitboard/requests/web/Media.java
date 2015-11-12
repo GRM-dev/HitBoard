@@ -217,7 +217,7 @@ public class Media {
 				.p("clip_duration", duration).p("clip_start", startTime)
 				.p("rec_session", recSession).p("original", original);
 		try {
-			BaseRequest postReq = req.post(method, params, channel);
+			BaseRequest postReq = req.post(method, null, params, channel);
 			HttpResponse<JsonNode> httpResponse = postReq.asJson();
 			JsonNode jsonNode = httpResponse.getBody();
 			JSONObject jsonObject = jsonNode.getObject();

@@ -15,7 +15,7 @@ public enum HbPost {
 			"media_name", "media_hidden", "media_category_id", "clip_duration",
 			"clip_start", "rec_session", "original")),
 	CHANNEL_RUN_COMMERCIAL("ws/combreak/:channel/:adCount"),
-	CHANNEL_EDIT_EDITORS("editors/:channel"),
+	CHANNEL_EDIT_EDITORS("editors/:channel", new Params().p("authToken")),
 	USER_DEFAULT_TEAM("user/:user/team/default"),
 	FOLLOWERS_FOLLOW("follow"),
 	TEAM_CREATE("team"),

@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.request.GetRequest;
+import com.mashape.unirest.request.*;
 
 import pl.grmdev.hitboard.requests.RequestHandler;
 import pl.grmdev.hitboard.requests.util.*;
@@ -106,12 +106,12 @@ public class Channel {
 			if (object.has("hosters")) {
 				JSONArray array = object.getJSONArray("hosters");
 				ObjectMapper objectMapper = new ObjectMapper();
+				objectMapper.configure(
+						DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT,
+						true);
 				List<Hoster> hosters = new ArrayList<>();
 				for (int i = 0; i < array.length(); i++) {
 					JSONObject obj = array.getJSONObject(i);
-					objectMapper.configure(
-							DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT,
-							true);
 					Hoster hoster = objectMapper.readValue(obj.toString(),
 							ChannelData.class);
 					hosters.add(hoster);
@@ -122,6 +122,78 @@ public class Channel {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	/**
+	 * @param channel
+	 */
+	public String getStreamKey(String channel) {
+		RequestHandler req = RequestHandler.instance();
+		HbGet getM = HbGet.CHANNEL_KEY;
+		try {
+			Params p = new Params().p("authToken", req.getToken().getToken());
+			GetRequest request = req.get(getM, p, channel);
+			HttpResponse<JsonNode> httpResponse = request.asJson();
+			JSONObject object = httpResponse.getBody().getObject();
+			if (object.has("streamKey")) {
+				return object.getString("streamKey");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * @param channel
+	 */
+	public CommercialObject getLastCommercial(String channel) {
+		RequestHandler req = RequestHandler.instance();
+		HbGet getM = HbGet.CHANNEL_COMMERCIAL_OBJECT;
+		try {
+			GetRequest request = req.get(getM, channel);
+			HttpResponse<JsonNode> httpResponse = request.asJson();
+			JSONObject object = httpResponse.getBody().getObject();
+			if (object.has("timeout")) {
+				ObjectMapper objectMapper = new ObjectMapper();
+				objectMapper.configure(
+						DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT,
+						true);
+				CommercialObject obj = objectMapper.readValue(object.toString(),
+						CommercialObject.class);
+				return obj;
+			}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+	}
+	
+	/**
+	 * @param channel
+	 * @return
+	 */
+	public boolean editEditor(String channel, String editor, boolean remove) {
+		RequestHandler req = RequestHandler.instance();
+		HbPost post = HbPost.CHANNEL_EDIT_EDITORS;
+		String token = req.getToken().getToken();
+		Params p = new Params().p("authToken", token);
+		try {
+			String json = "{\"authToken\":" + token + ",\"editor\":" + editor
+					+ ",\"remove\":" + remove + "}";
+			JsonNode node = new JsonNode(json);
+			BaseRequest request = req.post(post, node, p, channel);
+			HttpResponse<JsonNode> httpResponse = request.asJson();
+			JSONObject object = httpResponse.getBody().getObject();
+			boolean success = object.getBoolean("success");
+			boolean error = object.getBoolean("error");
+			if (success && !error) {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 

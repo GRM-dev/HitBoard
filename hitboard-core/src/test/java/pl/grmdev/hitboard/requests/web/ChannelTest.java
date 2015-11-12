@@ -70,4 +70,25 @@ public class ChannelTest {
 		List<Hoster> hosters = reqH.getChannel().getHosters("hitboard");// TODO:
 																		// Exception
 	}
+	
+	@Test
+	public void getStreamKeyTest() {
+		String streamKey = reqH.getChannel().getStreamKey("hitboard");
+		assertThat(streamKey).isNotNull().isNotEmpty();
+	}
+	
+	@Test
+	public void getLastCommercialTest() {
+		CommercialObject commercial = reqH.getChannel()
+				.getLastCommercial("hitboard");
+		assertThat(commercial).isNotNull();
+		assertThat(commercial.getTimeout()).isNotNull();
+	}
+	
+	@Test
+	public void editEditorsTest() {
+		boolean edited = reqH.getChannel().editEditor("hitboard", "Levvy",
+				true);
+		assertThat(edited).isTrue();
+	}
 }
