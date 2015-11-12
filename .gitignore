@@ -64,6 +64,6 @@ local.properties
 # TeXlipse plugin
 .texlipse
 
-/config.ini
+*/config.ini
 *.log
 *.lck

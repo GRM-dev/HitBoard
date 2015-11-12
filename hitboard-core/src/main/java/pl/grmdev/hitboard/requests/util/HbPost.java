@@ -44,7 +44,7 @@ public enum HbPost {
 				bI = cmd.indexOf(":", eI);
 				eI = i < cmd.length() && cmd.indexOf("/", bI + 1) != -1
 						? cmd.indexOf("/", bI + 1)
-						: cmd.length() - 1;
+						: cmd.length();
 				objs[i] = cmd.substring(bI, eI);
 			}
 		}

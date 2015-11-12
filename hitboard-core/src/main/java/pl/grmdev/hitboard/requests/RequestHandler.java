@@ -95,7 +95,9 @@ public class RequestHandler {
 			return post(cmd, params, objs);
 		} else {
 			HttpRequestWithBody postReq = post(apiLink + cmd.getCmd(objs));
-			postReq = postReq.queryString(params.getAll());
+			if (params != null) {
+				postReq = postReq.queryString(params.getAll());
+			}
 			RequestBodyEntity entity;
 			if (body instanceof JsonNode) {
 				entity = postReq.body((JsonNode) body);

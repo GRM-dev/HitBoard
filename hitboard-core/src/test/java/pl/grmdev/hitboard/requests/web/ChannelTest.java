@@ -79,7 +79,7 @@ public class ChannelTest {
 	
 	@Test
 	public void getLastCommercialTest() {
-		CommercialObject commercial = reqH.getChannel()
+		LastCommercial commercial = reqH.getChannel()
 				.getLastCommercial("hitboard");
 		assertThat(commercial).isNotNull();
 		assertThat(commercial.getTimeout()).isNotNull();
@@ -88,7 +88,21 @@ public class ChannelTest {
 	@Test
 	public void editEditorsTest() {
 		boolean edited = reqH.getChannel().editEditor("hitboard", "Levvy",
-				true);
+				false);
 		assertThat(edited).isTrue();
+	}
+	
+	@Test
+	public void runCommercialTest() {
+		Commercial commercial = reqH.getChannel().runCommercial("hitboard", 1);
+		assertThat(commercial).isNotNull();
+		assertThat(commercial.getChannel()).isNotNull().isNotEmpty()
+				.isEqualTo("hitboard");
+	}
+	
+	@Test
+	public void resetStreamKeyTest() {
+		String streamKey = reqH.getChannel().resetStreamKey("hitboard");
+		assertThat(streamKey).isNotNull().isNotEmpty();
 	}
 }

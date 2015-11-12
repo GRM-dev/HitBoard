@@ -12,7 +12,7 @@ import java.util.*;
 public enum HbPut {
 	MEDIA_LIVE_UPDATE("media/live/:channel", new Params().p("authToken")),
 	MEDIA_VIDEO_UPDATE("media/video/:video_id", new Params().p("authToken")),
-	CHANNEL_RESET_KEY("mediakey/:channel"),
+	CHANNEL_RESET_KEY("mediakey/:channel", new Params().p("authToken")),
 	USER_UPDATE("user/:user"),
 	TEAM_UPDATE("team/:team/:user");
 	
@@ -35,7 +35,7 @@ public enum HbPut {
 				bI = cmd.indexOf(":", eI);
 				eI = i < cmd.length() && cmd.indexOf("/", bI + 1) != -1
 						? cmd.indexOf("/", bI + 1)
-						: cmd.length() - 1;
+						: cmd.length();
 				objs[i] = cmd.substring(bI, eI);
 			}
 		}
