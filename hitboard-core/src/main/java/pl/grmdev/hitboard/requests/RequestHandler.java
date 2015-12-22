@@ -81,10 +81,14 @@ public class RequestHandler {
 	}
 	
 	/**
-	 * @param post
+	 * @param cmd
 	 *            REST post type
+	 * @param body
+	 *            REST Payload
 	 * @param params
 	 *            to fill request with
+	 * @param objs
+	 *            objects to replace in url
 	 * @return Request with prepared parameters values
 	 * @throws Exception
 	 */
@@ -113,6 +117,10 @@ public class RequestHandler {
 	 * 
 	 * @param cmd
 	 *            API command of type {@link HbPost}
+	 * @param params
+	 *            to fill request with
+	 * @param objs
+	 *            objects to replace in url
 	 * @return {@link HttpRequestWithBody}
 	 * @throws Exception
 	 */
@@ -127,7 +135,7 @@ public class RequestHandler {
 	 * Makes POST RESful API method to specifed url in parameter
 	 * 
 	 * @param cmd
-	 *            {@link String} containing url to restful api
+	 *            {@link String} containing url to restful API
 	 * @return {@link HttpRequestWithBody}
 	 */
 	private HttpRequestWithBody post(String cmd) {
@@ -139,6 +147,8 @@ public class RequestHandler {
 	 *            REST get type
 	 * @param params
 	 *            to fill request with
+	 * @param objs
+	 *            objects to replace in url
 	 * @return Request with prepared parameters values
 	 * @throws Exception
 	 */
@@ -163,6 +173,7 @@ public class RequestHandler {
 	 * @param cmd
 	 *            API command of type {@link HbGet}
 	 * @param objs
+	 *            objects to replace in url
 	 * @return {@link GetRequest}
 	 * @throws Exception
 	 */
@@ -186,6 +197,10 @@ public class RequestHandler {
 	 * 
 	 * @param cmd
 	 *            API command of type {@link HbPut}
+	 * @param params
+	 *            REST parameters
+	 * @param objs
+	 *            objects to replace in url
 	 * @return {@link RequestBodyEntity}
 	 * @throws Exception
 	 */
@@ -211,6 +226,8 @@ public class RequestHandler {
 	 * 
 	 * @param cmd
 	 *            API command of type {@link HbPut}
+	 * @param params
+	 *            REST parameters
 	 * @return {@link HttpRequestWithBody}
 	 * @throws Exception
 	 */

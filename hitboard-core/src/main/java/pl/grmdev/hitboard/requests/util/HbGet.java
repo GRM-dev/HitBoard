@@ -42,7 +42,7 @@ public enum HbGet {
 	FOLLOWERS_OBJECT("followers/user/:channel"),
 	FOLLOWERS_OBJECTS("following/user"),
 	FOLLOWERS_RELATIONSHIP("following/user/:channel"),
-	GAMES_LIST("games"),
+	GAMES_LIST("games", new Params().p(true, "q", "limit", "liveonly")),
 	GAMES_GAME("game/:game"),
 	TEAMS_ACTIVE_LIST("teams"),
 	TEAMS_OBJECTS("teams/:user"),

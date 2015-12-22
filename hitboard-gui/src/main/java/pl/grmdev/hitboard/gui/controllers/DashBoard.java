@@ -65,7 +65,7 @@ public class DashBoard implements Initializable, HbNode {
 			try {
 				cbGames.setDisable(true);
 				List<String> games = RequestHandler.instance().getGames()
-						.getGamesListNames();
+						.getGamesListNames(2900, false);
 				SortedList<String> gamesS = FXCollections
 						.observableArrayList(games).sorted();
 				Platform.runLater(() -> cbGames.setItems(gamesS));
