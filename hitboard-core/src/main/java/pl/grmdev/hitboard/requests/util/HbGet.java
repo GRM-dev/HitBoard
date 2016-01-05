@@ -3,7 +3,8 @@
  */
 package pl.grmdev.hitboard.requests.util;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.Map;
 /**
  * GET RESTful API methods
  * 
@@ -28,8 +29,8 @@ public enum HbGet {
 	CHANNEL_HOSTERS("hosters/:channel", new Params().p("authToken")),
 	CHANNEL_EDITORS("editors/:channel", new Params().p("authToken")),
 	CHANNEL_EDITOR_OBJECT("editor/:user", new Params().p("authToken")),
-	STATS_CHANNEL_VIEW("streamstats/:channel/:startDate/:endDate"),
-	STATS_CHANNEL_COUNTRY("streamoverallstats/:channel/:startDate/:endDate"),
+	STATS_VIEWER("streamstats/:channel/:startDate/:endDate", new Params().p("authToken")),
+	STATS_CHANNEL_ALL("streamoverallstats/:channel/:startDate/:endDate", new Params().p("authToken")),
 	STATS_CHANNEL_REVENUE("revenues/:channel"),
 	STATS_FOLLOWER("followerstats/:channel"),
 	USER_OBJECT("user/:user"),

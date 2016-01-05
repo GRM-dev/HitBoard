@@ -1,5 +1,5 @@
 version = "0.0.1"
-group= "com.grmdev.hitboard"
+group= "pl.grmdev.hitboard"
 description = 'HitBoard Core - HitBox Tool to Hit - Just Core library'
 archivesBaseName = "HitBoard-Core"
 
@@ -18,7 +18,6 @@ eclipse {
 	   downloadJavadoc = true
     }
 }
-
 
 task pmd << {
 println 'Running PMD static code analysis'
