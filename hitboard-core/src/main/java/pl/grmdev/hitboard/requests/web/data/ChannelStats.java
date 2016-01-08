@@ -1,38 +1,36 @@
 package pl.grmdev.hitboard.requests.web.data;
 
-import javax.annotation.Generated;
+import java.util.Date;
+import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({"channel", "startTime", "endTime", "totalUniques", "totalViewtime", "totalViews", "totalCountries",
 		"countries"})
 public class ChannelStats {
 	@JsonProperty("channel")
-	private String channel;
+	private String		channel;
 	@JsonProperty("startTime")
-	private Integer startTime;
+	private Date		startTime;
 	@JsonProperty("endTime")
-	private Integer endTime;
+	private Date		endTime;
 	@JsonProperty("totalUniques")
-	private Integer totalUniques;
+	private int			totalUniques;
 	@JsonProperty("totalViewtime")
-	private Integer totalViewtime;
+	private int			totalViewtime;
 	@JsonProperty("totalViews")
-	private Integer totalViews;
+	private int			totalViews;
 	@JsonProperty("totalCountries")
-	private Integer totalCountries;
+	private int			totalCountries;
 	@JsonProperty("countries")
-	private Countries countries;
+	private Map<String, Country>	countries;
 	
 	/**
 	 * 
@@ -58,7 +56,7 @@ public class ChannelStats {
 	 * @return The startTime
 	 */
 	@JsonProperty("startTime")
-	public Integer getStartTime() {
+	public Date getStartTime() {
 		return startTime;
 	}
 	
@@ -68,7 +66,7 @@ public class ChannelStats {
 	 *            The startTime
 	 */
 	@JsonProperty("startTime")
-	public void setStartTime(Integer startTime) {
+	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
 	
@@ -77,7 +75,7 @@ public class ChannelStats {
 	 * @return The endTime
 	 */
 	@JsonProperty("endTime")
-	public Integer getEndTime() {
+	public Date getEndTime() {
 		return endTime;
 	}
 	
@@ -87,7 +85,7 @@ public class ChannelStats {
 	 *            The endTime
 	 */
 	@JsonProperty("endTime")
-	public void setEndTime(Integer endTime) {
+	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
 	
@@ -172,7 +170,7 @@ public class ChannelStats {
 	 * @return The countries
 	 */
 	@JsonProperty("countries")
-	public Countries getCountries() {
+	public Map<String, Country> getCountries() {
 		return countries;
 	}
 	
@@ -182,7 +180,7 @@ public class ChannelStats {
 	 *            The countries
 	 */
 	@JsonProperty("countries")
-	public void setCountries(Countries countries) {
+	public void setCountries(Map<String, Country> countries) {
 		this.countries = countries;
 	}
 	
@@ -191,21 +189,10 @@ public class ChannelStats {
 		return ToStringBuilder.reflectionToString(this);
 	}
 	
-	@JsonAnyGetter
-	public Map<String, Object> getAdditionalProperties() {
-		return this.additionalProperties;
-	}
-	
-	@JsonAnySetter
-	public void setAdditionalProperty(String name, Object value) {
-		this.additionalProperties.put(name, value);
-	}
-	
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(channel).append(startTime).append(endTime).append(totalUniques)
-				.append(totalViewtime).append(totalViews).append(totalCountries).append(countries)
-				.append(additionalProperties).toHashCode();
+		return new HashCodeBuilder().append(channel).append(startTime).append(endTime).append(totalUniques).append(totalViewtime).append(totalViews).append(totalCountries)
+				.append(countries).hashCode();
 	}
 	
 	@Override
@@ -217,10 +204,7 @@ public class ChannelStats {
 			return false;
 		}
 		ChannelStats rhs = (ChannelStats) other;
-		return new EqualsBuilder().append(channel, rhs.channel).append(startTime, rhs.startTime)
-				.append(endTime, rhs.endTime).append(totalUniques, rhs.totalUniques)
-				.append(totalViewtime, rhs.totalViewtime).append(totalViews, rhs.totalViews)
-				.append(totalCountries, rhs.totalCountries).append(countries, rhs.countries)
-				.append(additionalProperties, rhs.additionalProperties).isEquals();
+		return new EqualsBuilder().append(channel, rhs.channel).append(startTime, rhs.startTime).append(endTime, rhs.endTime).append(totalUniques, rhs.totalUniques)
+				.append(totalViewtime, rhs.totalViewtime).append(totalViews, rhs.totalViews).append(totalCountries, rhs.totalCountries).append(countries, rhs.countries).isEquals();
 	}
 }
