@@ -6,7 +6,9 @@ package pl.grmdev.hitboard.utils;
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 
-import javax.crypto.*;
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -74,7 +76,7 @@ public class Hash {
 	/**
 	 * @param pass1
 	 * @param pass2
-	 * @param iv2
+	 * @param iv
 	 * @return
 	 */
 	public static String getPass(byte[] pass1, byte[] pass2, byte[] iv) {

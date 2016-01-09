@@ -6,7 +6,7 @@ before_install:
  - chmod +x gradlew
  
 
-install: ./gradlew check -S
+#install: ./gradlew check -S
 script: 
  - ./gradlew build -x check -S
  - ./gradlew installDist -S

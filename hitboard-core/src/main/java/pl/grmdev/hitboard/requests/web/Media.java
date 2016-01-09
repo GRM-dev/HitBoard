@@ -4,20 +4,34 @@
 package pl.grmdev.hitboard.requests.web;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.request.*;
+import com.mashape.unirest.request.BaseRequest;
+import com.mashape.unirest.request.GetRequest;
 
 import pl.grmdev.hitboard.requests.RequestHandler;
-import pl.grmdev.hitboard.requests.util.*;
-import pl.grmdev.hitboard.requests.web.data.*;
+import pl.grmdev.hitboard.requests.util.HbGet;
+import pl.grmdev.hitboard.requests.util.HbPost;
+import pl.grmdev.hitboard.requests.util.HbPut;
+import pl.grmdev.hitboard.requests.util.Params;
+import pl.grmdev.hitboard.requests.web.data.MediaCategory;
+import pl.grmdev.hitboard.requests.web.data.MediaInfo;
+import pl.grmdev.hitboard.requests.web.data.MediaObject;
+import pl.grmdev.hitboard.requests.web.data.MediaStatus;
+import pl.grmdev.hitboard.requests.web.data.Recording;
 /**
  * @author Levvy055
  */
@@ -102,7 +116,7 @@ public class Media {
 	}
 	
 	/**
-	 * @param userName
+	 * @param media_id
 	 * @return
 	 * @throws Exception
 	 */
@@ -120,7 +134,7 @@ public class Media {
 	}
 	
 	/**
-	 * @param userName
+	 * @param channel
 	 * @return
 	 * @throws Exception
 	 */
@@ -140,7 +154,7 @@ public class Media {
 	}
 	
 	/**
-	 * @param string
+	 * @param channel
 	 * @throws Exception
 	 */
 	public MediaInfo getStreamInfo(String channel) throws Exception {
@@ -175,8 +189,8 @@ public class Media {
 	}
 	
 	/**
-	 * @param i
-	 * @param userName
+	 * @param limit
+	 * @param channel
 	 * @throws Exception
 	 */
 	public List<Recording> getRecordingObjects(int limit, String channel)
@@ -232,6 +246,7 @@ public class Media {
 	
 	/**
 	 * @param channel
+	 * @param liveChannel
 	 * @return {@link MediaObject}
 	 */
 	public MediaObject updateLiveChannel(String channel,

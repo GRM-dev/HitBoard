@@ -18,6 +18,8 @@ import org.junit.Test;
 import pl.grmdev.hitboard.requests.RequestHandler;
 import pl.grmdev.hitboard.requests.web.data.ChannelStats;
 import pl.grmdev.hitboard.requests.web.data.Country;
+import pl.grmdev.hitboard.requests.web.data.Timeline;
+import pl.grmdev.hitboard.requests.web.data.ViewerStats;
 /**
  * @author Levvy055
  */
@@ -64,5 +66,14 @@ public class StatsTest {
 		Country country = countries.get("PL");
 		assertThat(country).isNotNull();
 		assertThat(country.getViews()).isGreaterThan(0);
+	}
+	
+	@Test
+	public void getViewerStatsTest() {
+		ViewerStats viewerStats = reqH.getStatistics().getViewerStats("hitboard", new Date(100000000), new Date());
+		assertThat(viewerStats).isNotNull();
+		assertThat(viewerStats.getChannel()).isNotNull();
+		Timeline timeLine = viewerStats.getTimeline();
+		assertThat(timeLine).isNotNull();
 	}
 }
