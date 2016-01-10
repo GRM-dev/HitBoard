@@ -3,8 +3,11 @@
  */
 package pl.grmdev.hitboard.requests.web;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -17,6 +20,7 @@ import pl.grmdev.hitboard.requests.RequestHandler;
 import pl.grmdev.hitboard.requests.util.HbGet;
 import pl.grmdev.hitboard.requests.util.Params;
 import pl.grmdev.hitboard.requests.web.data.ChannelStats;
+import pl.grmdev.hitboard.requests.web.data.FollowerStats;
 import pl.grmdev.hitboard.requests.web.data.RevenueStats;
 import pl.grmdev.hitboard.requests.web.data.ViewerStats;
 
@@ -81,6 +85,31 @@ public class Statistics {
 				RevenueStats stats = objectMapper.readValue(object.toString(), RevenueStats.class);
 				return stats;
 			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<FollowerStats> getFollowerStats(String channel) {
+		RequestHandler req = RequestHandler.instance();
+		HbGet getM = HbGet.STATS_FOLLOWER;
+		try {
+			Params p = new Params().p("authToken", req.getToken().getToken());
+			GetRequest request = req.get(getM, p, channel);
+			HttpResponse<JsonNode> httpResponse = request.asJson();
+			JSONObject object = httpResponse.getBody().getObject();
+			JSONArray jsonArray = object.getJSONArray("followers");
+			if (jsonArray == null || jsonArray.length() == 0) { return null; }
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+			List<FollowerStats> list = new ArrayList<>();
+			for (int i = 0; i < jsonArray.length(); i++) {
+				JSONObject jobj = jsonArray.getJSONObject(i);
+				list.add(objectMapper.readValue(jobj.toString(), FollowerStats.class));
+			}
+			return list;
 		}
 		catch (Exception e) {
 			e.printStackTrace();

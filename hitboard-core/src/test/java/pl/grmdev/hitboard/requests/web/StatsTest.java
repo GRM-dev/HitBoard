@@ -9,6 +9,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -18,6 +19,7 @@ import org.junit.Test;
 import pl.grmdev.hitboard.requests.RequestHandler;
 import pl.grmdev.hitboard.requests.web.data.ChannelStats;
 import pl.grmdev.hitboard.requests.web.data.Country;
+import pl.grmdev.hitboard.requests.web.data.FollowerStats;
 import pl.grmdev.hitboard.requests.web.data.RevContent;
 import pl.grmdev.hitboard.requests.web.data.RevenueStats;
 import pl.grmdev.hitboard.requests.web.data.Revenues;
@@ -93,5 +95,11 @@ public class StatsTest {
 		Map<String, RevContent> content = revenues.getTop().getContent();
 		assertThat(content).isNotNull().isNotEmpty();
 		assertThat(content.get("live")).isNotNull();
+	}
+	
+	@Test
+	public void getFollowersStats() {
+		List<FollowerStats> followerStats = reqH.getStatistics().getFollowerStats("hitboard");
+		assertThat(followerStats).isNotNull().isNotEmpty();
 	}
 }
