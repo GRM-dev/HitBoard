@@ -17,6 +17,7 @@ import pl.grmdev.hitboard.requests.RequestHandler;
 import pl.grmdev.hitboard.requests.util.HbGet;
 import pl.grmdev.hitboard.requests.util.Params;
 import pl.grmdev.hitboard.requests.web.data.ChannelStats;
+import pl.grmdev.hitboard.requests.web.data.RevenueStats;
 import pl.grmdev.hitboard.requests.web.data.ViewerStats;
 
 /**
@@ -57,6 +58,27 @@ public class Statistics {
 				ObjectMapper objectMapper = new ObjectMapper();
 				objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
 				ViewerStats stats = objectMapper.readValue(object.toString(), ViewerStats.class);
+				return stats;
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public RevenueStats getRevenueStats(String channel, Date startDate, Date endDate) {
+		RequestHandler req = RequestHandler.instance();
+		HbGet getM = HbGet.STATS_REVENUE;
+		try {
+			Params p = new Params().p("authToken", req.getToken().getToken()).p("startDate", String.valueOf(startDate.getTime())).p("endDate", String.valueOf(endDate.getTime()));
+			GetRequest request = req.get(getM, p, channel);
+			HttpResponse<JsonNode> httpResponse = request.asJson();
+			JSONObject object = httpResponse.getBody().getObject();
+			if (object.has("revenues")) {
+				ObjectMapper objectMapper = new ObjectMapper();
+				objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+				RevenueStats stats = objectMapper.readValue(object.toString(), RevenueStats.class);
 				return stats;
 			}
 		}

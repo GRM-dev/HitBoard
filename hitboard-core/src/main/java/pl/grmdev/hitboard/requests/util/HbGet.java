@@ -31,7 +31,7 @@ public enum HbGet {
 	CHANNEL_EDITOR_OBJECT("editor/:user", new Params().p("authToken")),
 	STATS_VIEWER("streamstats/:channel/:startDate/:endDate", new Params().p("authToken")),
 	STATS_CHANNEL_ALL("streamoverallstats/:channel/:startDate/:endDate", new Params().p("authToken")),
-	STATS_CHANNEL_REVENUE("revenues/:channel"),
+	STATS_REVENUE("revenues/channel/:channel",new Params().p(true, "authToken", "startDate", "endDate")) ,
 	STATS_FOLLOWER("followerstats/:channel"),
 	USER_OBJECT("user/:user"),
 	USER_ACCESS_LEVELS("user/access/:channel/:auth"),

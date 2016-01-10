@@ -18,6 +18,10 @@ import org.junit.Test;
 import pl.grmdev.hitboard.requests.RequestHandler;
 import pl.grmdev.hitboard.requests.web.data.ChannelStats;
 import pl.grmdev.hitboard.requests.web.data.Country;
+import pl.grmdev.hitboard.requests.web.data.RevContent;
+import pl.grmdev.hitboard.requests.web.data.RevenueStats;
+import pl.grmdev.hitboard.requests.web.data.Revenues;
+import pl.grmdev.hitboard.requests.web.data.Summary;
 import pl.grmdev.hitboard.requests.web.data.Timeline;
 import pl.grmdev.hitboard.requests.web.data.ViewerStats;
 /**
@@ -75,5 +79,19 @@ public class StatsTest {
 		assertThat(viewerStats.getChannel()).isNotNull();
 		Timeline timeLine = viewerStats.getTimeline();
 		assertThat(timeLine).isNotNull();
+	}
+	
+	@Test
+	public void getRevenueStatsTest() {
+		RevenueStats revenueStats = reqH.getStatistics().getRevenueStats("hitboard", new Date(100000000), new Date());
+		assertThat(revenueStats).isNotNull();
+		assertThat(revenueStats.getRequest()).isNotNull();
+		Revenues revenues = revenueStats.getRevenues();
+		assertThat(revenues).isNotNull();
+		Summary summary = revenues.getSummary();
+		assertThat(summary).isNotNull();
+		Map<String, RevContent> content = revenues.getTop().getContent();
+		assertThat(content).isNotNull().isNotEmpty();
+		assertThat(content.get("live")).isNotNull();
 	}
 }
