@@ -3,19 +3,47 @@
  */
 package pl.grmdev.hitboard.requests.web;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import com.mashape.unirest.http.*;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequest;
 
 import pl.grmdev.hitboard.requests.RequestHandler;
-import pl.grmdev.hitboard.requests.util.*;
+import pl.grmdev.hitboard.requests.util.HbGet;
+import pl.grmdev.hitboard.requests.util.Params;
+import pl.grmdev.hitboard.requests.web.data.GameObject;
 /**
  * @author Levvy055
  */
 public class Games {
+	
+	public GameObject getGameObject(String name) throws Exception {
+		Params p = new Params().p("seo", true);
+		GetRequest request = RequestHandler.instance().get(HbGet.GAMES_GAME, p, name.trim().replace(" ", "-"));
+		JsonNode node = request.asJson().getBody();
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+		GameObject gameObject = objectMapper.readValue(node.toString(), GameObject.class);
+		return gameObject;
+	}
+	
+	public GameObject getGameObject(int id) throws Exception {
+		Params p = new Params().p("seo", false);
+		GetRequest request = RequestHandler.instance().get(HbGet.GAMES_GAME, p, id + "");
+		JsonNode node = request.asJson().getBody();
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+		GameObject gameObject = objectMapper.readValue(node.toString(), GameObject.class);
+		return gameObject;
+	}
 	
 	/**
 	 * Gets list of games available on hitbox.tv
