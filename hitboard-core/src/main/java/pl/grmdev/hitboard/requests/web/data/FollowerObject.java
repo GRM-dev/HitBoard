@@ -1,7 +1,11 @@
 package pl.grmdev.hitboard.requests.web.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Generated;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -15,13 +19,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"request", "category"})
-public class GameObject {
-	
+@Generated("org.jsonschema2pojo")
+@JsonPropertyOrder({"request", "followers", "max_results"})
+public class FollowerObject {
+
 	@JsonProperty("request")
 	private Request					request;
-	@JsonProperty("category")
-	private Category					category;
+	@JsonProperty("followers")
+	private List<Follower>			followers				= new ArrayList<Follower>();
+	@JsonProperty("max_results")
+	private String						maxResults;
 	@JsonIgnore
 	private Map<String, Object>	additionalProperties	= new HashMap<String, Object>();
 																		
@@ -45,20 +52,38 @@ public class GameObject {
 	
 	/**
 	 * @return
-	 * 			The category
+	 * 			The followers
 	 */
-	@JsonProperty("category")
-	public Category getCategory() {
-		return category;
+	@JsonProperty("followers")
+	public List<Follower> getFollowers() {
+		return followers;
+}
+
+	/**
+	 * @param followers
+	 *           The followers
+	 */
+	@JsonProperty("followers")
+	public void setFollowers(List<Follower> followers) {
+		this.followers = followers;
 	}
 	
 	/**
-	 * @param category
-	 *           The category
+	 * @return
+	 * 			The maxResults
 	 */
-	@JsonProperty("category")
-	public void setCategory(Category category) {
-		this.category = category;
+	@JsonProperty("max_results")
+	public String getMaxResults() {
+		return maxResults;
+	}
+	
+	/**
+	 * @param maxResults
+	 *           The max_results
+	 */
+	@JsonProperty("max_results")
+	public void setMaxResults(String maxResults) {
+		this.maxResults = maxResults;
 	}
 	
 	@Override
@@ -78,14 +103,15 @@ public class GameObject {
 	
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(request).append(category).append(additionalProperties).toHashCode();
+		return new HashCodeBuilder().append(request).append(followers).append(maxResults).append(additionalProperties).toHashCode();
 	}
 	
 	@Override
 	public boolean equals(Object other) {
 		if (other == this) { return true; }
-		if ((other instanceof GameObject) == false) { return false; }
-		GameObject rhs = ((GameObject) other);
-		return new EqualsBuilder().append(request, rhs.request).append(category, rhs.category).append(additionalProperties, rhs.additionalProperties).isEquals();
+		if ((other instanceof FollowerObject) == false) { return false; }
+		FollowerObject rhs = ((FollowerObject) other);
+		return new EqualsBuilder().append(request, rhs.request).append(followers, rhs.followers).append(maxResults, rhs.maxResults).append(additionalProperties, rhs.additionalProperties).isEquals();
 	}
+	
 }
