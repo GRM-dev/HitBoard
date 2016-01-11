@@ -6,10 +6,12 @@ package pl.grmdev.hitboard.requests.web;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Properties;
 
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import pl.grmdev.hitboard.requests.RequestHandler;
 import pl.grmdev.hitboard.utils.FileOperation;
@@ -29,8 +31,7 @@ public class TokenTest {
 	public void getTokenTest() {
 		Token token = reqH.getToken();
 		assertThat(token).isNotNull();
-		File file = new File(System.getProperty("user.home")
-				+ "/keystore/hb.gradle.properties");
+		File file = new File(System.getProperty("user.home") + "/keystore/hb.gradle.properties");
 		assertThat(file.exists()).isTrue();
 		Properties props = new Properties();
 		FileInputStream in = null;
@@ -55,8 +56,7 @@ public class TokenTest {
 	@Test
 	public void applyUserTest() {
 		Token token = reqH.getToken();
-		File file = new File(System.getProperty("user.home")
-				+ "/keystore/hb.gradle.properties");
+		File file = new File(System.getProperty("user.home") + "/keystore/hb.gradle.properties");
 		Properties props = new Properties();
 		FileInputStream in = null;
 		try {
@@ -72,6 +72,56 @@ public class TokenTest {
 				fail("Token not generated");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			FileOperation.closeQuietly(in);
+		}
+	}
+	
+	@Test
+	public void validateTokenTest() {
+		Token token = reqH.getToken();
+		File file = new File(System.getProperty("user.home") + "/keystore/hb.gradle.properties");
+		Properties props = new Properties();
+		FileInputStream in = null;
+		try {
+			in = new FileInputStream(file);
+			props.load(in);
+			String u = props.getProperty("hb_username");
+			String p = props.getProperty("hb_password");
+			if (token.genAuthToken(u, p)) {
+				String tokenString = token.getToken();
+				boolean valid = token.validateToken(tokenString);
+				assertThat(valid).isTrue();
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			FileOperation.closeQuietly(in);
+		}
+	}
+	
+	@Test
+	public void usernameFromTokenTest() {
+		Token token = reqH.getToken();
+		File file = new File(System.getProperty("user.home") + "/keystore/hb.gradle.properties");
+		Properties props = new Properties();
+		FileInputStream in = null;
+		try {
+			in = new FileInputStream(file);
+			props.load(in);
+			String u = props.getProperty("hb_username");
+			String p = props.getProperty("hb_password");
+			if (token.genAuthToken(u, p)) {
+				String tokenString = token.getToken();
+				String username = token.getUsernameFromToken(tokenString);
+				assertThat(username).isNotNull().isNotEmpty().isEqualTo("HitBoard");
+			}
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 		finally {

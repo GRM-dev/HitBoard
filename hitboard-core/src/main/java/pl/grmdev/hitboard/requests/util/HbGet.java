@@ -11,15 +11,10 @@ import java.util.Map;
  * @author Levvy055
  */
 public enum HbGet {
-	MEDIA_LIVE_OBJECT("media/live/:channel", new Params().p("authToken")
-			.p("showHidden")),
-	MEDIA_LIVE_LIST("media/live/list", new Params().p(true, "authToken",
-			"publicOnly", "showHidden", "hiddenOnly", "liveonly", "filter",
-			"game", "limit", "start", "follow_id", "search")),
+	MEDIA_LIVE_OBJECT("media/live/:channel",new Params().p("authToken").p("showHidden")) ,
+	MEDIA_LIVE_LIST("media/live/list",new Params().p(true, "authToken", "publicOnly", "showHidden", "hiddenOnly", "liveonly", "filter", "game", "limit", "start", "follow_id", "search")) ,
 	MEDIA_VIDEO_OBJECT("media/video/:media_id"),
-	MEDIA_VIDEO_LIST("media/video/:channel/list", new Params().p(true,
-			"authToken", "publicOnly", "showHidden", "hiddenOnly", "filter",
-			"limit", "search", "yt")),
+	MEDIA_VIDEO_LIST("media/video/:channel/list",new Params().p(true, "authToken", "publicOnly", "showHidden", "hiddenOnly", "filter", "limit", "search", "yt")) ,
 	MEDIA_RECORDING_OBJECT("recordings/:channel", new Params().p("limit")),
 	MEDIA_STATUS("media/status/:channel"),
 	MEDIA_VIEWS("media/views/:channel"),
@@ -56,7 +51,8 @@ public enum HbGet {
 	CHAT_ICON_PROPERTIES("chat/icon/:icon_name"),
 	CHAT_SETTINGS("chat/settings/:channel"),
 	CHAT_BLACKLIST("chat/blacklist/:channel"),
-	TOKEN_VALID("auth/valid/:appID"),
+	TOKEN_VALID("auth/valid/:appID",new Params().p("token")) ,
+	TOKEN_USER_FROM_TOKEN("userfromtoken/:authToken") ,
 	INGEST_LIST("ingests/default_list");
 	
 	private String cmd;
@@ -89,27 +85,22 @@ public enum HbGet {
 	}
 	
 	public String getCmd(String... args) throws Exception {
-		if (args == null || args.length == 0) {
-			return getCmd();
-		}
-		if (args.length != getObjects().length) {
-			throw new Exception("Wrong amount of input parameters!\nShould be "
-					+ getObjects().length + " but was " + args.length);
-		}
+		if (args == null || args.length == 0) { return getCmd(); }
+		if (args.length != getObjects().length) { throw new Exception("Wrong amount of input parameters!\nShould be " + getObjects().length + " but was " + args.length); }
 		String result = getCmd();
 		for (int i = 0; i < objs.length; i++) {
 			result = result.replace(objs[i], args[i]);
 		}
 		return result;
-	}
+		}
 	
 	public boolean hasObjs() {
 		return objs != null && objs.length > 0;
-	}
+		}
 	
 	public String[] getObjects() {
 		return objs;
-	}
+		}
 	
 	public boolean hasParams() {
 		return (params == null || params.isEmpty()) ? false : true;
