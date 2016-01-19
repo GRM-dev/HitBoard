@@ -102,4 +102,16 @@ public class FollowersTest {
 		}
 	}
 	
+	@Test
+	public void followTest() {
+		String user = "Levvy";
+		try {
+			boolean res = reqH.getFollowers().follow(user);
+			assertThat(res).isTrue();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			fail("Error: " + e.getMessage());
+		}
+	}
 }

@@ -3,14 +3,34 @@
  */
 package pl.grmdev.hitboard.requests;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-import com.mashape.unirest.http.*;
-import com.mashape.unirest.request.*;
-import com.mashape.unirest.request.body.*;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.request.BaseRequest;
+import com.mashape.unirest.request.GetRequest;
+import com.mashape.unirest.request.HttpRequestWithBody;
+import com.mashape.unirest.request.body.MultipartBody;
+import com.mashape.unirest.request.body.RequestBodyEntity;
 
-import pl.grmdev.hitboard.requests.util.*;
-import pl.grmdev.hitboard.requests.web.*;
+import pl.grmdev.hitboard.requests.util.HbDelete;
+import pl.grmdev.hitboard.requests.util.HbGet;
+import pl.grmdev.hitboard.requests.util.HbPost;
+import pl.grmdev.hitboard.requests.util.HbPut;
+import pl.grmdev.hitboard.requests.util.Params;
+import pl.grmdev.hitboard.requests.web.Channel;
+import pl.grmdev.hitboard.requests.web.Chat;
+import pl.grmdev.hitboard.requests.web.Followers;
+import pl.grmdev.hitboard.requests.web.Games;
+import pl.grmdev.hitboard.requests.web.Media;
+import pl.grmdev.hitboard.requests.web.Statistics;
+import pl.grmdev.hitboard.requests.web.Subscription;
+import pl.grmdev.hitboard.requests.web.Teams;
+import pl.grmdev.hitboard.requests.web.Token;
+import pl.grmdev.hitboard.requests.web.User;
 /**
  * Class holding HitBox Rest API.
  * 
@@ -105,7 +125,11 @@ public class RequestHandler {
 			RequestBodyEntity entity;
 			if (body instanceof JsonNode) {
 				entity = postReq.body((JsonNode) body);
-			} else {
+			}
+			else if (body instanceof String) {
+				entity = postReq.body((String) body);
+			}
+			else {
 				entity = postReq.body(body);
 			}
 			return entity;

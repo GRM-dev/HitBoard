@@ -11,10 +11,12 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.request.BaseRequest;
 import com.mashape.unirest.request.GetRequest;
 
 import pl.grmdev.hitboard.requests.RequestHandler;
 import pl.grmdev.hitboard.requests.util.HbGet;
+import pl.grmdev.hitboard.requests.util.HbPost;
 import pl.grmdev.hitboard.requests.util.Params;
 import pl.grmdev.hitboard.requests.web.data.Follower;
 import pl.grmdev.hitboard.requests.web.data.FollowerObject;
@@ -60,6 +62,21 @@ public class Followers {
 		FollowingStatus followerStatus = objectMapper.readValue(object.toString(), Follower.class);
 		return followerStatus;
 	}
-	
 
+	public boolean follow(String user) throws Exception {
+		RequestHandler req = RequestHandler.instance();
+		Params p = new Params().p("authToken", req.getToken().getToken());
+		BaseRequest request = req.post(HbPost.FOLLOWERS_FOLLOW, "{\"type\":\"user\",\"follow_id\":\"" + user + "\"}", p);
+		HttpResponse<JsonNode> response = request.asJson();
+		JSONObject object = response.getBody().getObject();
+		boolean success = object.getBoolean("success");
+		boolean error = object.getBoolean("error");
+		String msg = object.getString("message");
+		if (success && !error) {
+			return true;
+		}
+		else {
+			throw new Exception(msg);
+		}
+	}
 }
