@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({"followers", "user_name", "user_id", "user_logo", "user_logo_small", "follow_id", "follower_user_id", "follower_notify", "date_added"})
-public class Follower {
+public class Follower implements FollowingStatus {
 
 	@JsonProperty("followers")
 	private String						followers;
@@ -132,55 +132,69 @@ public class Follower {
 		this.userLogoSmall = userLogoSmall;
 	}
 	
-	/**
-	 * @return
-	 * 			The followId
+	/*
+	 * (non-Javadoc)
+	 * @see pl.grmdev.hitboard.requests.web.data.FollowingStatus#getFollowId()
 	 */
+	@Override
 	@JsonProperty("follow_id")
 	public String getFollowId() {
 		return followId;
 	}
 	
-	/**
-	 * @param followId
-	 *           The follow_id
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * pl.grmdev.hitboard.requests.web.data.FollowingStatus#setFollowId(java.lang
+	 * .String)
 	 */
+	@Override
 	@JsonProperty("follow_id")
 	public void setFollowId(String followId) {
 		this.followId = followId;
 	}
 	
-	/**
-	 * @return
-	 * 			The followerUserId
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * pl.grmdev.hitboard.requests.web.data.FollowingStatus#getFollowerUserId()
 	 */
+	@Override
 	@JsonProperty("follower_user_id")
 	public String getFollowerUserId() {
 		return followerUserId;
 	}
 	
-	/**
-	 * @param followerUserId
-	 *           The follower_user_id
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * pl.grmdev.hitboard.requests.web.data.FollowingStatus#setFollowerUserId(
+	 * java.lang.String)
 	 */
+	@Override
 	@JsonProperty("follower_user_id")
 	public void setFollowerUserId(String followerUserId) {
 		this.followerUserId = followerUserId;
 	}
 	
-	/**
-	 * @return
-	 * 			The followerNotify
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * pl.grmdev.hitboard.requests.web.data.FollowingStatus#getFollowerNotify()
 	 */
+	@Override
 	@JsonProperty("follower_notify")
 	public String getFollowerNotify() {
 		return followerNotify;
 	}
 	
-	/**
-	 * @param followerNotify
-	 *           The follower_notify
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * pl.grmdev.hitboard.requests.web.data.FollowingStatus#setFollowerNotify(
+	 * java.lang.String)
 	 */
+	@Override
 	@JsonProperty("follower_notify")
 	public void setFollowerNotify(String followerNotify) {
 		this.followerNotify = followerNotify;

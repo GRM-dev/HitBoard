@@ -18,6 +18,7 @@ import pl.grmdev.hitboard.requests.util.HbGet;
 import pl.grmdev.hitboard.requests.util.Params;
 import pl.grmdev.hitboard.requests.web.data.Follower;
 import pl.grmdev.hitboard.requests.web.data.FollowerObject;
+import pl.grmdev.hitboard.requests.web.data.FollowingStatus;
 import pl.grmdev.hitboard.requests.web.data.SortType;
 
 /**
@@ -49,4 +50,16 @@ public class Followers {
 		return followers;
 	}
 	
+	public FollowingStatus getFollowingStatus(String channel, String username) throws Exception {
+		Params p = new Params().p("user_name", username);
+		GetRequest request = RequestHandler.instance().get(HbGet.FOLLOWERS_RELATIONSHIP, p, channel);
+		HttpResponse<JsonNode> response = request.asJson();
+		JSONObject object = response.getBody().getObject();
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+		FollowingStatus followerStatus = objectMapper.readValue(object.toString(), Follower.class);
+		return followerStatus;
+	}
+	
+
 }

@@ -16,6 +16,7 @@ import org.junit.Test;
 
 import pl.grmdev.hitboard.requests.RequestHandler;
 import pl.grmdev.hitboard.requests.web.data.Follower;
+import pl.grmdev.hitboard.requests.web.data.FollowingStatus;
 import pl.grmdev.hitboard.requests.web.data.SortType;
 import pl.grmdev.hitboard.utils.FileOperation;
 /**
@@ -86,4 +87,19 @@ public class FollowersTest {
 			fail("Error: " + e.getMessage());
 		}
 	}
+	
+	@Test
+	public void getFollowingStatus() {
+		String channel = "hitboard";
+		String username = "Levvy";
+		try {
+			FollowingStatus followingStatus = reqH.getFollowers().getFollowingStatus(channel, username);
+			assertThat(followingStatus).isNotNull();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			fail("Error: " + e.getMessage());
+		}
+	}
+	
 }
