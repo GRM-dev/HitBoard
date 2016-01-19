@@ -69,4 +69,21 @@ public class FollowersTest {
 			fail("Error: " + e.getMessage());
 		}
 	}
+	
+	@Test
+	public void getFollowedChannelsTest() {
+		String channel = "hitboard";
+		int offset = 0;
+		int limit = 100;
+		boolean reverse = false;
+		SortType sort = SortType.DATE_ADDED;
+		try {
+			List<Follower> followers = reqH.getFollowers().getFollowedChannels(channel, offset, limit, reverse, sort);
+			assertThat(followers).isNotNull().isNotEmpty();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			fail("Error: " + e.getMessage());
+		}
+	}
 }

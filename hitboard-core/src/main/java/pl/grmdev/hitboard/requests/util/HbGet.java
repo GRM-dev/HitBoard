@@ -36,7 +36,7 @@ public enum HbGet {
 	SUBSCRIPTION_BADGE("mediabadges/:channel"),
 	SUBSCRIPTION_RELATIONSHIP("user/subscription/:channel/:auth"),
 	FOLLOWERS_GET_ALL("followers/user/:channel",new Params().p(true, "offset", "limit", "reverse", "sort")) ,
-	FOLLOWERS_FOLLOWING("following/user") ,
+	FOLLOWERS_FOLLOWING("following/user",new Params().p(true, "user_name", "offset", "limit", "reverse", "sort")) ,
 	FOLLOWERS_RELATIONSHIP("following/user/:channel"),
 	GAMES_LIST("games", new Params().p(true, "q", "limit", "liveonly")),
 	GAMES_GAME("game/:game",new Params().p(true, "seo")) ,

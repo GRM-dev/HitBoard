@@ -37,4 +37,16 @@ public class Followers {
 		return followers;
 	}
 	
+	public List<Follower> getFollowedChannels(String channel, int offset, int limit, boolean reverse, SortType sort) throws Exception {
+		Params p = new Params().p("user_name", channel).p("offset", offset).p("limit", limit).p("reverse", reverse).p("sort", sort.toString().toLowerCase());
+		GetRequest request = RequestHandler.instance().get(HbGet.FOLLOWERS_FOLLOWING, p);
+		HttpResponse<JsonNode> response = request.asJson();
+		JSONObject object = response.getBody().getObject();
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+		FollowerObject followerObject = objectMapper.readValue(object.toString(), FollowerObject.class);
+		List<Follower> followers = followerObject.getFollowers();
+		return followers;
+	}
+	
 }
