@@ -3,10 +3,26 @@
  */
 package pl.grmdev.hitboard.requests.web;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.fasterxml.jackson.annotation.*;
+import org.json.JSONObject;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.request.BaseRequest;
+import com.mashape.unirest.request.GetRequest;
+
+import pl.grmdev.hitboard.requests.RequestHandler;
+import pl.grmdev.hitboard.requests.util.HbGet;
+import pl.grmdev.hitboard.requests.util.HbPut;
+import pl.grmdev.hitboard.requests.util.Params;
+import pl.grmdev.hitboard.requests.web.data.IUserUpdateData;
 import pl.grmdev.hitboard.requests.web.data.UserData;
 /**
  * @author Levvy055
@@ -47,45 +63,42 @@ public class User {
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	
-	public User() {}
+	private User() {}
 	
-	/**
-	 * @param app
-	 * @param superadmin
-	 * @param userBanned
-	 * @param livestreamCount
-	 * @param authToken
-	 * @param userData
-	 * @param access
-	 * @param userBannedChannel
-	 * @param followers
-	 * @param userLogo
-	 * @param userId
-	 * @param userName
-	 * @param login
-	 * @param userLogoSmall
-	 */
-	public User(String userId, String userName, String userLogo,
-			String userLogoSmall, String userBanned, String userBannedChannel,
-			String superadmin, String livestreamCount, String followers,
-			String authToken, String login, UserData userData, String access,
-			String app) {
-		this.userId = userId;
-		this.userName = userName;
-		this.userLogo = userLogo;
-		this.userLogoSmall = userLogoSmall;
-		this.userBanned = userBanned;
-		this.userBannedChannel = userBannedChannel;
-		this.superadmin = superadmin;
-		this.livestreamCount = livestreamCount;
-		this.followers = followers;
-		this.authToken = authToken;
-		this.login = login;
-		this.userData = userData;
-		this.access = access;
-		this.app = app;
+	public UserData getUser(String username) {
+		RequestHandler req = RequestHandler.instance();
+		HbGet m = HbGet.USER_OBJECT;
+		Params p = new Params().p("authToken", req.getToken().getToken());
+		try {
+			GetRequest request = req.get(m, p, username);
+			HttpResponse<JsonNode> response = request.asJson();
+			JSONObject object = response.getBody().getObject();
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+			UserData user = objectMapper.readValue(object.toString(), UserData.class);
+			return user;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
+	public void updateUser(String username, IUserUpdateData user) {
+		RequestHandler req = RequestHandler.instance();
+		HbPut put = HbPut.USER_UPDATE;
+		Params p = new Params().p("authToken", req.getToken().getToken());
+		try {
+			BaseRequest request = req.put(put, user, p, username);
+			HttpResponse<JsonNode> response = request.asJson();
+			JSONObject jsonObject = response.getBody().getObject();
+			if (!jsonObject.getBoolean("success")) { throw new Exception(jsonObject.getString("error_msg")); }
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * @return The userId
 	 */

@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
@@ -238,7 +239,9 @@ public class RequestHandler {
 			if (body instanceof JsonNode) {
 				entity = putReq.body((JsonNode) body);
 			} else {
-				entity = putReq.body(body);
+				ObjectMapper om = new ObjectMapper();
+				String bodyS = om.writeValueAsString(body);
+				entity = putReq.body(bodyS);
 			}
 			return entity;
 		}
