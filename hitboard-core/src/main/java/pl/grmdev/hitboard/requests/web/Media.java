@@ -40,7 +40,7 @@ public class Media {
 	/**
 	 * Returns a live media object.
 	 */
-	public MediaObject getLiveObject(String channel) throws Exception {
+	public static MediaObject getLiveObject(String channel) throws Exception {
 		RequestHandler req = RequestHandler.instance();
 		HbGet getM = HbGet.MEDIA_LIVE_OBJECT;
 		Params params = new Params().p("authToken", req.getToken().getToken());
@@ -53,7 +53,7 @@ public class Media {
 		return liveMedia;
 	}
 	
-	public List<MediaObject> getLiveObjectsList(boolean publicOnly,
+	public static List<MediaObject> getLiveObjectsList(boolean publicOnly,
 			boolean showHidden, boolean hiddenOnly, boolean liveOnly) {
 		RequestHandler req = RequestHandler.instance();
 		HbGet method = HbGet.MEDIA_LIVE_LIST;
@@ -73,7 +73,7 @@ public class Media {
 		return null;
 	}
 	
-	public MediaStatus getMediaStatus(String channel) throws Exception {
+	public static MediaStatus getMediaStatus(String channel) throws Exception {
 		RequestHandler req = RequestHandler.instance();
 		HbGet getM = HbGet.MEDIA_STATUS;
 		GetRequest getRequest = req.get(getM, channel);
@@ -98,7 +98,7 @@ public class Media {
 	 * @param showHidden
 	 * @throws Exception
 	 */
-	public List<MediaObject> getMediaVideoObjectList(boolean publicOnly,
+	public static List<MediaObject> getMediaVideoObjectList(boolean publicOnly,
 			boolean showHidden, boolean hiddenOnly, boolean liveOnly,
 			boolean yt, int limit, String channel) throws Exception {
 		RequestHandler req = RequestHandler.instance();
@@ -120,7 +120,7 @@ public class Media {
 	 * @return
 	 * @throws Exception
 	 */
-	public MediaObject getVideoObject(String media_id) throws Exception {
+	public static MediaObject getVideoObject(String media_id) throws Exception {
 		RequestHandler req = RequestHandler.instance();
 		HbGet getM = HbGet.MEDIA_VIDEO_OBJECT;
 		Params params = new Params().p("authToken", req.getToken().getToken());
@@ -138,7 +138,7 @@ public class Media {
 	 * @return
 	 * @throws Exception
 	 */
-	public int getMediaVievs(String channel) throws Exception {
+	public static int getMediaVievs(String channel) throws Exception {
 		RequestHandler req = RequestHandler.instance();
 		HbGet getM = HbGet.MEDIA_VIEWS;
 		GetRequest getRequest = req.get(getM, channel);
@@ -157,7 +157,7 @@ public class Media {
 	 * @param channel
 	 * @throws Exception
 	 */
-	public MediaInfo getStreamInfo(String channel) throws Exception {
+	public static MediaInfo getStreamInfo(String channel) throws Exception {
 		RequestHandler req = RequestHandler.instance();
 		HbGet getM = HbGet.MEDIA_LIVE_OBJECT;
 		GetRequest getRequest = req.get(getM, channel);
@@ -168,7 +168,7 @@ public class Media {
 		return mediaInfo;
 	}
 	
-	private List<MediaObject> getAsMediaLive(JSONArray jsonArray)
+	private static List<MediaObject> getAsMediaLive(JSONArray jsonArray)
 			throws JSONException, IOException, JsonParseException,
 			JsonMappingException {
 		List<MediaObject> liveList = new ArrayList<MediaObject>();
@@ -193,7 +193,7 @@ public class Media {
 	 * @param channel
 	 * @throws Exception
 	 */
-	public List<Recording> getRecordingObjects(int limit, String channel)
+	public static List<Recording> getRecordingObjects(int limit, String channel)
 			throws Exception {
 		RequestHandler req = RequestHandler.instance();
 		HbGet method = HbGet.MEDIA_RECORDING_OBJECT;
@@ -217,7 +217,7 @@ public class Media {
 		return list;
 	}
 	
-	public int createVODFromRecording(String channel, String videoTitle,
+	public static int createVODFromRecording(String channel, String videoTitle,
 			String videoStatus, int hidden, MediaCategory cat, double duration,
 			double startTime, String recSession, boolean original) {
 		HbPost method = HbPost.MEDIA_CREATE_VOD;
@@ -249,7 +249,7 @@ public class Media {
 	 * @param liveChannel
 	 * @return {@link MediaObject}
 	 */
-	public MediaObject updateLiveChannel(String channel,
+	public static MediaObject updateLiveChannel(String channel,
 			MediaObject liveChannel) {
 		HbPut method = HbPut.MEDIA_LIVE_UPDATE;
 		RequestHandler req = RequestHandler.instance();
@@ -285,7 +285,7 @@ public class Media {
 	/**
 	 * @return
 	 */
-	public MediaObject updateVideo(String videoID, MediaObject video) {
+	public static MediaObject updateVideo(String videoID, MediaObject video) {
 		HbPut method = HbPut.MEDIA_VIDEO_UPDATE;
 		RequestHandler req = RequestHandler.instance();
 		try {
@@ -313,6 +313,5 @@ public class Media {
 			e.printStackTrace();
 			return null;
 		}
-		
 	}
 }

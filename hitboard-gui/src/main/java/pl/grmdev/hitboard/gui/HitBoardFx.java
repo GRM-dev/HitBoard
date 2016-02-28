@@ -4,15 +4,19 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 
-import javafx.application.*;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.*;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import javafx.stage.*;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Pair;
 import pl.grmdev.hitboard.HitBoardCore;
-import pl.grmdev.hitboard.gui.controllers.*;
+import pl.grmdev.hitboard.gui.controllers.MainForm;
+import pl.grmdev.hitboard.gui.controllers.SplashScreen;
 import pl.grmdev.hitboard.gui.controllers.utils.HbNode;
 import pl.grmdev.hitboard.requests.RequestHandler;
 import pl.grmdev.hitboard.requests.web.Token;
@@ -130,7 +134,9 @@ public class HitBoardFx extends Application {
 	
 	private void loadAndShowWindow(Token token)
  throws Exception {
-		token.applyUser();
+		if (!token.applyUser()) {
+			System.out.println("Something went wrong while logging!");
+		}
 		cancelledOrLogged = true;
 		rootStage = new Stage();
 		rootStage.setScene(rootScene);
@@ -160,7 +166,7 @@ public class HitBoardFx extends Application {
 	}
 	
 	/**
-	 * Opens Stream Manager. Called only at first time use.
+	 * Opens Stream Manager. Called only at first time use to start App.
 	 */
 	public static void launchStreamManager() {
 		if (!launched) {

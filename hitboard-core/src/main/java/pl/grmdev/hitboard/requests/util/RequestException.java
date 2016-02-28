@@ -14,6 +14,7 @@ public class RequestException extends Exception {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private String requestType;
 	
 	/**
 	 * 
@@ -57,5 +58,15 @@ public class RequestException extends Exception {
 			boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		// TODO Auto-generated constructor stub
+	}
+	
+	public RequestException(String requestType, String message, Throwable cause, boolean log, boolean timestamp) {
+		this(message, cause);
+		this.requestType = requestType;
+		if (log) {
+			if (timestamp) {
+				// TODO: implement logger
+			}
+		}
 	}
 }

@@ -65,7 +65,7 @@ public class User {
 	
 	private User() {}
 	
-	public UserData getUser(String username) {
+	public static UserData getUser(String username) {
 		RequestHandler req = RequestHandler.instance();
 		HbGet m = HbGet.USER_OBJECT;
 		Params p = new Params().p("authToken", req.getToken().getToken());
@@ -84,7 +84,7 @@ public class User {
 		}
 	}
 	
-	public void updateUser(String username, IUserUpdateData user) {
+	public static void updateUser(String username, IUserUpdateData user) {
 		RequestHandler req = RequestHandler.instance();
 		HbPut put = HbPut.USER_UPDATE;
 		Params p = new Params().p("authToken", req.getToken().getToken());
@@ -99,6 +99,10 @@ public class User {
 		}
 	}
 
+	public void refreshUserData() {
+		setUserData(User.getUser(userName));
+	}
+	
 	/**
 	 * @return The userId
 	 */
